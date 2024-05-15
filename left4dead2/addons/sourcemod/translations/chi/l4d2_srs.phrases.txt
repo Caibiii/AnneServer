@@ -1,0 +1,337 @@
+"Phrases"
+{
+
+	"SYSTEM"
+	{
+		"chi"		"{ORANGE}[{GREEN}Anne{ORANGE}]{DEFAULT} "
+	}
+
+	"CONNECTING"
+	{
+		"#format"	"{1:N}"
+		"chi"		"{BLUE}{1}{DEFAULT}正在爬进服务器..."
+	}
+
+	"LEFT"
+	{
+		"#format"	"{1:N}"
+		"chi"		"{BLUE}{1}{DEFAULT}已经离开服务器..."
+	}
+
+	"JOIN"
+	{
+		"#format"	"{1:N},{2:s}"
+		"chi"		"{BLUE}{1}{DEFAULT}加入了{ORANGE}{2}{DEFAULT}。"
+	}
+
+	"SPECTATE"
+	{
+		"chi"		"观众"
+	}
+
+	"SURVIVOR"
+	{
+		"chi"		"生还者"
+	}
+
+	"INFECTED"
+	{
+		"chi"		"感染者"
+	}
+
+	"JOIN_MESSAGE"
+	{
+		#format		"{1:N},{2:s},{3:s},{4:d},{5:.1f}"
+		"chi"		"{DEFAULT}{ORANGE}[{GREEN}排名{4}{ORANGE}]{DEFAULT} 来自{ORANGE}{3}{DEFAULT} ({GREEN}{2}{DEFAULT})的{BLUE}{1}{DEFAULT}己加入游戏. (总分:{ORANGE}{5}{DEFAULT})"
+	}
+
+	"OPTIONS"
+	{
+		"chi"		"选项"
+	}
+
+
+	"AUTO_OPEN"
+	{
+		"chi"		"自动开启面板"
+	}
+
+	"COMBO_EFFECT"
+	{
+		"chi"		"连杀特效"
+	}
+
+	"COMBO_SOUND"
+	{
+		"chi"		"连杀音效"
+	}
+
+	"ON"
+	{
+		"chi"		"已启用"
+	}
+
+	"OFF"
+	{
+		"chi"		"己关闭"
+	}
+
+	"COMING_SOON"
+	{
+		"chi"		"敬请期待..."
+	}
+
+	"LOADED"
+	{
+		"#format"	"{1:.2f}"
+		"chi"		"已成功读取数据! 当前B数: {GREEN}{1}{DEFAULT}"
+	}
+
+	"NEXT_PAGE"
+	{
+		"chi"		"下一页"
+	}
+
+	"PREV_PAGE"
+	{
+		"chi"		"上一页"
+	}
+
+	"CLOSE"
+	{
+		"chi"		"退出"
+	}
+
+	"COMMON"
+	{
+		"chi"		"Common"
+	}
+
+	"SPECIAL"
+	{
+		"chi"		"Infected"
+	}
+
+	"KILL_STATISTIC"
+	{
+		"chi"		"杀敌统计 (击杀/爆头)"
+	}
+
+	"ACCURACY"
+	{
+		"chi"		"命中率"
+	}
+
+	"FIRE_STATISTIC"
+	{
+		"chi"		"开枪统计"
+	}
+
+	"VIEWING"
+	{
+		"chi"		"正在查看"
+	}
+
+	"ROUND_STATUS"
+	{
+		"chi"		"「回合战绩」"
+	}
+
+	"TOTAL_STATUS"
+	{
+		"chi"		"「整体战绩」"
+	}
+
+	"INFO"
+	{
+		"chi"		"的资料"
+	}
+
+	"COMBO"
+	{
+		"#format"	"{1:s},{2:d},{3:s}"
+		"chi"		"{2} 连击 {1}"
+	}
+
+	"SCORE"
+	{
+		"chi"		"分数"
+	}
+
+	"KILL"
+	{
+		"chi"		"击杀"
+	}
+
+	"HEADSHOT"
+	{
+		"chi"		"爆头"
+	}
+
+	"SRS_S_SHOT"
+	{
+		"chi"		"开枪"
+	}
+
+	"SRS_S_HIT"
+	{
+		"chi"		"击中"
+	}
+
+	"HIGHEST_SCORE_ADDED"
+	{
+		"#format"	"{1:.2f}"
+		"chi"		"最高单次加分: {1}"
+	}
+
+	"HIGHEST_COMBO"
+	{
+		"#format"	"{1:d}"
+		"chi"		"最高连杀: {1}"
+	}
+
+	"RANK"
+	{
+		"chi"		"排名"
+	}
+
+	"SRS_S_DMG"
+	{
+		"chi"		"总伤害"
+	}
+
+	"BACK"
+	{
+		"chi"		"返回"
+	}
+
+	"DATETIME_INFO"
+	{
+		"chi"		"时间统计"
+	}
+
+	"PLAYED_TIME"
+	{
+		"chi"		"已玩时数"
+	}
+
+	"JOIN_DATE"
+	{
+		"chi"		"加入日期"
+	}
+
+	"UPDATE_DATE"
+	{
+		"chi"		"最后登录"
+	}
+
+	"HEALTH_INFO"
+	{
+		"chi"		"健康统计"
+	}
+
+	"SRS_S_DEATH"
+	{
+		"chi"		"死亡"
+	}
+
+	"SRS_S_INCAPACITATED"
+	{
+		"chi"		"倒地"
+	}
+
+	"SRS_S_HURT"
+	{
+		"chi"		"承受伤害"
+	}
+
+	"SRS_S_RESCUED"
+	{
+		"chi"		"被救活"
+	}
+
+	"SRS_S_REVIVED"
+	{
+		"chi"		"被救起"
+	}
+
+	"SRS_S_DEFIBRILLATED"
+	{
+		"chi"		"被电起"
+	}
+
+	"ITEMS_USED"
+	{
+		"chi"		"物品使用统计"
+	}
+
+	"HELP_INFO"
+	{
+		"chi"		"帮助队友统计"
+	}
+
+	"SRS_S_REVIVE"
+	{
+		"chi"		"救起"
+	}
+
+	"SRS_S_RESCUE"
+	{
+		"chi"		"解救"
+	}
+
+	"SRS_S_HEAL"
+	{
+		"chi"		"包扎"
+	}
+
+	"SRS_S_DEFIBRILLATE"
+	{
+		"chi"		"电起"
+		}
+
+	"SRS_S_HEALED"
+	{
+		"chi"		"被包扎"
+	}
+
+	"SRS_S_SELF_HEALED"
+	{
+		"chi"		"自我包扎"
+	}
+
+	"SRS_S_PROTECTED"
+	{
+		"chi"		"被保护"
+	}
+
+	"SRS_S_PROTECT"
+	{
+		"chi"		"保护"
+	}
+
+	"HURT_STATISTIC"
+	{
+		"chi"		"受伤统计"
+	}
+
+	"SRS_S_J_RIDE"
+	{
+		"chi"		"Jockey Rode"
+	}
+
+	"SRS_S_C_CARRY"
+	{
+		"chi"		"Charger Carried"
+	}
+
+	"SRS_S_C_PUMMEL"
+	{
+		"chi"		"Charger Pummeled"
+	}
+
+	"MVP_ERROR_1"
+	{
+		"chi"		"无效的目标，请再试一次。"
+	}
+}

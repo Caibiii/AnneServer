@@ -1,0 +1,36 @@
+name: AnneServer Update Achieve Release
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  release:
+    if: github.repository == 'Caibiii/AnneServer'
+    name: Upload  AnneServer Achieve if a new commit was been push.
+    runs-on: [ubuntu-latest]
+    
+    steps:
+      - name: Checkout code
+        run: |
+          git clone https://github.com/Caibiii/AnneServer.git
+      
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Gzip
+        run: |
+          mkdir AnneServer-stable-${{ steps.date.outputs.date }}
+          cp -R AnneServer/* AnneServer-stable-${{ steps.date.outputs.date }}
+          tar -czvf  AnneServer-stable-${{ steps.date.outputs.date }}.tar.gz  AnneServer-stable-${{ steps.date.outputs.date }}
+ 
+      - name: Update release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: AnneServer-stable-${{ steps.date.outputs.date }}.tar.gz
+          tag_name: AnneServer-stable-release-${{ steps.date.outputs.date }}

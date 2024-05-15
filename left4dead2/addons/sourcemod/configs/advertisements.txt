@@ -1,0 +1,59 @@
+"Advertisements"
+{
+	"1"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}[本章节地图]: {GREEN}{CURRENTMAP} \n{LIGHTGREEN}[服务器时间]: {GREEN}{TIME24} - {DATE}"
+	}
+	"2"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}!away闲置 !join加入 !slots开位 !vote投票 !mapvote三方图"
+	}
+	"3"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}新手建议走四号位清理队友 但不要离开特感视线太远哦"
+	}
+	"4"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}tank局不要光顾着集火 及时清理出现的队友也是很重要的"
+	}
+	"5"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}为了游戏体验 本组药役建议游戏时间在250小时且充值2500元以上"
+	}
+	"6"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}血量低于40时要考虑跳楼表演了 因为会拖慢队伍推进速度哦"
+	}
+	"7"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}!zs自杀 !vote投票 !tank查看boss !buy购物商店 !rank信息统计"
+	}
+	"8"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}本组服务器都有商店系统 打不过就加入 输入!buy或!rpg进行氪金"
+	}
+	
+	"9"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}tank局建议不要太贪输出哦 该退就退 小心被zhuxi爆菊花"
+	}
+	"10"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}尽量不要被胖子喷哦 被喷不但拖节奏还很难瞄准队友"
+	}
+	"11"
+	{
+		"type"		"S"
+		"text"		"{LIGHTGREEN}如有问题和建议，请加企鹅群683712404，只会解决提问题的人"
+	}
+}

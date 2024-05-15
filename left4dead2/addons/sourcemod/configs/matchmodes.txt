@@ -1,0 +1,24 @@
+"MatchModes"
+{
+	"AnneHappy药役"
+	{
+		"AnneHappy"
+		{
+			"name" "AnneHappy药役"
+		}
+	}
+	"1vHunters模式"
+	{
+		"Hunters"
+		{
+			"name" "1vHunters模式"
+		}
+	}
+	"单人装B模式"
+	{
+		"Alone"
+		{
+			"name" "单人装B模式"
+		}
+	}
+}

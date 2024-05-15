@@ -1,0 +1,218 @@
+"Phrases"
+{
+
+	"smg"
+	{
+		"en"		"IMI Uzi SMG"
+	}
+	"smg_silenced"
+	{
+		"en"		"MAC-10 Silenced SMG"
+	}
+	"smg_mp5"
+	{
+		"en"		"H&K MP5"
+	}
+
+
+	"rifle"
+	{
+		"en"		"M16A2"
+	}
+	"rifle_desert"
+	{
+		"en"		"FN SCAR-L"
+	}
+	"rifle_ak47"
+	{
+		"en"		"AK-47"
+	}
+	"rifle_sg552"
+	{
+		"en"		"SG552"
+	}
+	"rifle_m60"
+	{
+		"en"		"M60"
+	}
+
+	"hunting_rifle"
+	{
+		"en"		"Hunting Rifle"
+	}
+	"sniper_military"
+	{
+		"en"		"Sniper Rifle"
+	}
+	"sniper_awp"
+	{
+		"en"		"AWP"
+	}
+	"sniper_scout"
+	{
+		"en"		"Scout"
+	}
+	
+
+	"pumpshotgun"
+	{
+		"en"		"Pump Shotgun"
+	}
+	"shotgun_chrome"
+	{
+		"en"		"Chrome Shotgun"
+	}
+	"autoshotgun"
+	{
+		"en"		"Auto Shotgun"
+	}
+	"shotgun_spas"
+	{
+		"en"		"Spas Shotgun"
+	}
+
+
+	"pistol"
+	{
+		"en"		"Pistol"
+	}
+	"pistol_magnum"
+	{
+		"en"		"Magnum"
+	}
+	"grenade_launcher"
+	{
+		"en"		"M79 Grenade Launcher"
+	}
+
+
+	"katana"
+	{
+		"en"		"Katana"
+	}
+	"fireaxe"
+	{
+		"en"		"Fire Axe"
+	}
+	"chainsaw"
+	{
+		"en"		"Chainsaw"
+	}
+	"baseball_bat"
+	{
+		"en"		"Baseball Bat"
+	}
+	"electric_guitar"
+	{
+		"en"		"Guitar"
+	}
+	"tonfa"
+	{
+		"en"		"Police Paton"
+	}
+	"machete"
+	{
+		"en"		"Machete"
+	}
+	"cricket_bat"
+	{
+		"en"		"Cricket Bat"
+	}
+	"frying_pan"
+	{
+		"en"		"Frying Pan"
+	}
+	"crowbar"
+	{
+		"en"		"Crowbar"
+	}
+	"knife"
+	{
+		"en"		"CS Knife"
+	}
+	"flamethrower"
+	{
+		"en"		"Flamethrower"
+	}
+	"pitchfork"
+	{
+		"en"		"Pitchfork"
+	}
+	"shovel"
+	{
+		"en"		"Shovel"
+	}
+	"golfclub"
+	{
+		"en"		"Golf Club"
+	}
+
+
+	"pipe_bomb"
+	{
+		"en"		"Pipe Bomb"
+	}
+	"molotov"
+	{
+		"en"		"Molotov"
+	}
+	"vomitjar"
+	{
+		"en"		"Vomitjar"
+	}
+	"gascan"
+	{
+		"en"		"Gas Can"
+	}
+	"propanetank"
+	{
+		"en"		"Propane Tank"
+	}
+	"fireworkcrate"
+	{
+		"en"		"Firework Crate"
+	}
+	"oxygentank"
+	{
+		"en"		"Oxygen Tank"
+	}
+
+	"laser_sight"
+	{
+		"en"		"Laser Sight"
+	}
+	"explosive_ammo"
+	{
+		"en"		"Explosive Ammo"
+	}
+	"upgradepack_explosive"
+	{
+		"en"		"Explosive Ammo Pack"
+	}
+	"incendiary_ammo"
+	{
+		"en"		"Incendiary Ammo"
+	}
+	"upgradepack_incendiary"
+	{
+		"en"		"Incendiary Ammo Pack"
+	}
+
+
+	"first_aid_kit"
+	{
+		"en"		"First-Aid Kit"
+	}
+	"adrenaline"
+	{
+		"en"		"Adrenaline"
+	}
+	"pain_pills"
+	{
+		"en"		"Pain Pills"
+	}
+	"defibrillator"
+	{
+		"en"		"Defibrillator"
+	}
+}

@@ -1,0 +1,337 @@
+"Phrases"
+{
+
+	"SYSTEM"
+	{
+		"en"		"{ORANGE}[{GREEN}SRS{ORANGE}]{DEFAULT} "
+	}
+
+	"CONNECTING"
+	{
+		"#format"	"{1:N}"
+		"en"		"{BLUE}{1}{DEFAULT} is connecting..."
+	}
+
+	"LEFT"
+	{
+		"#format"	"{1:N}"
+		"en"		"{BLUE}{1}{DEFAULT} left the game..."
+	}
+
+	"JOIN"
+	{
+		"#format"	"{1:N},{2:s}"
+		"en"		"{BLUE}{1}{DEFAULT} joinned {ORANGE}{2}{DEFAULT}."
+	}
+
+	"SPECTATE"
+	{
+		"en"		"Spectate"
+	}
+
+	"SURVIVOR"
+	{
+		"en"		"Survivor"
+	}
+
+	"INFECTED"
+	{
+		"en"		"Infected"
+	}
+
+	"JOIN_MESSAGE"
+	{
+		#format		"{1:N},{2:s},{3:s},{4:d},{5:.1f}"
+		"en"		"{DEFAULT}{ORANGE}[{GREEN}Rank.{4}{ORANGE}]{DEFAULT} {BLUE}{1}{DEFAULT} from {ORANGE}{3}{DEFAULT} ({GREEN}{2}{DEFAULT}) has joined. (Score:{ORANGE}{5}{DEFAULT})"
+	}
+
+	"OPTIONS"
+	{
+		"en"		"Options"
+	}
+
+	"AUTO_OPEN"
+	{
+		"en"		"Auto Open SRS"
+	}
+
+	"COMBO_EFFECT"
+	{
+		"en"		"Combo effect"
+	}
+
+	"COMBO_SOUND"
+	{
+		"en"		"Combo sound"
+	}
+
+	"ON"
+	{
+		"en"		"On"
+	}
+
+	"OFF"
+	{
+		"en"		"Off"
+	}
+
+	"COMING_SOON"
+	{
+		"en"		"coming soon..."
+	}
+
+	"LOADED"
+	{
+		"#format"	"{1:.2f}"
+		"en"		"Loaded record. Total Score: {GREEN}{1}{DEFAULT}"
+	}
+
+	"NEXT_PAGE"
+	{
+		"en"		"Next Page"
+	}
+
+	"PREV_PAGE"
+	{
+		"en"		"Back Page"
+	}
+
+	"CLOSE"
+	{
+		"en"		"Close"
+	}
+
+	"COMMON"
+	{
+		"en"		"Common"
+	}
+
+	"SPECIAL"
+	{
+		"en"		"Special"
+	}
+
+	"KILL_STATISTIC"
+	{
+		"en"		"Kill Statistic (K/HS)"
+	}
+
+	"ACCURACY"
+	{
+		"en"		"Accuracy"
+	}
+
+	"FIRE_STATISTIC"
+	{
+		"en"		"Fire Statistic"
+	}
+
+	"VIEWING"
+	{
+		"en"		"VIEWING"
+	}
+
+	"ROUND_STATUS"
+	{
+		"en"		"「ROUND RECORD」"
+	}
+
+	"TOTAL_STATUS"
+	{
+		"en"		"「TOTAL RECORD」"
+	}
+
+	"INFO"
+	{
+		"en"		"Info."
+	}
+
+	"COMBO"
+	{
+		"#format"	"{1:s},{2:d},{3:s}"
+		"en"		"{2} Combo{3} {1}"
+	}
+
+	"SCORE"
+	{
+		"en"		"Score"
+	}
+
+	"KILL"
+	{
+		"en"		"KILL"
+	}
+
+	"HEADSHOT"
+	{
+		"en"		"HEADSHOT"
+	}
+
+	"SRS_S_SHOT"
+	{
+		"en"		"Shot"
+	}
+
+	"SRS_S_HIT"
+	{
+		"en"		"Hit"
+	}
+
+	"HIGHEST_SCORE_ADDED"
+	{
+		"#format"	"{1:.2f}"
+		"en"		"Highest Score Added: {1}"
+	}
+
+	"HIGHEST_COMBO"
+	{
+		"#format"	"{1:d}"
+		"en"		"Highest Combo: {1}"
+	}
+
+	"RANK"
+	{
+		"en"		"Rank"
+	}
+
+	"SRS_S_DMG"
+	{
+		"en"		"Total Damage"
+	}
+
+	"BACK"
+	{
+		"en"		"Back"
+	}
+
+	"DATETIME_INFO"
+	{
+		"en"		"Date Time Statistic"
+	}
+
+	"PLAYED_TIME"
+	{
+		"en"		"Played Time"
+	}
+
+	"JOIN_DATE"
+	{
+		"en"		"Join Date"
+	}
+
+	"UPDATE_DATE"
+	{
+		"en"		"Updated Date"
+	}
+
+	"HEALTH_INFO"
+	{
+		"en"		"Health Statistic"
+	}
+
+	"SRS_S_DEATH"
+	{
+		"en"		"Death"
+	}
+
+	"SRS_S_INCAPACITATED"
+	{
+		"en"		"Incapacitated"
+	}
+
+	"SRS_S_HURT"
+	{
+		"en"		"Hurt"
+	}
+
+	"SRS_S_RESCUED"
+	{
+		"en"		"Rescued"
+	}
+
+	"SRS_S_REVIVED"
+	{
+		"en"		"Revived"
+	}
+
+	"SRS_S_DEFIBRILLATED"
+	{
+		"en"		"Defibrillated"
+	}
+
+	"ITEMS_USED"
+	{
+		"en"		"Items Used"
+	}
+
+	"HELP_INFO"
+	{
+		"en"		"Help Teammate Statistic"
+	}
+
+	"SRS_S_REVIVE"
+	{
+		"en"		"Revive"
+	}
+
+	"SRS_S_RESCUE"
+	{
+		"en"		"Rescue"
+	}
+
+	"SRS_S_HEAL"
+	{
+		"en"		"Heal"
+	}
+
+	"SRS_S_DEFIBRILLATE"
+	{
+		"en"		"Defibrillate"
+	}
+
+	"SRS_S_HEALED"
+	{
+		"en"		"Healed"
+	}
+
+	"SRS_S_SELF_HEALED"
+	{
+		"en"		"Self-Healed"
+	}
+
+	"SRS_S_PROTECTED"
+	{
+		"en"		"Protected"
+	}
+
+	"SRS_S_PROTECT"
+	{
+		"en"		"Protect"
+	}
+
+	"HURT_STATISTIC"
+	{
+		"en"		"Hurt Statistic"
+	}
+
+	"SRS_S_J_RIDE"
+	{
+		"en"		"Jockey Rode"
+	}
+
+	"SRS_S_C_CARRY"
+	{
+		"en"		"Charger Carried"
+	}
+
+	"SRS_S_C_PUMMEL"
+	{
+		"en"		"Charger Pummeled"
+	}
+
+	"MVP_ERROR_1"
+	{
+		"en"		"Target is wrong. Please try again."
+	}
+
+}
