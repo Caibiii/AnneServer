@@ -1,0 +1,36 @@
+L 01/02/2026 - 11:03:11: SourceMod error session started
+L 01/02/2026 - 11:03:11: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:03:11: [SM] Exception reported: Invalid convar handle 0 (error 4)
+L 01/02/2026 - 11:03:11: [SM] Blaming: text.smx
+L 01/02/2026 - 11:03:11: [SM] Call stack trace:
+L 01/02/2026 - 11:03:11: [SM]   [0] HookConVarChange
+L 01/02/2026 - 11:03:11: [SM]   [1] Line 24, E:\SteamLibrary\steamapps\common\Left 4 Dead 2\left4dead2\addons\sourcemod\scripting\text.sp::OnPluginStart
+L 01/02/2026 - 11:03:11: [SM] Unable to load plugin "text.smx": Error detected in plugin startup (see error logs)
+L 01/02/2026 - 11:03:19: Error log file session closed.
+L 01/02/2026 - 11:03:20: SourceMod error session started
+L 01/02/2026 - 11:03:20: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:03:20: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:39:49: Error log file session closed.
+L 01/02/2026 - 11:39:51: SourceMod error session started
+L 01/02/2026 - 11:39:51: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:39:51: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:43:20: SourceMod error session started
+L 01/02/2026 - 11:43:20: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:43:20: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:48:44: Error log file session closed.
+L 01/02/2026 - 11:48:46: SourceMod error session started
+L 01/02/2026 - 11:48:46: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:48:46: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:49:30: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:49:34: Error log file session closed.
+L 01/02/2026 - 11:49:36: SourceMod error session started
+L 01/02/2026 - 11:49:36: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:49:36: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:50:32: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 11:50:36: Error log file session closed.
+L 01/02/2026 - 11:50:38: SourceMod error session started
+L 01/02/2026 - 11:50:38: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 11:50:38: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.
+L 01/02/2026 - 12:00:19: SourceMod error session started
+L 01/02/2026 - 12:00:19: Info (map "c2m1_highway") (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/errors_20260102.log")
+L 01/02/2026 - 12:00:19: Failed to auto generate config for optional/chat-processor.smx, make sure the directory has write permission.

@@ -1,0 +1,337 @@
+"Phrases"
+{
+
+	"SYSTEM"
+	{
+		"zho"		"{ORANGE}[{GREEN}SRS{ORANGE}]{DEFAULT} "
+	}
+
+	"CONNECTING"
+	{
+		"#format"	"{1:N}"
+		"zho"		"{BLUE}{1}{DEFAULT}正在連接中..."
+	}
+
+	"LEFT"
+	{
+		"#format"	"{1:N}"
+		"zho"		"{BLUE}{1}{DEFAULT}已離開遊戲..."
+	}
+
+	"JOIN"
+	{
+		"#format"	"{1:N},{2:s}"
+		"zho"		"{BLUE}{1}{DEFAULT}加入了{ORANGE}{2}{DEFAULT}。"
+	}
+
+	"SPECTATE"
+	{
+		"zho"		"觀眾"
+	}
+
+	"SURVIVOR"
+	{
+		"zho"		"倖存者"
+	}
+
+	"INFECTED"
+	{
+		"zho"		"感染者"
+	}
+
+	"JOIN_MESSAGE"
+	{
+		#format		"{1:N},{2:s},{3:s},{4:d},{5:.1f}"
+		"zho"		"{DEFAULT}{ORANGE}[{GREEN}排名{4}{ORANGE}]{DEFAULT} 來自{ORANGE}{3}{DEFAULT} ({GREEN}{2}{DEFAULT})的{BLUE}{1}{DEFAULT}己加入遊戲. (總分:{ORANGE}{5}{DEFAULT})"
+	}
+
+	"OPTIONS"
+	{
+		"zho"		"選項"
+	}
+
+
+	"AUTO_OPEN"
+	{
+		"zho"		"自動開啟SRS"
+	}
+
+	"COMBO_EFFECT"
+	{
+		"zho"		"連擊特效"
+	}
+
+	"COMBO_SOUND"
+	{
+		"zho"		"連擊音效"
+	}
+
+	"ON"
+	{
+		"zho"		"已啟用"
+	}
+
+	"OFF"
+	{
+		"zho"		"己關閉"
+	}
+
+	"COMING_SOON"
+	{
+		"zho"		"敬請期待..."
+	}
+
+	"LOADED"
+	{
+		"#format"	"{1:.2f}"
+		"zho"		"已成功讀取資料! 整體分數: {GREEN}{1}{DEFAULT}"
+	}
+
+	"NEXT_PAGE"
+	{
+		"zho"		"下一頁"
+	}
+
+	"PREV_PAGE"
+	{
+		"zho"		"上一頁"
+	}
+
+	"CLOSE"
+	{
+		"zho"		"退出"
+	}
+
+	"COMMON"
+	{
+		"zho"		"普感"
+	}
+
+	"SPECIAL"
+	{
+		"zho"		"特感"
+	}
+
+	"KILL_STATISTIC"
+	{
+		"zho"		"殺敵統計 (擊殺/爆頭)"
+	}
+
+	"ACCURACY"
+	{
+		"zho"		"命中率"
+	}
+
+	"FIRE_STATISTIC"
+	{
+		"zho"		"火力統計"
+	}
+
+	"VIEWING"
+	{
+		"zho"		"正在查看"
+	}
+
+	"ROUND_STATUS"
+	{
+		"zho"		"「回合戰績」"
+	}
+
+	"TOTAL_STATUS"
+	{
+		"zho"		"「整體戰績」"
+	}
+
+	"INFO"
+	{
+		"zho"		"的資料"
+	}
+
+	"COMBO"
+	{
+		"#format"	"{1:s},{2:d},{3:s}"
+		"zho"		"{2} 連擊 {1}"
+	}
+
+	"SCORE"
+	{
+		"zho"		"分數"
+	}
+
+	"KILL"
+	{
+		"zho"		"擊殺"
+	}
+
+	"HEADSHOT"
+	{
+		"zho"		"爆頭"
+	}
+
+	"SRS_S_SHOT"
+	{
+		"zho"		"開槍"
+	}
+
+	"SRS_S_HIT"
+	{
+		"zho"		"擊中"
+	}
+
+	"HIGHEST_SCORE_ADDED"
+	{
+		"#format"	"{1:.2f}"
+		"zho"		"最高單次加分: {1}"
+	}
+
+	"HIGHEST_COMBO"
+	{
+		"#format"	"{1:d}"
+		"zho"		"最高連擊: {1}"
+	}
+
+	"RANK"
+	{
+		"zho"		"排名"
+	}
+
+	"SRS_S_DMG"
+	{
+		"zho"		"總傷害"
+	}
+
+	"BACK"
+	{
+		"zho"		"返回"
+	}
+
+	"DATETIME_INFO"
+	{
+		"zho"		"時間統計"
+	}
+
+	"PLAYED_TIME"
+	{
+		"zho"		"已玩時數"
+	}
+
+	"JOIN_DATE"
+	{
+		"zho"		"加入日期"
+	}
+
+	"UPDATE_DATE"
+	{
+		"zho"		"最後登錄"
+	}
+
+	"HEALTH_INFO"
+	{
+		"zho"		"健康統計"
+	}
+
+	"SRS_S_DEATH"
+	{
+		"zho"		"死亡"
+	}
+
+	"SRS_S_INCAPACITATED"
+	{
+		"zho"		"倒地"
+	}
+
+	"SRS_S_HURT"
+	{
+		"zho"		"承受傷害"
+	}
+
+	"SRS_S_RESCUED"
+	{
+		"zho"		"被救活"
+	}
+
+	"SRS_S_REVIVED"
+	{
+		"zho"		"被救起"
+	}
+
+	"SRS_S_DEFIBRILLATED"
+	{
+		"zho"		"被電起"
+	}
+
+	"ITEMS_USED"
+	{
+		"zho"		"物品使用統計"
+	}
+
+	"HELP_INFO"
+	{
+		"zho"		"幫助隊友統計"
+	}
+
+	"SRS_S_REVIVE"
+	{
+		"zho"		"救起"
+	}
+
+	"SRS_S_RESCUE"
+	{
+		"zho"		"解救"
+	}
+
+	"SRS_S_HEAL"
+	{
+		"zho"		"包紮"
+	}
+
+	"SRS_S_DEFIBRILLATE"
+	{
+		"zho"		"電起"
+		}
+
+	"SRS_S_HEALED"
+	{
+		"zho"		"被包紮"
+	}
+
+	"SRS_S_SELF_HEALED"
+	{
+		"zho"		"自我包紮"
+	}
+
+	"SRS_S_PROTECTED"
+	{
+		"zho"		"被保護"
+	}
+
+	"SRS_S_PROTECT"
+	{
+		"zho"		"保護"
+	}
+
+	"HURT_STATISTIC"
+	{
+		"zho"		"受傷統計"
+	}
+
+	"SRS_S_J_RIDE"
+	{
+		"zho"		"Jockey Rode"
+	}
+
+	"SRS_S_C_CARRY"
+	{
+		"zho"		"Charger Carried"
+	}
+
+	"SRS_S_C_PUMMEL"
+	{
+		"zho"		"Charger Pummeled"
+	}
+
+	"MVP_ERROR_1"
+	{
+		"zho"		"無效的目標，請再試一次。"
+	}
+}

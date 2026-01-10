@@ -1,0 +1,20 @@
+Download and un-zip the next two files:
+
+1.	GeoLite2 City	@	http://dev.maxmind.com/geoip/geoip2/geolite2/
+2.	GeoLite City	@	http://dev.maxmind.com/geoip/legacy/geolite/
+
+Their un-zipped names are:
+
+1.	GeoLite2-City.mmdb
+2.	GeoLiteCity.dat
+
+
+
+*********************************************
+// FOR THOSE WHO OWN PAID VERSIONS AS WELL //
+
+1.	GeoIPCity.dat
+2.	GeoIPISP.dat
+
+
+* Put these files too if you want a better accuracy and you own them.

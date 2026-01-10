@@ -1,0 +1,218 @@
+"Phrases"
+{
+
+	"smg"
+	{
+		"chi"		"Uzi 乌兹冲锋枪"
+	}
+	"smg_silenced"
+	{
+		"chi"		"MAC-10 消声冲锋枪"
+	}
+	"smg_mp5"
+	{
+		"chi"		"H&K MP5 冲锋鎗"
+	}
+
+
+	"rifle"
+	{
+		"chi"		"M16A2 突击步枪"
+	}
+	"rifle_desert"
+	{
+		"chi"		"FN SCAR-L 战斗步枪"
+	}
+	"rifle_ak47"
+	{
+		"chi"		"AK-47 自动步枪"
+	}
+	"rifle_sg552"
+	{
+		"chi"		"SG552 突击步枪"
+	}
+	"rifle_m60"
+	{
+		"chi"		"M60 重型机枪"
+	}
+
+	"hunting_rifle"
+	{
+		"chi"		"Mini-14 猎枪"
+	}
+	"sniper_military"
+	{
+		"chi"		"HK MSG90 狙击步枪"
+	}
+	"sniper_awp"
+	{
+		"chi"		"AWP 重型狙击枪"
+	}
+	"sniper_scout"
+	{
+		"chi"		"Scout 轻型狙击枪"
+	}
+	
+
+	"pumpshotgun"
+	{
+		"chi"		"泵动式霰弹枪"
+	}
+	"shotgun_chrome"
+	{
+		"chi"		"铬合金霰弹枪"
+	}
+	"autoshotgun"
+	{
+		"chi"		"战术霰弹枪"
+	}
+	"shotgun_spas"
+	{
+		"chi"		"格斗霰弹枪"
+	}
+
+
+	"pistol"
+	{
+		"chi"		"SIG P226 不锈钢型手枪"
+	}
+	"pistol_magnum"
+	{
+		"chi"		"马格南手枪"
+	}
+	"grenade_launcher"
+	{
+		"chi"		"M79 榴弹发射器"
+	}
+
+
+	"katana"
+	{
+		"chi"		"武士刀"
+	}
+	"fireaxe"
+	{
+		"chi"		"消防斧"
+	}
+	"chainsaw"
+	{
+		"chi"		"电锯"
+	}
+	"baseball_bat"
+	{
+		"chi"		"棒球棒"
+	}
+	"electric_guitar"
+	{
+		"chi"		"电结他"
+	}
+	"tonfa"
+	{
+		"chi"		"警棍"
+	}
+	"machete"
+	{
+		"chi"		"弯刀"
+	}
+	"cricket_bat"
+	{
+		"chi"		"板球棒"
+	}
+	"frying_pan"
+	{
+		"chi"		"平底锅"
+	}
+	"crowbar"
+	{
+		"chi"		"撬棍"
+	}
+	"knife"
+	{
+		"chi"		"CS小刀"
+	}
+	"flamethrower"
+	{
+		"chi"		"喷火器"
+	}
+	"pitchfork"
+	{
+		"chi"		"干草叉"
+	}
+	"shovel"
+	{
+		"chi"		"铲"
+	}
+	"golfclub"
+	{
+		"chi"		"高尔夫球杆"
+	}
+
+
+	"pipe_bomb"
+	{
+		"chi"		"土制炸弹"
+	}
+	"molotov"
+	{
+		"chi"		"燃烧酒瓶"
+	}
+	"vomitjar"
+	{
+		"chi"		"胆汁瓶"
+	}
+	"gascan"
+	{
+		"chi"		"汽油红桶"
+	}
+	"propanetank"
+	{
+		"chi"		"煤气罐"
+	}
+	"fireworkcrate"
+	{
+		"chi"		"烟花箱"
+	}
+	"oxygentank"
+	{
+		"chi"		"氧气瓶"
+	}
+
+	"laser_sight"
+	{
+		"chi"		"红外线"
+	}
+	"explosive_ammo"
+	{
+		"chi"		"高爆子弹"
+	}
+	"upgradepack_explosive"
+	{
+		"chi"		"高爆子弹包"
+	}
+	"incendiary_ammo"
+	{
+		"chi"		"燃烧子弹"
+	}
+	"upgradepack_incendiary"
+	{
+		"chi"		"燃烧子弹包"
+	}
+
+
+	"first_aid_kit"
+	{
+		"chi"		"医疗包"
+	}
+	"adrenaline"
+	{
+		"chi"		"肾上腺素针"
+	}
+	"pain_pills"
+	{
+		"chi"		"止痛药"
+	}
+	"defibrillator"
+	{
+		"chi"		"电震仪器"
+	}
+}

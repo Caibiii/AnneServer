@@ -1,0 +1,107 @@
+L 01/02/2026 - 11:03:11: SourceMod log file session started (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260102.log") (Version "1.13.0.7283")
+L 01/02/2026 - 11:03:11: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:03:15: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:03:15: [GEOIP] GeoIP2 database loaded: GeoLite2-City (2019-12-17 20:01:26 UTC) (/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/configs/geoip/GeoLite2-City.mmdb)
+L 01/02/2026 - 11:03:15: [GEOIP] GeoIP2 supported languages: de en es fr ja pt-BR ru zh-CN
+L 01/02/2026 - 11:03:15: [GEOIP] Your database is older than 90 days. You should consider downloading a newer version from e.g. https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
+L 01/02/2026 - 11:03:15: [GR] Loaded GeoLite2-City.mmdb, 2022-03-15 11:40:33 UTC.
+L 01/02/2026 - 11:03:15: [GR] GeoIP2-City.mmdb unavailable.
+L 01/02/2026 - 11:03:15: [GR] GeoLiteCity.dat unavailable.
+L 01/02/2026 - 11:03:15: [GR] GeoIPCity.dat unavailable.
+L 01/02/2026 - 11:03:15: [GR] GeoLiteISP.dat unavailable.
+L 01/02/2026 - 11:03:15: [GR] GeoIPISP.dat unavailable.
+L 01/02/2026 - 11:03:15: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:03:15: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:03:19: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:03:21: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:03:21: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:03:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:39:49: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:39:52: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:39:52: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:39:53: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:39:59: [optional/l4d2_srs.smx] [LOAD]: "Minority<2><STEAM_1:1:534447309><>" loaded. Score: 523.9, Rank: 2066
+L 01/02/2026 - 11:40:47: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 8: time: 1.65 / 3.67 -- class: smoker (with shove? 0)
+L 01/02/2026 - 11:41:23: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 6: time: 0.08 / 3.33 -- class: smoker (with shove? 1)
+L 01/02/2026 - 11:42:00: [optional/l4d2_skill_detect.smx] Charge carry start: 7 - 3 -- time: 129.55
+L 01/02/2026 - 11:42:00: [optional/l4d2_skill_detect.smx] Clear: 2 freed 3 from 7: time: 0.00 / 0.16 -- class: charger (with shove? 0)
+L 01/02/2026 - 11:42:01: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 6: time: 0.12 / -1.00 -- class: jockey (with shove? 0)
+L 01/02/2026 - 11:42:02: [optional/l4d2_skill_detect.smx] Clear: 4 freed 1 from 10: time: 0.34 / -1.00 -- class: jockey (with shove? 0)
+L 01/02/2026 - 11:42:03: [optional/l4d2_skill_detect.smx] Checking charge victim: 7 - 3 - flags: 1 (alive? 1)
+L 01/02/2026 - 11:42:05: [optional/l4d2_skill_detect.smx] Clear: 4 freed 3 from 9: time: 4.44 / -1.00 -- class: hunter (with shove? 0)
+L 01/02/2026 - 11:42:30: [optional/l4d2_skill_detect.smx] Clear: 1 freed 3 from 9: time: 1.72 / -1.00 -- class: hunter (with shove? 0)
+L 01/02/2026 - 11:42:33: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 7: time: 6.89 / -1.00 -- class: jockey (with shove? 0)
+L 01/02/2026 - 11:42:34: [optional/l4d2_skill_detect.smx] Charge carry start: 6 - 4 -- time: 163.42
+L 01/02/2026 - 11:42:38: [optional/l4d2_skill_detect.smx] Checking charge victim: 6 - 4 - flags: 1 (alive? 1)
+L 01/02/2026 - 11:42:39: [optional/l4d2_skill_detect.smx] Clear: 3 freed 4 from 6: time: 2.51 / 4.87 -- class: charger (with shove? 0)
+L 01/02/2026 - 11:42:55: [optional/l4d2_srs.smx] [UPDATE]: "Minority<2><STEAM_1:1:534447309><>" saved. Score: 572.5
+L 01/02/2026 - 11:43:11: SourceMod log file session started (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260102.log") (Version "1.13.0.7283")
+L 01/02/2026 - 11:43:11: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:43:14: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:43:14: [GEOIP] GeoIP2 database loaded: GeoLite2-City (2019-12-17 20:01:26 UTC) (/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/configs/geoip/GeoLite2-City.mmdb)
+L 01/02/2026 - 11:43:14: [GEOIP] GeoIP2 supported languages: de en es fr ja pt-BR ru zh-CN
+L 01/02/2026 - 11:43:14: [GEOIP] Your database is older than 90 days. You should consider downloading a newer version from e.g. https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
+L 01/02/2026 - 11:43:14: [GR] Loaded GeoLite2-City.mmdb, 2022-03-15 11:40:33 UTC.
+L 01/02/2026 - 11:43:14: [GR] GeoIP2-City.mmdb unavailable.
+L 01/02/2026 - 11:43:14: [GR] GeoLiteCity.dat unavailable.
+L 01/02/2026 - 11:43:14: [GR] GeoIPCity.dat unavailable.
+L 01/02/2026 - 11:43:14: [GR] GeoLiteISP.dat unavailable.
+L 01/02/2026 - 11:43:14: [GR] GeoIPISP.dat unavailable.
+L 01/02/2026 - 11:43:15: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:43:15: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:43:18: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:43:20: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:43:20: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:43:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:48:44: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:48:46: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:48:46: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:48:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:49:13: [optional/l4d2_srs.smx] [LOAD]: "GGbao<2><STEAM_1:0:957959183><>" loaded. Score: 306.3, Rank: 2892
+L 01/02/2026 - 11:49:30: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:49:31: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:49:31: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:49:34: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:49:36: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:49:36: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:49:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:49:46: [optional/l4d2_srs.smx] [LOAD]: "GGbao<2><STEAM_1:0:957959183><>" loaded. Score: 306.3, Rank: 2892
+L 01/02/2026 - 11:50:32: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 11:50:32: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:50:32: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:50:36: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 11:50:38: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 11:50:38: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 11:50:39: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:50:47: [optional/l4d2_srs.smx] [LOAD]: "GGbao<2><STEAM_1:0:957959183><>" loaded. Score: 306.3, Rank: 2892
+L 01/02/2026 - 11:52:01: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 319.7
+L 01/02/2026 - 11:52:06: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 319.7
+L 01/02/2026 - 11:52:09: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:53:38: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 343.3
+L 01/02/2026 - 11:53:43: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 343.3
+L 01/02/2026 - 11:53:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:56:21: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 376.9
+L 01/02/2026 - 11:56:26: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 376.9
+L 01/02/2026 - 11:56:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:58:41: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 383.6
+L 01/02/2026 - 11:58:46: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 383.6
+L 01/02/2026 - 11:58:48: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 01/02/2026 - 11:59:55: [optional/l4d2_srs.smx] [UPDATE]: "GGbao<2><STEAM_1:0:957959183><>" saved. Score: 390.3
+L 01/02/2026 - 12:00:11: SourceMod log file session started (file "/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260102.log") (Version "1.13.0.7283")
+L 01/02/2026 - 12:00:11: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 12:00:14: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 01/02/2026 - 12:00:14: [GEOIP] GeoIP2 database loaded: GeoLite2-City (2019-12-17 20:01:26 UTC) (/root/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/configs/geoip/GeoLite2-City.mmdb)
+L 01/02/2026 - 12:00:14: [GEOIP] GeoIP2 supported languages: de en es fr ja pt-BR ru zh-CN
+L 01/02/2026 - 12:00:14: [GEOIP] Your database is older than 90 days. You should consider downloading a newer version from e.g. https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
+L 01/02/2026 - 12:00:14: [GR] Loaded GeoLite2-City.mmdb, 2022-03-15 11:40:33 UTC.
+L 01/02/2026 - 12:00:14: [GR] GeoIP2-City.mmdb unavailable.
+L 01/02/2026 - 12:00:14: [GR] GeoLiteCity.dat unavailable.
+L 01/02/2026 - 12:00:14: [GR] GeoIPCity.dat unavailable.
+L 01/02/2026 - 12:00:14: [GR] GeoLiteISP.dat unavailable.
+L 01/02/2026 - 12:00:14: [GR] GeoIPISP.dat unavailable.
+L 01/02/2026 - 12:00:14: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 12:00:14: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 12:00:18: -------- Mapchange to c2m1_highway --------
+L 01/02/2026 - 12:00:20: [optional/chat-processor.smx] Message formats generated for game 'left4dead2'.
+L 01/02/2026 - 12:00:20: [optional/chat-processor.smx] Successfully hooked a SayText2 chat hook.
+L 01/02/2026 - 12:00:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).

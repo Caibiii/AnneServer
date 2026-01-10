@@ -1,0 +1,11 @@
+*** If you want to update your GeoIP databases while the game server is running. ****
+
+Place any of your *UPDATED* files you want (here, 'data/GeoResolver/Update/' directory).
+
+1. GeoLite2-City.mmdb
+2. GeoLiteCity.dat
+3. GeoIPCity.dat	// Paid version of GeoIP City (if any)
+4. GeoIPISP.dat		// Paid version of GeoIP ISP (if any)
+
+They will be moved from this folder when the map changes to 'data/GeoResolver/' directory,
+in order to perform the update.

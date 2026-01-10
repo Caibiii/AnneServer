@@ -1,0 +1,218 @@
+"Phrases"
+{
+
+	"smg"
+	{
+		"zho"		"Uzi 烏茲衝鋒槍"
+	}
+	"smg_silenced"
+	{
+		"zho"		"MAC-10 消聲衝鋒槍"
+	}
+	"smg_mp5"
+	{
+		"zho"		"H&K MP5 衝鋒鎗"
+	}
+
+
+	"rifle"
+	{
+		"zho"		"M16A2 突擊步槍"
+	}
+	"rifle_desert"
+	{
+		"zho"		"FN SCAR-L 戰鬥步槍"
+	}
+	"rifle_ak47"
+	{
+		"zho"		"AK-47 自動步槍"
+	}
+	"rifle_sg552"
+	{
+		"zho"		"SG552 突擊步槍"
+	}
+	"rifle_m60"
+	{
+		"zho"		"M60 重型機槍"
+	}
+
+	"hunting_rifle"
+	{
+		"zho"		"Mini-14 獵槍"
+	}
+	"sniper_military"
+	{
+		"zho"		"HK MSG90 狙擊步槍"
+	}
+	"sniper_awp"
+	{
+		"zho"		"AWP 重型狙擊槍"
+	}
+	"sniper_scout"
+	{
+		"zho"		"Scout 輕型狙擊槍"
+	}
+	
+
+	"pumpshotgun"
+	{
+		"zho"		"泵動式霰彈槍"
+	}
+	"shotgun_chrome"
+	{
+		"zho"		"鉻合金霰彈槍"
+	}
+	"autoshotgun"
+	{
+		"zho"		"戰術霰彈槍"
+	}
+	"shotgun_spas"
+	{
+		"zho"		"格鬥霰彈槍"
+	}
+
+
+	"pistol"
+	{
+		"zho"		"SIG P226 不鏽鋼型手槍"
+	}
+	"pistol_magnum"
+	{
+		"zho"		"馬格南手槍"
+	}
+	"grenade_launcher"
+	{
+		"zho"		"M79 榴彈發射器"
+	}
+
+
+	"katana"
+	{
+		"zho"		"武士刀"
+	}
+	"fireaxe"
+	{
+		"zho"		"消防斧"
+	}
+	"chainsaw"
+	{
+		"zho"		"電鋸"
+	}
+	"baseball_bat"
+	{
+		"zho"		"棒球棒"
+	}
+	"electric_guitar"
+	{
+		"zho"		"電結他"
+	}
+	"tonfa"
+	{
+		"zho"		"警棍"
+	}
+	"machete"
+	{
+		"zho"		"彎刀"
+	}
+	"cricket_bat"
+	{
+		"zho"		"板球棒"
+	}
+	"frying_pan"
+	{
+		"zho"		"平底鍋"
+	}
+	"crowbar"
+	{
+		"zho"		"撬棍"
+	}
+	"knife"
+	{
+		"zho"		"CS小刀"
+	}
+	"flamethrower"
+	{
+		"zho"		"噴火器"
+	}
+	"pitchfork"
+	{
+		"zho"		"乾草叉"
+	}
+	"shovel"
+	{
+		"zho"		"鏟"
+	}
+	"golfclub"
+	{
+		"zho"		"高爾夫球杆"
+	}
+
+
+	"pipe_bomb"
+	{
+		"zho"		"土製炸彈"
+	}
+	"molotov"
+	{
+		"zho"		"燃燒酒瓶"
+	}
+	"vomitjar"
+	{
+		"zho"		"膽汁瓶"
+	}
+	"gascan"
+	{
+		"zho"		"汽油紅桶"
+	}
+	"propanetank"
+	{
+		"zho"		"煤氣罐"
+	}
+	"fireworkcrate"
+	{
+		"zho"		"煙花箱"
+	}
+	"oxygentank"
+	{
+		"zho"		"氧氣瓶"
+	}
+
+	"laser_sight"
+	{
+		"zho"		"紅外線"
+	}
+	"explosive_ammo"
+	{
+		"zho"		"高爆子彈"
+	}
+	"upgradepack_explosive"
+	{
+		"zho"		"高爆子彈包"
+	}
+	"incendiary_ammo"
+	{
+		"zho"		"燃燒子彈"
+	}
+	"upgradepack_incendiary"
+	{
+		"zho"		"燃燒子彈包"
+	}
+
+
+	"first_aid_kit"
+	{
+		"zho"		"醫療包"
+	}
+	"adrenaline"
+	{
+		"zho"		"腎上腺素針"
+	}
+	"pain_pills"
+	{
+		"zho"		"止痛藥"
+	}
+	"defibrillator"
+	{
+		"zho"		"電震儀器"
+	}
+}
