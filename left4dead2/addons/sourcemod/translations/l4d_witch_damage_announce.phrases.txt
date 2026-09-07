@@ -1,0 +1,73 @@
+"Phrases"
+{
+	"FailWitchCrown"
+	{
+		"#format"	"{1:N}"
+		"en"		"{default}[{green}!{default}] {red}{1} {default}({olive}crowned witch fail{default}) and was incapped by {red}Witch."
+	}
+	"TankKillWitch"
+	{
+		"#format"	"{1:N}"
+		"en"		"{default}[{green}!{default}] {red}Tank {default}({olive}{1}{default}) killed the {red}Witch"
+	}
+	"WitchRemainedHealth"
+	{
+		"#format"	"{1:d}"
+		"en"		"{default}[{green}!{default}] {blue}Witch {default}had {olive}{1} {default}health remaining"
+	}
+	"DamageToWitch"
+	{
+		"en"		"{default}[{green}!{default}] {blue}Damage {default}dealt to {blue}Witch:"
+	}
+	"PrefectWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}{3:N}"
+		"en"		"{blue}[{default}{1}{blue}] ({default}{2}%%{blue}) {olive}{3} ★★"
+	}
+	"FinalShotWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}{3:N}"
+		"en"		"{blue}[{default}{1}{blue}] ({default}{2}%%{blue}) {olive}{3} ★"
+	}
+	"AssistanceWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}{3:N}"
+		"en"		"{blue}[{default}{1}{blue}] ({default}{2}%%{blue}) {olive}{3}"
+	}
+	"FinalShotInfWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}"
+		"en"		"{red}[{default}{1}{red}] ({default}{2}%%{red}) {red}Infected {olive} ☆"
+	}
+	"AssistanceInfWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}"
+		"en"		"{red}[{default}{1}{red}] ({default}{2}%%{red}) {red}Infected"
+	}
+	"FinalShotTankWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}"
+		"en"		"{red}[{default}{1}{red}] ({default}{2}%%{red}) {red}Tank {olive} ☆"
+	}
+	"AssistanceTankWitchCrown"
+	{
+		"#format"	"{1:d}{2:d}"
+		"en"		"{red}[{default}{1}{red}] ({default}{2}%%{red}) {red}Tank"
+	}
+	"L4DWitchDamageAnnounce_TankKilledWitch"
+	{
+		"en"		"{default}[{green}!{default}] {red}Tank {default}({olive}%N{default}) killed the {red}Witch"
+	}
+	"L4DWitchDamageAnnounce_WitchHealthRemaining"
+	{
+		"en"		"{default}[{green}!{default}] {blue}Witch {default}had {olive}%d {default}health remaining"
+	}
+	"L4DWitchDamageAnnounce_DamageDealtWitch"
+	{
+		"en"		"{default}[{green}!{default}] {blue}Damage {default}dealt to {blue}Witch:"
+	}
+	"L4DWitchDamageAnnounce_WitchDamageLine"
+	{
+		"en"		"{blue}[{default}%d{blue}] ({default}%i%%{blue}) {olive}%N"
+	}
+}

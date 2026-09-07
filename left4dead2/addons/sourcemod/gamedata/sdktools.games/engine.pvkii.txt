@@ -16,64 +16,57 @@
 	{
 		"Offsets"
 		{
+			/* Offset in the CBaseTempEntity ctor to the s_pTempEntities reference.
+			 * windows: imm32 operand of "mov eax, s_pTempEntities"
+			 * windows64: disp32 of "mov rax, [rip+s_pTempEntities]" */
+			"s_pTempEntities"
+			{
+				"windows"	"16"
+				"windows64"	"17"
+			}
 			"GetTEName"
 			{
 				"windows"	"4"
+				"windows64"	"8"
 				"linux"		"4"
-				"mac"		"4"
+				"linux64"	"8"
 			}
 			"GetTENext"
 			{
 				"windows"	"8"
+				"windows64"	"16"
 				"linux"		"8"
-				"mac"		"8"
+				"linux64"	"16"
 			}
 			"TE_GetServerClass"
 			{
 				"windows"	"0"
+				"windows64"	"0"
 				"linux"		"0"
-				"mac"		"0"
-			}
-		}
-	}
-	
-	/* IServer interface pointer */
-	"#default"
-	{
-		"Keys"
-		{
-			/* Signature for the beginning of IVEngineServer::CreateFakeClientEx.
-			 *
-			 * The engine binary is not actually scanned in order to look for
-			 * this. SourceHook is used to used to determine the address of the
-			 * function and this signature is used to verify that it contains
-			 * the expected code. A pointer to sv (IServer interface) is used
-			 * here.
-			 */
-			"CreateFakeClient_Windows"	"\x55\x8B\xEC\x8B\x2A\x2A\x50\xB9\x2A\x2A\x2A\x2A\xE8"
-		}
-		
-		"Offsets"
-		{
-			/* Offset into IVEngineServer::CreateFakeClient */
-			"sv"
-			{
-				"windows"	"8"
+				"linux64"	"0"
 			}
 		}
 
 		"Signatures"
 		{
-			/* CBaseServer object for IServer interface */
-			"sv"
+			/* CBaseTempEntity constructor (links each TE into the s_pTempEntities list).
+			 * windows/windows64 only; linux/linux64 resolve s_pTempEntities via symbol below. */
+			"CBaseTempEntity"
 			{
-				"library"	"engine"
-				"linux"		"@sv"
-				"mac"		"@sv"
+				"library"	"server"
+				"windows"	"\x55\x8B\xEC\x8B\x45\x08\x89\x41\x04\xC7\x01\x2A\x2A\x2A\x2A\xA1"
+				"windows64"	"\x48\x8D\x05\x2A\x2A\x2A\x2A\x48\x89\x51\x08\x48\x89\x01\x48\x8B\x05"
+			}
+			/* Head of the temp-entity linked list */
+			"s_pTempEntities"
+			{
+				"library"	"server"
+				"linux"		"@_ZN15CBaseTempEntity15s_pTempEntitiesE"
+				"linux64"	"@_ZN15CBaseTempEntity15s_pTempEntitiesE"
 			}
 		}
 	}
-	
+
 	/* SetUserInfo data */
 	"#default"
 	{
@@ -81,38 +74,37 @@
 		{
 			/**
 			 * CBaseClient::SetUserCVar(char  const*,char  const*);
-			 * Linux offset straight from VTable dump.
-			 * Windows offset is crazy. Found the windows SetName function using string "(%d)%-0.*s"
-			 * Cross referenced back to the vtable and counted manually (SetUserCvar is 1 higher, offsets start from 1)
+			 * SetName is one slot lower; identified via the name-sanitize function
+			 * (strings "(%d)%-.*s", "unnamed") and CBaseClient RTTI. Verified for 1.0.
 			 */
 			"SetUserCvar"
 			{
 				"windows"	"18"
+				"windows64"	"18"
 				"linux"		"58"
-				"mac"		"58"
+				"linux64"	"58"
 			}
 			/**
-			 * CBaseClient::SetName(char  const*);
-			 * Linux offset straight from VTable dump.
-			 * Has string "(%d)%-0.*s"
+			 * CBaseClient::SetName(char  const*);  (name-sanitize fn, string "(%d)%-.*s")
 			 */
 			"SetClientName"
 			{
 				"windows"	"17"
+				"windows64"	"17"
 				"linux"		"57"
-				"mac"		"57"
+				"linux64"	"57"
 			}
 			/**
-			 * Offset into CBaseClient - Used by CBaseServer::UpdateUserSettings to determine when changes have been made.
-			 * Find CBaseClient::UpdateUserSettings (strings "net_maxroutable", "cl_updaterate" etc) and the offset is set to 0 near the end.
-			 * Linux: 	mov     byte ptr [esi+98h], 0
-			 * Win:	mov     byte ptr [esi+0A4h], 0
+			 * Offset into CBaseClient (m_bConVarsChanged) - set to 1 near the end of
+			 * CBaseClient::SetName; reset to 0 in UpdateUserSettings.
+			 * 32-bit = 140; 64-bit = 160 (verified: mov byte [client+0xA0], 1 in SetName).
 			 */
 			"InfoChanged"
 			{
 				"windows"	"140"
+				"windows64"	"160"
 				"linux"		"140"
-				"mac"		"140"
+				"linux64"	"160"
 			}
 		}
 	}

@@ -94,7 +94,7 @@ void DisplayWhoMenu(int client)
 	char title[100];
 	Format(title, sizeof(title), "%T:", "Identify player", client);
 	menu.SetTitle(title);
-	menu.ExitBackButton = CheckCommandAccess(client, "sm_admin", ADMFLAG_GENERIC, false);
+	menu.ExitBackButton = true;
 	
 	AddTargetsToMenu2(menu, 0, COMMAND_FILTER_CONNECTED);
 	
@@ -161,10 +161,7 @@ public int MenuHandler_Who(Menu menu, MenuAction action, int param1, int param2)
 		}
 		*/
 	}
-
-	return 0;
 }
-
 public Action Command_Who(int client, int args)
 {
 	bool is_admin = false;

@@ -1,0 +1,237 @@
+L 09/07/2026 - 01:41:38: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 01:41:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:42:07: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<23><STEAM_1:1:754353936><>" loaded. Score: 2996.3, Rank: 461
+L 09/07/2026 - 01:42:12: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 01:42:16: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 01:42:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:42:26: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<23><STEAM_1:1:754353936><>" loaded. Score: 2996.3, Rank: 461
+L 09/07/2026 - 01:50:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:50:36: [optional/l4d2_srs.smx] [UPDATE]: "别压力我  我错了<23><STEAM_1:1:754353936><>" saved. Score: 3241.6
+L 09/07/2026 - 01:50:36: -------- Mapchange to c3m1_plankcountry --------
+L 09/07/2026 - 01:50:39: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:50:47: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<23><STEAM_1:1:754353936><>" loaded. Score: 3241.6, Rank: 418
+L 09/07/2026 - 01:51:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:52:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:53:04: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:54:55: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:57:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:59:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:02:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:07:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:08:26: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:14:30: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:19:32: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:23:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:24:32: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:27:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:30:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:32:11: [optional/l4d2_srs.smx] [UPDATE]: "别压力我  我错了<23><STEAM_1:1:754353936><>" saved. Score: 3996.3
+L 09/07/2026 - 02:32:17: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:32:34: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 02:32:34: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 02:32:36: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 02:32:40: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 02:32:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:45:37: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 02:45:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:45:59: [optional/l4d2_srs.smx] [LOAD]: "已经臭了<10><STEAM_1:0:602644924><>" loaded. Score: 115426.2, Rank: 8
+L 09/07/2026 - 02:46:17: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 02:46:20: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 02:46:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:46:33: [optional/l4d2_srs.smx] [LOAD]: "已经臭了<10><STEAM_1:0:602644924><>" loaded. Score: 115426.2, Rank: 8
+L 09/07/2026 - 02:49:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:51:43: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:52:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:53:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:53:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:56:39: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:57:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:58:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 02:59:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 03:02:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 03:03:17: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 03:05:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 03:05:36: [optional/l4d2_srs.smx] [UPDATE]: "已经臭了<10><STEAM_1:0:602644924><>" saved. Score: 115762.5
+L 09/07/2026 - 03:05:59: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 03:05:59: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 03:06:01: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 03:06:05: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 03:06:07: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 03:34:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 04:27:49: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 04:42:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 05:42:48: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 06:10:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 07:11:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 08:11:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 08:23:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 08:29:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 08:32:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 08:38:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 09:30:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 10:15:55: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 10:42:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 10:49:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 11:19:09: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 11:20:37: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 11:20:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 11:20:55: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 11:20:55: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 11:20:57: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 11:21:00: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 11:21:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 11:59:04: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 12:06:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 12:34:54: -------- Mapchange to l4d2_bts01_forest --------
+L 09/07/2026 - 12:34:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 12:36:27: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 12:37:06: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 12:37:06: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 12:37:08: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 12:37:12: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 12:37:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 13:05:43: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 13:21:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 13:22:32: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 13:30:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 13:51:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 14:18:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 14:24:15: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 14:57:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:00:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:23:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:26:49: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:31:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:31:27: -------- Mapchange to l4d2_bts01_forest --------
+L 09/07/2026 - 15:31:32: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:31:58: [optional/l4d2_srs.smx] [INSERT]: "EliauK<110><STEAM_1:0:793587742><>" is a new user!!!
+L 09/07/2026 - 15:31:58: [optional/l4d2_srs.smx] [LOAD]: New user "EliauK<110><STEAM_1:0:793587742><>" loaded rank.
+L 09/07/2026 - 15:32:04: [optional/l4d2_srs.smx] [INSERT]: "3321716506<111><STEAM_1:1:807006907><>" is a new user!!!
+L 09/07/2026 - 15:32:04: [optional/l4d2_srs.smx] [LOAD]: New user "3321716506<111><STEAM_1:1:807006907><>" loaded rank.
+L 09/07/2026 - 15:32:12: [optional/l4d2_srs.smx] [INSERT]: "蜗区<112><STEAM_1:0:892177750><>" is a new user!!!
+L 09/07/2026 - 15:32:12: [optional/l4d2_srs.smx] [LOAD]: New user "蜗区<112><STEAM_1:0:892177750><>" loaded rank.
+L 09/07/2026 - 15:32:26: [optional/l4d2_srs.smx] [LOAD]: "EliauK<114><STEAM_1:0:793587742><>" loaded. Score: 0.0, Rank: 6547
+L 09/07/2026 - 15:33:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:34:06: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 15:34:06: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 15:34:08: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 15:34:11: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 15:34:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:35:04: -------- Mapchange to l4d2_bts01_forest --------
+L 09/07/2026 - 15:35:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:35:32: [optional/l4d2_srs.smx] [LOAD]: "3321716506<16><STEAM_1:1:807006907><>" loaded. Score: 0.0, Rank: 6546
+L 09/07/2026 - 15:36:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 15:36:46: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 15:36:46: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 15:36:48: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 15:36:52: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 15:36:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 16:37:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 16:40:44: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 16:54:30: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 16:59:59: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 17:00:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 17:00:15: [optional/l4d2_srs.smx] [LOAD]: "陶铸<29><STEAM_1:1:160811564><>" loaded. Score: 196.0, Rank: 4124
+L 09/07/2026 - 17:01:04: [optional/l4d2_srs.smx] [UPDATE]: "陶铸<29><STEAM_1:1:160811564><>" saved. Score: 196.0
+L 09/07/2026 - 17:01:27: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 17:01:27: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 17:01:29: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 17:01:32: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 17:01:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 18:01:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 18:13:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 18:25:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 18:31:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:05:12: -------- Mapchange to l4d_tbm_1 --------
+L 09/07/2026 - 20:05:15: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:05:39: [optional/l4d2_srs.smx] [INSERT]: "D boy1911<62><STEAM_1:0:443412269><>" is a new user!!!
+L 09/07/2026 - 20:05:39: [optional/l4d2_srs.smx] [LOAD]: New user "D boy1911<62><STEAM_1:0:443412269><>" loaded rank.
+L 09/07/2026 - 20:06:04: [optional/l4d2_srs.smx] [INSERT]: "Joker in KLCC<67><STEAM_1:0:539179345><>" is a new user!!!
+L 09/07/2026 - 20:06:04: [optional/l4d2_srs.smx] [LOAD]: New user "Joker in KLCC<67><STEAM_1:0:539179345><>" loaded rank.
+L 09/07/2026 - 20:07:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:08:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:09:04: [optional/l4d2_srs.smx] [LOAD]: "Joker in KLCC<87><STEAM_1:0:539179345><>" loaded. Score: 0.0, Rank: 6545
+L 09/07/2026 - 20:10:29: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 20:10:29: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 20:10:31: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 20:10:35: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 20:10:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:37:22: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 20:37:25: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:37:40: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<10><STEAM_1:1:754353936><>" loaded. Score: 3996.3, Rank: 327
+L 09/07/2026 - 20:41:08: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 20:41:11: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 20:41:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:41:21: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<10><STEAM_1:1:754353936><>" loaded. Score: 3996.3, Rank: 327
+L 09/07/2026 - 20:44:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:44:53: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:45:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:47:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:47:30: [optional/l4d2_srs.smx] [UPDATE]: "别压力我  我错了<10><STEAM_1:1:754353936><>" saved. Score: 4026.0
+L 09/07/2026 - 20:47:30: -------- Mapchange to c3m1_plankcountry --------
+L 09/07/2026 - 20:47:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:47:41: [optional/l4d2_srs.smx] [LOAD]: "别压力我  我错了<10><STEAM_1:1:754353936><>" loaded. Score: 4026.0, Rank: 324
+L 09/07/2026 - 20:49:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:50:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:51:17: [optional/l4d2_srs.smx] [UPDATE]: "别压力我  我错了<10><STEAM_1:1:754353936><>" saved. Score: 4068.1
+L 09/07/2026 - 20:51:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:51:41: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 20:51:41: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 20:51:43: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 20:51:47: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 20:51:49: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 20:58:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:15:10: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 21:15:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:15:35: [optional/l4d2_srs.smx] [LOAD]: "普瑞赛斯<16><STEAM_1:1:621063182><>" loaded. Score: 243.8, Rank: 3781
+L 09/07/2026 - 21:15:54: [optional/l4d2_srs.smx] [INSERT]: "不重要i<21><STEAM_1:0:228097528><>" is a new user!!!
+L 09/07/2026 - 21:15:54: [optional/l4d2_srs.smx] [LOAD]: New user "不重要i<21><STEAM_1:0:228097528><>" loaded rank.
+L 09/07/2026 - 21:17:47: [optional/l4d2_srs.smx] [UPDATE]: "普瑞赛斯<16><STEAM_1:1:621063182><>" saved. Score: 243.8
+L 09/07/2026 - 21:20:14: [optional/l4d2_srs.smx] [LOAD]: "不重要i<32><STEAM_1:0:228097528><>" loaded. Score: 0.0, Rank: 6545
+L 09/07/2026 - 21:23:27: [optional/l4d2_srs.smx] [LOAD]: "普瑞赛斯<38><STEAM_1:1:621063182><>" loaded. Score: 243.8, Rank: 3781
+L 09/07/2026 - 21:25:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:25:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:27:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:28:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:30:09: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:31:55: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:33:27: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:38:31: [optional/l4d2_srs.smx] [UPDATE]: "不重要i<32><STEAM_1:0:228097528><>" saved. Score: 82.4
+L 09/07/2026 - 21:38:31: [optional/l4d2_srs.smx] [UPDATE]: "普瑞赛斯<38><STEAM_1:1:621063182><>" saved. Score: 419.1
+L 09/07/2026 - 21:38:32: -------- Mapchange to c2m2_fairgrounds --------
+L 09/07/2026 - 21:38:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:38:39: [optional/l4d2_srs.smx] [LOAD]: "不重要i<32><STEAM_1:0:228097528><>" loaded. Score: 82.4, Rank: 5085
+L 09/07/2026 - 21:38:40: [optional/l4d2_srs.smx] [LOAD]: "普瑞赛斯<38><STEAM_1:1:621063182><>" loaded. Score: 419.1, Rank: 2874
+L 09/07/2026 - 21:42:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:44:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:46:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:47:13: [optional/l4d2_srs.smx] [INSERT]: "O芊-禾O<134><STEAM_1:1:159281116><>" is a new user!!!
+L 09/07/2026 - 21:47:13: [optional/l4d2_srs.smx] [LOAD]: New user "O芊-禾O<134><STEAM_1:1:159281116><>" loaded rank.
+L 09/07/2026 - 21:48:34: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 21:48:34: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 21:48:37: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 21:48:40: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 21:48:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 21:56:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:02:17: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:04:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:31:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:32:58: -------- Mapchange to highway01_apt_20130613 --------
+L 09/07/2026 - 22:33:00: [optional/l4d2_saferoom_detect.smx] [SI] SaferoomInfo for highway01_apt_20130613 is missing.
+L 09/07/2026 - 22:33:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:33:34: [optional/l4d2_srs.smx] [INSERT]: "狐狸江黎<35><STEAM_1:0:936974143><>" is a new user!!!
+L 09/07/2026 - 22:33:34: [optional/l4d2_srs.smx] [LOAD]: New user "狐狸江黎<35><STEAM_1:0:936974143><>" loaded rank.
+L 09/07/2026 - 22:35:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:37:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:38:16: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 22:38:16: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 22:38:18: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 22:38:22: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 22:38:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:38:44: -------- Mapchange to l4d2_bts06_school --------
+L 09/07/2026 - 22:38:48: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 22:41:03: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260907.log") (Version "1.13.0.7293")
+L 09/07/2026 - 22:41:03: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 22:41:05: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/07/2026 - 22:41:08: -------- Mapchange to c2m1_highway --------
+L 09/07/2026 - 22:41:11: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).

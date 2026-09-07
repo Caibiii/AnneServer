@@ -2,219 +2,233 @@
 {
 	"1"
 	{
-		"中文名"		"绝境逢生"
+		"中文名"		"Carried Off"
 		"建图代码"		"cwm1_intro"
+		//https://www.gamemaps.com/details/2230
 	}
 	"2"
 	{
-		"中文名"		"白森林"
+		"中文名"		"White Forest"
 		"建图代码"		"wfp1_track"
+		//https://www.gamemaps.com/details/16814
 	}
 	"3"
 	{
-		"中文名"		"喋血蜃楼"
+		"中文名"		"Diescraper Redux"
 		"建图代码"		"l4d2_diescraper1_apartment_361"
+		//https://www.gamemaps.com/details/2413
 	}
 	"4"
 	{
-		"中文名"		"迂回前进"
+		"中文名"		"Detour Ahead - L4D2"
 		"建图代码"		"cdta_01detour"
+		//https://www.gamemaps.com/details/2445
 	}
 	"5"
 	{
-		"中文名"		"颤栗森林"
+		"中文名"		"Haunted Forest"
 		"建图代码"		"hf01_theforest"
+		//https://www.gamemaps.com/details/2653
 	}
 	"6"
 	{
-		"中文名"		"死亡丛林"
+		"中文名"		"Death Woods"
 		"建图代码"		"l4d2_deathwoods01_stranded"
+		//https://www.gamemaps.com/details/15678
 	}
 	"7"
 	{
-		"中文名"		"FatalFreight"
+		"中文名"		"Fatal Freight: Remastered"
 		"建图代码"		"l4d2_ff01_woods"
+		//https://www.gamemaps.com/details/14002
 	}
 
 	"8"
 	{
-		"中文名"		"绝命公路"
+		"中文名"		"Open Road"
 		"建图代码"		"x1m1_cliffs"
+		//https://www.gamemaps.com/details/2741
 	}
 	"9"
 	{
-		"中文名"		"黎明"
+		"中文名"		"Day Break"
 		"建图代码"		"l4d2_daybreak01_hotel"
+		//https://www.gamemaps.com/details/9221
 	}
 	"10"
 	{
-		"中文名"		"公路杀手"
+		"中文名"		"Roadkill"
 		"建图代码"		"grmap1"
+		//https://www.gamemaps.com/details/15122
 	}
 	"11"
 	{
-		"中文名"		"再见了晨茗"
+		"中文名"		"Farewell Chenming V4.0"
 		"建图代码"		"msd1_town"
+		//https://www.gamemaps.com/details/14513
 	}
 	"12"
 	{
-		"中文名"		"dark carnival remix(C2改)"
+		"中文名"		"Dark Carnival: Remix"
 		"建图代码"		"dkr_m1_motel"
+		//https://www.gamemaps.com/details/20723
 	}
 	"13"
 	{
-		"中文名"		"闪电突袭2"
+		"中文名"		"Suicide Blitz 2"
 		"建图代码"		"l4d2_stadium1_apartment"
+		//https://www.gamemaps.com/details/2793
 	}
 	"14"
 	{
-		"中文名"		"伦理问题"
+		"中文名"		"Questionable Ethics"
 		"建图代码"		"qe_1_cliche"
+		//https://www.gamemaps.com/details/2795
 	}
 	"15"
 	{
-		"中文名"		"城市17"
+		"中文名"		"City 17 (l4d2)"
 		"建图代码"		"l4d2_city17_01"
+		//https://www.gamemaps.com/details/2506
 	}
 	"16"
 	{
-		"中文名"		"回到学校"
+		"中文名"		"Back to school"
 		"建图代码"		"l4d2_bts01_forest"
+		//https://www.gamemaps.com/details/6691
 	}
 	"17"
 	{
-		"中文名"		"downpour(C4改)"
+		"中文名"		"Hard Rain: Downpour"
 		"建图代码"		"dprm1_milltown_a"
+		//https://www.gamemaps.com/details/12237
 	}
 	"18"
 	{
-		"中文名"		"天堂可待2"
-		"建图代码"		"AirCrash"
+		"中文名"		"Heaven Can Wait II"
+		"建图代码"		"hcw1_aircrash"
+		//https://www.gamemaps.com/details/2390
 	}
 	"19"
 	{
-		"中文名"		"逃至山上"
+		"中文名"		"Run To The Hills"
 		"建图代码"		"rh_map01"
+		//https://www.gamemaps.com/details/2559
 	}
 	"20"
 	{
-		"中文名"		"黑暗教区"
+		"中文名"		"The Dark Parish"
 		"建图代码"		"c5m1_darkwaterfront"
+		//https://www.gamemaps.com/details/3467
 	}
 	"21"
 	{
-		"中文名"		"DeadBeforeDawnDC"
+		"中文名"		"Dead Before Dawn DC"
 		"建图代码"		"l4d_dbd2dc_anna_is_gone"
+		//https://www.gamemaps.com/details/2268
 	}
 	"22"
 	{
-		"中文名"		"2019"
-		"建图代码"		"2019_M1b"
-	}	
+		"中文名"		"Urban Flight"
+		"建图代码"		"uf1_boulevard"
+		//https://www.gamemaps.com/details/2639
+	}
 	"23"
 	{
-		"中文名"		"ArenaOfTheDead2"
-		"建图代码"		"jsarena201_town"
-	}	
+		"中文名"		"Warcelona"
+		"建图代码"		"srocchurch"
+		//https://www.gamemaps.com/details/3131
+	}
 	"24"
 	{
-		"中文名"		"BloodTracks"
+		"中文名"		"Blood Tracks"
 		"建图代码"		"bloodtracks_01"
+		//https://www.gamemaps.com/details/2750
 	}	
 	"25"
 	{
-		"中文名"		"BloodyMoors"
+		"中文名"		"The Bloody Moors"
 		"建图代码"		"l4d_tbm_1"
-	}	
+		//https://www.gamemaps.com/details/6772
+	}
 	"26"
 	{
-		"中文名"		"CityOfTheDead"
-		"建图代码"		"cotd01_apartments"
+		"中文名"		"UndeadZone"
+		"建图代码"		"uz_crash"
+		//https://www.gamemaps.com/details/6599
 	}	
+
 	"27"
 	{
-		"中文名"		"DarkBlood2"
+		"中文名"		"Dark Blood 2"
 		"建图代码"		"l4d2_darkblood01_tanker"
+		//https://www.gamemaps.com/details/2592
 	}	
 	"28"
 	{
-		"中文名"		"DeadbeatEscape"
+		"中文名"		"Deadbeat Escape"
 		"建图代码"		"deadbeat01_forest"
+		//https://www.gamemaps.com/details/9304
 	}	
 	"29"
 	{
-		"中文名"		"DeathSentence"
+		"中文名"		"Death Sentence"
 		"建图代码"		"death_sentence_1"
+		//https://www.gamemaps.com/details/2624
 	}	
 	"30"
 	{
-		"中文名"		"DropDeadGorges"
+		"中文名"		"Drop Dead Gorges"
 		"建图代码"		"ddg1_tower_v2_1"
+		//https://www.gamemaps.com/details/2135
 	}	
 	"31"
 	{
 		"中文名"		"EnergyCrisis"
 		"建图代码"		"ec01_outlets"
+		//https://www.gamemaps.com/details/13867
 	}
 	"32"
 	{
-		"中文名"		"万里"
+		"中文名"		"Wan Li"
 		"建图代码"		"l4d2_wanli01"
+		//https://www.gamemaps.com/details/2906
 	}
 	"33"
 	{
-		"中文名"		"HighwayToHell"
+		"中文名"		"Highway To Hell"
 		"建图代码"		"highway01_apt_20130613"
+		//https://www.gamemaps.com/details/2714
 	}
 	"34"
 	{
-		"中文名"		"IHateMountains2"
+		"中文名"		"I Hate Mountains 2"
 		"建图代码"		"l4d_ihm01_forest"
+		//https://www.gamemaps.com/details/2731
 	}
 	"35"
 	{
-		"中文名"		"LeftBehind"
+		"中文名"		"Left Behind"
 		"建图代码"		"bhm1_outskirts"
+		//https://www.gamemaps.com/details/2838
+		
 	}
 	"36"
 	{
-		"中文名"		"One4Nine"
+		"中文名"		"One 4 Nine"
 		"建图代码"		"l4d_149_1"
+		//https://www.gamemaps.com/details/2682
 	}
 	"37"
 	{
 		"中文名"		"Ravenholm"
 		"建图代码"		"l4d_ravenholm01_blackmesa"
+		//https://www.gamemaps.com/details/18504
 	}
 	"38"
 	{
-		"中文名"		"TourOfTerror"
+		"中文名"		"Tour Of Terror"
 		"建图代码"		"eu01_residential_b16"
-	}
-	"39"
-	{
-		"中文名"		"UndeadZone"
-		"建图代码"		"uz_crash"
-	}
-	"40"
-	{
-		"中文名"		"UrbanFlight"
-		"建图代码"		"uf1_boulevard"
-	}
-	"41"
-	{
-		"中文名"		"Warcelona"
-		"建图代码"		"srocchurch"
-	}
-	"42"
-	{
-		"中文名"		"Parish_OverGrowth"
-		"建图代码"		"PR1_Waterfront_F"
-	}
-	"43"
-	{
-		"中文名"		"生还之锋1.8"
-		"建图代码"		"fos01_roadonhill"
-	}
-	 
+		//https://www.gamemaps.com/details/2721
+	} 
 }

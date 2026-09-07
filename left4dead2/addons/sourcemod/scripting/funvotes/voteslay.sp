@@ -130,8 +130,6 @@ public int MenuHandler_Slay(Menu menu, MenuAction action, int param1, int param2
 			DisplayVoteSlayMenu(param1, target, name);
 		}
 	}
-
-	return 0;
 }
 
 public Action Command_VoteSlay(int client, int args)

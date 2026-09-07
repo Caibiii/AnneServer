@@ -111,8 +111,6 @@ public int MenuHandler_Slay(Menu menu, MenuAction action, int param1, int param2
 		
 		DisplaySlayMenu(param1);
 	}
-
-	return 0;
 }
 
 public Action Command_Slay(int client, int args)

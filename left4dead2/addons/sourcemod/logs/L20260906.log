@@ -1,0 +1,614 @@
+L 09/06/2026 - 00:21:40: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 00:21:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 01:22:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 01:27:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 01:30:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 01:35:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 02:04:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 02:46:44: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:29:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:30:00: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 03:30:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:30:18: [optional/l4d2_srs.smx] [LOAD]: "已经臭了<133><STEAM_1:0:602644924><>" loaded. Score: 114489.8, Rank: 8
+L 09/06/2026 - 03:31:01: [optional/l4d2_srs.smx] [LOAD]: "无所谓<138><STEAM_1:0:893059208><>" loaded. Score: 65432.8, Rank: 12
+L 09/06/2026 - 03:34:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:35:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:37:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:38:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:42:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:45:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:46:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:54:06: [optional/l4d2_srs.smx] [UPDATE]: "已经臭了<133><STEAM_1:0:602644924><>" saved. Score: 114802.3
+L 09/06/2026 - 03:54:06: [optional/l4d2_srs.smx] [UPDATE]: "无所谓<138><STEAM_1:0:893059208><>" saved. Score: 65755.2
+L 09/06/2026 - 03:54:07: -------- Mapchange to c2m2_fairgrounds --------
+L 09/06/2026 - 03:54:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:54:15: [optional/l4d2_srs.smx] [LOAD]: "无所谓<138><STEAM_1:0:893059208><>" loaded. Score: 65755.2, Rank: 11
+L 09/06/2026 - 03:54:18: [optional/l4d2_srs.smx] [LOAD]: "已经臭了<133><STEAM_1:0:602644924><>" loaded. Score: 114802.3, Rank: 8
+L 09/06/2026 - 03:55:55: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:56:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:58:15: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 03:59:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:02:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:02:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:05:17: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:08:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:09:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:10:58: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:12:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:15:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:17:06: [optional/l4d2_srs.smx] [INSERT]: "nunamed<521><STEAM_1:0:786099012><>" is a new user!!!
+L 09/06/2026 - 04:17:06: [optional/l4d2_srs.smx] [LOAD]: New user "nunamed<521><STEAM_1:0:786099012><>" loaded rank.
+L 09/06/2026 - 04:19:25: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:22:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:24:11: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:25:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:29:44: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:30:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:32:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:32:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:34:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:36:26: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:37:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:38:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:42:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:44:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:46:04: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:46:51: [optional/l4d2_srs.smx] [INSERT]: "little_froy<812><STEAM_1:1:445233130><>" is a new user!!!
+L 09/06/2026 - 04:46:51: [optional/l4d2_srs.smx] [LOAD]: New user "little_froy<812><STEAM_1:1:445233130><>" loaded rank.
+L 09/06/2026 - 04:47:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:48:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:49:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:50:11: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:52:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:52:05: [optional/l4d2_srs.smx] [UPDATE]: "无所谓<138><STEAM_1:0:893059208><>" saved. Score: 66715.1
+L 09/06/2026 - 04:52:27: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 04:52:31: -------- Mapchange to c2m2_fairgrounds --------
+L 09/06/2026 - 04:52:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:52:40: [optional/l4d2_srs.smx] [LOAD]: "已经臭了<133><STEAM_1:0:602644924><>" loaded. Score: 114802.3, Rank: 8
+L 09/06/2026 - 04:54:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:57:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 04:58:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:00:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:02:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:03:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:04:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:05:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:07:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:07:55: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:10:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:13:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:13:50: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:14:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:16:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:19:35: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:19:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:21:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:22:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:25:15: [optional/l4d2_srs.smx] [UPDATE]: "已经臭了<133><STEAM_1:0:602644924><>" saved. Score: 115426.2
+L 09/06/2026 - 05:25:15: -------- Mapchange to c2m3_coaster --------
+L 09/06/2026 - 05:25:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:25:43: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 05:25:43: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 05:25:45: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 05:25:49: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 05:25:51: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:37:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 05:59:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 06:27:57: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 06:54:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:09:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:12:18: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:20:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:28:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:35:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 07:42:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 08:43:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:11:27: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 09:11:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:11:50: [optional/l4d2_srs.smx] [LOAD]: "0<100><STEAM_1:0:816023133><>" loaded. Score: 15949.5, Rank: 68
+L 09/06/2026 - 09:12:03: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 09:12:07: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 09:12:09: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:12:25: [optional/l4d2_srs.smx] [LOAD]: "0<100><STEAM_1:0:816023133><>" loaded. Score: 15949.5, Rank: 68
+L 09/06/2026 - 09:13:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:15:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:16:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:16:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:16:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:19:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:21:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:18: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:19: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:19: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:20: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 pain_pills
+L 09/06/2026 - 09:24:20: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 first_aid_kit
+L 09/06/2026 - 09:24:22: [all4dead2.smx] [提示]: (0<100><STEAM_1:0:816023133><>) 创建 vomitjar
+L 09/06/2026 - 09:26:15: [optional/l4d2_srs.smx] [UPDATE]: "0<100><STEAM_1:0:816023133><>" saved. Score: 16171.2
+L 09/06/2026 - 09:26:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:26:38: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 09:26:38: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 09:26:40: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 09:26:44: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 09:26:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:53:20: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 09:53:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:53:53: [optional/l4d2_srs.smx] [LOAD]: "wm<10><STEAM_1:1:219436076><>" loaded. Score: 121.0, Rank: 4676
+L 09/06/2026 - 09:54:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 09:55:22: [optional/l4d2_srs.smx] [UPDATE]: "wm<10><STEAM_1:1:219436076><>" saved. Score: 127.4
+L 09/06/2026 - 09:55:45: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 09:55:45: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 09:55:47: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 09:55:51: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 09:55:53: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 10:38:52: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 11:08:08: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 11:15:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 11:43:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 11:58:42: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 12:05:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 12:08:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 12:55:29: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 13:14:58: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:27:55: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 14:27:57: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:28:08: [optional/l4d2_srs.smx] [LOAD]: "愤怒的普通人<123><STEAM_1:0:721470618><>" loaded. Score: 8605.2, Rank: 150
+L 09/06/2026 - 14:28:21: [optional/l4d2_srs.smx] [UPDATE]: "愤怒的普通人<123><STEAM_1:0:721470618><>" saved. Score: 8605.2
+L 09/06/2026 - 14:28:21: -------- Mapchange to c3m1_plankcountry --------
+L 09/06/2026 - 14:28:23: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:28:32: [optional/l4d2_srs.smx] [LOAD]: "愤怒的普通人<123><STEAM_1:0:721470618><>" loaded. Score: 8605.2, Rank: 150
+L 09/06/2026 - 14:29:08: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 14:29:12: -------- Mapchange to c3m1_plankcountry --------
+L 09/06/2026 - 14:29:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:29:22: [optional/l4d2_srs.smx] [LOAD]: "愤怒的普通人<123><STEAM_1:0:721470618><>" loaded. Score: 8605.2, Rank: 150
+L 09/06/2026 - 14:30:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:31:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:32:34: [optional/l4d2_srs.smx] [UPDATE]: "愤怒的普通人<123><STEAM_1:0:721470618><>" saved. Score: 8641.2
+L 09/06/2026 - 14:32:38: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:32:57: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 14:32:57: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 14:32:59: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 14:33:03: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 14:33:05: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 14:35:59: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:13:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:25:58: -------- Mapchange to c8m1_apartment --------
+L 09/06/2026 - 15:26:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:26:28: [optional/l4d2_srs.smx] [INSERT]: "3235770867<44><STEAM_1:1:712117869><>" is a new user!!!
+L 09/06/2026 - 15:26:28: [optional/l4d2_srs.smx] [LOAD]: New user "3235770867<44><STEAM_1:1:712117869><>" loaded rank.
+L 09/06/2026 - 15:26:46: [optional/l4d2_srs.smx] [LOAD]: "黎明を穿つ<56><STEAM_1:0:508681732><>" loaded. Score: 18231.6, Rank: 55
+L 09/06/2026 - 15:27:19: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:27:58: [optional/l4d2_srs.smx] [LOAD]: "0<60><STEAM_1:0:816023133><>" loaded. Score: 16171.2, Rank: 68
+L 09/06/2026 - 15:28:06: [optional/l4d2_srs.smx] [UPDATE]: "0<60><STEAM_1:0:816023133><>" saved. Score: 16171.2
+L 09/06/2026 - 15:28:51: [optional/l4d2_srs.smx] [INSERT]: "备忘录留有她<86><STEAM_1:1:479427655><>" is a new user!!!
+L 09/06/2026 - 15:28:51: [optional/l4d2_srs.smx] [LOAD]: New user "备忘录留有她<86><STEAM_1:1:479427655><>" loaded rank.
+L 09/06/2026 - 15:29:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:30:51: [optional/l4d2_srs.smx] [UPDATE]: "黎明を穿つ<56><STEAM_1:0:508681732><>" saved. Score: 18287.8
+L 09/06/2026 - 15:31:14: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 15:31:14: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 15:31:16: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 15:31:20: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 15:31:22: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 15:37:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:15:47: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 16:15:50: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:16:03: [optional/l4d2_srs.smx] [LOAD]: "阈限漫游者<24><STEAM_1:0:811498759><>" loaded. Score: 43126.6, Rank: 21
+L 09/06/2026 - 16:16:14: [optional/l4d2_srs.smx] [UPDATE]: "阈限漫游者<24><STEAM_1:0:811498759><>" saved. Score: 43126.6
+L 09/06/2026 - 16:16:15: -------- Mapchange to c3m1_plankcountry --------
+L 09/06/2026 - 16:16:17: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:16:26: [optional/l4d2_srs.smx] [LOAD]: "阈限漫游者<24><STEAM_1:0:811498759><>" loaded. Score: 43126.6, Rank: 21
+L 09/06/2026 - 16:16:43: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 16:16:46: -------- Mapchange to c3m1_plankcountry --------
+L 09/06/2026 - 16:16:48: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:16:56: [optional/l4d2_srs.smx] [LOAD]: "阈限漫游者<24><STEAM_1:0:811498759><>" loaded. Score: 43126.6, Rank: 21
+L 09/06/2026 - 16:17:51: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 42726.6
+L 09/06/2026 - 16:21:46: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 42624.6
+L 09/06/2026 - 16:21:54: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:23:19: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 42279.0
+L 09/06/2026 - 16:23:45: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 41989.0
+L 09/06/2026 - 16:24:53: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 41639.4
+L 09/06/2026 - 16:26:14: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 41289.8
+L 09/06/2026 - 16:26:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:27:22: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 40823.6
+L 09/06/2026 - 16:27:32: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 40430.3
+L 09/06/2026 - 16:29:20: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 40111.7
+L 09/06/2026 - 16:32:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:35:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 16:36:01: [optional/l4d2_srs.smx] [UPDATE]: "brain<24><STEAM_1:0:811498759><>" saved. Score: 40367.8
+L 09/06/2026 - 16:36:24: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 16:36:24: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 16:36:26: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 16:36:29: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 16:36:32: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:09:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:23:57: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:39:40: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 17:39:43: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:39:51: [optional/l4d2_srs.smx] [LOAD]: "殇阖<38><STEAM_1:1:785061528><>" loaded. Score: 237.9, Rank: 3837
+L 09/06/2026 - 17:41:35: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:42:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:43:31: [optional/l4d2_srs.smx] [UPDATE]: "殇阖<38><STEAM_1:1:785061528><>" saved. Score: 258.0
+L 09/06/2026 - 17:43:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 17:43:54: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 17:43:54: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 17:43:57: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 17:44:00: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 17:44:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 18:06:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 18:18:02: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 18:26:40: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 18:45:21: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:12:04: -------- Mapchange to c1m1_hotel --------
+L 09/06/2026 - 19:12:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:12:14: [optional/l4d2_srs.smx] [INSERT]: "1524569867<58><STEAM_1:0:378423989><>" is a new user!!!
+L 09/06/2026 - 19:12:14: [optional/l4d2_srs.smx] [LOAD]: New user "1524569867<58><STEAM_1:0:378423989><>" loaded rank.
+L 09/06/2026 - 19:13:05: [optional/l4d2_srs.smx] [INSERT]: "wws1314520<63><STEAM_1:1:954934910><>" is a new user!!!
+L 09/06/2026 - 19:13:05: [optional/l4d2_srs.smx] [LOAD]: New user "wws1314520<63><STEAM_1:1:954934910><>" loaded rank.
+L 09/06/2026 - 19:14:53: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:15:11: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1006064.1, Rank: 1
+L 09/06/2026 - 19:16:10: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1006084.6
+L 09/06/2026 - 19:16:11: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 19:16:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:16:22: [optional/l4d2_srs.smx] [LOAD]: "wws1314520<63><STEAM_1:1:954934910><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 19:16:23: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1006084.6, Rank: 1
+L 09/06/2026 - 19:16:23: [optional/l4d2_srs.smx] [LOAD]: "1524569867<58><STEAM_1:0:378423989><>" loaded. Score: 0.0, Rank: 6546
+L 09/06/2026 - 19:17:27: [optional/l4d2_srs.smx] [LOAD]: "Berii<104><STEAM_1:1:682915874><>" loaded. Score: 1945.3, Rank: 727
+L 09/06/2026 - 19:17:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:20:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:23:35: [optional/l4d2_srs.smx] [LOAD]: "JunYu SakuyaUwU<158><STEAM_1:0:640528265><>" loaded. Score: 555.0, Rank: 2375
+L 09/06/2026 - 19:23:49: [optional/l4d2_srs.smx] [UPDATE]: "JunYu SakuyaUwU<158><STEAM_1:0:640528265><>" saved. Score: 555.0
+L 09/06/2026 - 19:24:41: [optional/l4d2_srs.smx] [LOAD]: "绷带<176><STEAM_1:0:590099597><>" loaded. Score: 25141.1, Rank: 38
+L 09/06/2026 - 19:24:57: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:25:33: [optional/l4d2_srs.smx] [LOAD]: "145253453<189><STEAM_1:1:792071528><>" loaded. Score: 19294.7, Rank: 46
+L 09/06/2026 - 19:25:33: [optional/l4d2_srs.smx] [LOAD]: "Comn<188><STEAM_1:0:82591570><>" loaded. Score: 25555.0, Rank: 35
+L 09/06/2026 - 19:27:28: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:28:18: [optional/l4d2_srs.smx] [LOAD]: "龙威燎天烈<221><STEAM_1:0:511805882><>" loaded. Score: 25000.1, Rank: 39
+L 09/06/2026 - 19:28:25: [optional/l4d2_srs.smx] [LOAD]: "rance<222><STEAM_1:0:162107319><>" loaded. Score: 1389.2, Rank: 1017
+L 09/06/2026 - 19:29:23: [optional/l4d2_srs.smx] [LOAD]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" loaded. Score: 164619.8, Rank: 3
+L 09/06/2026 - 19:30:30: [optional/l4d2_srs.smx] [UPDATE]: "rance<222><STEAM_1:0:162107319><>" saved. Score: 1389.2
+L 09/06/2026 - 19:31:11: [optional/l4d2_srs.smx] [UPDATE]: "龙威燎天烈<221><STEAM_1:0:511805882><>" saved. Score: 25000.1
+L 09/06/2026 - 19:31:25: [optional/l4d2_srs.smx] [LOAD]: "狗瓜<253><STEAM_1:1:753273679><>" loaded. Score: 41929.9, Rank: 21
+L 09/06/2026 - 19:33:04: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 zombie
+L 09/06/2026 - 19:33:12: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 19:33:12: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 19:33:12: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 19:33:13: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 19:33:13: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 19:33:15: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:33:26: [optional/l4d2_srs.smx] [LOAD]: "晚春<300><STEAM_1:1:756532009><>" loaded. Score: 14637.8, Rank: 75
+L 09/06/2026 - 19:34:44: [optional/l4d2_srs.smx] [UPDATE]: "晚春<300><STEAM_1:1:756532009><>" saved. Score: 14637.8
+L 09/06/2026 - 19:36:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:44:12: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:44:19: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pistol_magnum
+L 09/06/2026 - 19:44:22: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:44:30: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:44:40: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pistol_magnum
+L 09/06/2026 - 19:44:50: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:44:54: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:45:01: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:47:20: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 defibrillator
+L 09/06/2026 - 19:47:22: [optional/l4d2_srs.smx] [UPDATE]: "Berii<104><STEAM_1:1:682915874><>" saved. Score: 2220.1
+L 09/06/2026 - 19:49:05: [optional/l4d2_srs.smx] [INSERT]: "溯忆昔<628><STEAM_1:1:781313103><>" is a new user!!!
+L 09/06/2026 - 19:49:05: [optional/l4d2_srs.smx] [LOAD]: New user "溯忆昔<628><STEAM_1:1:781313103><>" loaded rank.
+L 09/06/2026 - 19:49:38: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 machete
+L 09/06/2026 - 19:49:43: [optional/l4d2_srs.smx] [UPDATE]: "145253453<189><STEAM_1:1:792071528><>" saved. Score: 19503.5
+L 09/06/2026 - 19:49:44: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 katana
+L 09/06/2026 - 19:51:03: [optional/l4d2_srs.smx] [LOAD]: "花花<676><STEAM_1:1:625771097><>" loaded. Score: 9814.5, Rank: 126
+L 09/06/2026 - 19:52:56: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 19:53:00: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle_ak47
+L 09/06/2026 - 19:58:35: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 19:58:37: [optional/l4d2_srs.smx] [INSERT]: "sprin<822><STEAM_1:1:364551195><>" is a new user!!!
+L 09/06/2026 - 19:58:37: [optional/l4d2_srs.smx] [LOAD]: New user "sprin<822><STEAM_1:1:364551195><>" loaded rank.
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25430.5
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42238.0
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1006868.3
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 25939.8
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9906.0
+L 09/06/2026 - 20:00:45: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 164856.0
+L 09/06/2026 - 20:00:46: -------- Mapchange to c2m2_fairgrounds --------
+L 09/06/2026 - 20:00:49: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:00:54: [optional/l4d2_srs.smx] [LOAD]: "狗瓜<253><STEAM_1:1:753273679><>" loaded. Score: 42238.0, Rank: 21
+L 09/06/2026 - 20:00:55: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1006868.3, Rank: 1
+L 09/06/2026 - 20:00:55: [optional/l4d2_srs.smx] [LOAD]: "绷带<176><STEAM_1:0:590099597><>" loaded. Score: 25430.5, Rank: 37
+L 09/06/2026 - 20:00:56: [optional/l4d2_srs.smx] [LOAD]: "Comn<188><STEAM_1:0:82591570><>" loaded. Score: 25939.8, Rank: 35
+L 09/06/2026 - 20:00:57: [optional/l4d2_srs.smx] [LOAD]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" loaded. Score: 164856.0, Rank: 3
+L 09/06/2026 - 20:01:00: [optional/l4d2_srs.smx] [LOAD]: "花花<676><STEAM_1:1:625771097><>" loaded. Score: 9906.0, Rank: 125
+L 09/06/2026 - 20:01:20: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:01:33: [optional/l4d2_srs.smx] [LOAD]: "Daybreak<887><STEAM_1:0:240022115><>" loaded. Score: 14159.1, Rank: 80
+L 09/06/2026 - 20:03:22: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:22: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:23: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:23: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:23: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:24: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:24: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:24: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:24: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:25: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:25: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:25: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:26: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:26: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:03:26: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:26: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:26: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 molotov
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 molotov
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 molotov
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:27: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 molotov
+L 09/06/2026 - 20:03:28: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:28: [all4dead2.smx] [提示]: (Daybreak<887><STEAM_1:0:240022115><>) 创建 weapon_ammo_spawn (models/props/terror/ammo_stack.mdl)
+L 09/06/2026 - 20:03:52: [optional/l4d2_srs.smx] [UPDATE]: "Daybreak<887><STEAM_1:0:240022115><>" saved. Score: 14159.1
+L 09/06/2026 - 20:06:41: [optional/l4d2_srs.smx] [INSERT]: "杏花疏影<993><STEAM_1:0:601701119><>" is a new user!!!
+L 09/06/2026 - 20:06:41: [optional/l4d2_srs.smx] [LOAD]: New user "杏花疏影<993><STEAM_1:0:601701119><>" loaded rank.
+L 09/06/2026 - 20:08:38: [optional/l4d2_srs.smx] [LOAD]: "mm<1049><STEAM_1:1:776476304><>" loaded. Score: 15399.3, Rank: 70
+L 09/06/2026 - 20:09:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25596.5
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42424.3
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007135.1
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26073.3
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 10095.4
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "mm<1049><STEAM_1:1:776476304><>" saved. Score: 15399.3
+L 09/06/2026 - 20:15:04: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165117.7
+L 09/06/2026 - 20:15:05: -------- Mapchange to c2m3_coaster --------
+L 09/06/2026 - 20:15:07: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:15:12: [optional/l4d2_srs.smx] [LOAD]: "狗瓜<253><STEAM_1:1:753273679><>" loaded. Score: 42424.3, Rank: 21
+L 09/06/2026 - 20:15:13: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1007135.1, Rank: 1
+L 09/06/2026 - 20:15:13: [optional/l4d2_srs.smx] [LOAD]: "Comn<188><STEAM_1:0:82591570><>" loaded. Score: 26073.3, Rank: 35
+L 09/06/2026 - 20:15:13: [optional/l4d2_srs.smx] [LOAD]: "绷带<176><STEAM_1:0:590099597><>" loaded. Score: 25596.5, Rank: 36
+L 09/06/2026 - 20:15:14: [optional/l4d2_srs.smx] [LOAD]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" loaded. Score: 165117.7, Rank: 3
+L 09/06/2026 - 20:15:15: [optional/l4d2_srs.smx] [LOAD]: "mm<1049><STEAM_1:1:776476304><>" loaded. Score: 15399.3, Rank: 70
+L 09/06/2026 - 20:15:19: [optional/l4d2_srs.smx] [LOAD]: "花花<676><STEAM_1:1:625771097><>" loaded. Score: 10095.4, Rank: 122
+L 09/06/2026 - 20:15:36: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:15:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:15:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:15:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:15:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:15:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 smg_silenced
+L 09/06/2026 - 20:18:04: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pistol_magnum
+L 09/06/2026 - 20:21:37: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:21:39: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25668.1
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42496.6
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007259.8
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26149.8
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9807.0
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "mm<1049><STEAM_1:1:776476304><>" saved. Score: 15399.3
+L 09/06/2026 - 20:21:57: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165208.8
+L 09/06/2026 - 20:22:25: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:22:27: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:22:51: [optional/l4d2_srs.smx] [INSERT]: "可叹，落叶飘零<1382><STEAM_1:0:198183877><>" is a new user!!!
+L 09/06/2026 - 20:22:51: [optional/l4d2_srs.smx] [LOAD]: New user "可叹，落叶飘零<1382><STEAM_1:0:198183877><>" loaded rank.
+L 09/06/2026 - 20:23:07: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:07: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:07: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:08: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:08: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:08: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 tank
+L 09/06/2026 - 20:23:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:26:34: [optional/l4d2_srs.smx] [UPDATE]: "mm<1049><STEAM_1:1:776476304><>" saved. Score: 15399.3
+L 09/06/2026 - 20:26:58: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:27:00: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 pain_pills
+L 09/06/2026 - 20:29:14: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25759.1
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42574.8
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007415.6
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26280.6
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9898.6
+L 09/06/2026 - 20:29:26: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165337.2
+L 09/06/2026 - 20:30:45: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle
+L 09/06/2026 - 20:32:35: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:32:42: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25824.7
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42653.6
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007540.2
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26384.0
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9620.5
+L 09/06/2026 - 20:36:13: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165454.3
+L 09/06/2026 - 20:38:10: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:38:14: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle_m60
+L 09/06/2026 - 20:38:19: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 first_aid_kit
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25858.5
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42681.1
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007584.3
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26403.2
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9610.8
+L 09/06/2026 - 20:38:30: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165495.1
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 25960.7
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42728.6
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007675.3
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26465.9
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9266.0
+L 09/06/2026 - 20:43:08: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165592.5
+L 09/06/2026 - 20:46:04: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26011.3
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42768.3
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007735.6
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26517.7
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9279.7
+L 09/06/2026 - 20:46:12: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165621.7
+L 09/06/2026 - 20:47:05: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 sniper_military
+L 09/06/2026 - 20:51:04: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle_m60
+L 09/06/2026 - 20:52:47: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 20:52:50: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle_m60
+L 09/06/2026 - 20:52:57: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 defibrillator
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26114.7
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42829.5
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007898.2
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26309.1
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9403.4
+L 09/06/2026 - 20:52:58: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165742.6
+L 09/06/2026 - 20:53:12: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 upgrade_laser_sight (PROVIDED)
+L 09/06/2026 - 20:53:16: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 molotov
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26213.8
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42866.3
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1007960.5
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26364.2
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9063.4
+L 09/06/2026 - 20:56:43: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165808.6
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26277.5
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42900.8
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1008031.8
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26414.1
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9089.6
+L 09/06/2026 - 21:00:12: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165880.8
+L 09/06/2026 - 21:00:13: -------- Mapchange to c2m4_barns --------
+L 09/06/2026 - 21:00:16: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:00:24: [optional/l4d2_srs.smx] [LOAD]: "狗瓜<253><STEAM_1:1:753273679><>" loaded. Score: 42900.8, Rank: 21
+L 09/06/2026 - 21:00:25: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1008031.8, Rank: 1
+L 09/06/2026 - 21:00:25: [optional/l4d2_srs.smx] [LOAD]: "Comn<188><STEAM_1:0:82591570><>" loaded. Score: 26414.1, Rank: 35
+L 09/06/2026 - 21:00:25: [optional/l4d2_srs.smx] [LOAD]: "绷带<176><STEAM_1:0:590099597><>" loaded. Score: 26277.5, Rank: 36
+L 09/06/2026 - 21:00:25: [optional/l4d2_srs.smx] [LOAD]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" loaded. Score: 165880.8, Rank: 3
+L 09/06/2026 - 21:00:30: [optional/l4d2_srs.smx] [LOAD]: "花花<676><STEAM_1:1:625771097><>" loaded. Score: 9089.6, Rank: 138
+L 09/06/2026 - 21:00:38: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 rifle_m60
+L 09/06/2026 - 21:00:52: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 defibrillator
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26277.5
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42901.4
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1008031.8
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26414.1
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 8889.6
+L 09/06/2026 - 21:01:01: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165885.6
+L 09/06/2026 - 21:01:22: [all4dead2.smx] [提示]: (绷带<176><STEAM_1:0:590099597><>) 创建 upgrade_laser_sight (PROVIDED)
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26377.6
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42977.6
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1008114.3
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26468.8
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9001.6
+L 09/06/2026 - 21:06:24: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165973.5
+L 09/06/2026 - 21:06:25: -------- Mapchange to c2m5_concert --------
+L 09/06/2026 - 21:06:27: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:06:33: [optional/l4d2_srs.smx] [LOAD]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" loaded. Score: 1008114.3, Rank: 1
+L 09/06/2026 - 21:06:33: [optional/l4d2_srs.smx] [LOAD]: "狗瓜<253><STEAM_1:1:753273679><>" loaded. Score: 42977.6, Rank: 21
+L 09/06/2026 - 21:06:33: [optional/l4d2_srs.smx] [LOAD]: "Comn<188><STEAM_1:0:82591570><>" loaded. Score: 26468.8, Rank: 35
+L 09/06/2026 - 21:06:33: [optional/l4d2_srs.smx] [LOAD]: "绷带<176><STEAM_1:0:590099597><>" loaded. Score: 26377.6, Rank: 36
+L 09/06/2026 - 21:06:34: [optional/l4d2_srs.smx] [LOAD]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" loaded. Score: 165973.5, Rank: 3
+L 09/06/2026 - 21:06:35: [optional/l4d2_srs.smx] [UPDATE]: "狗瓜<253><STEAM_1:1:753273679><>" saved. Score: 42977.6
+L 09/06/2026 - 21:06:38: [optional/l4d2_srs.smx] [LOAD]: "花花<676><STEAM_1:1:625771097><>" loaded. Score: 9001.6, Rank: 138
+L 09/06/2026 - 21:06:57: [optional/l4d2_srs.smx] [UPDATE]: "绷带<176><STEAM_1:0:590099597><>" saved. Score: 26377.6
+L 09/06/2026 - 21:06:58: [optional/l4d2_srs.smx] [UPDATE]: "Comn<188><STEAM_1:0:82591570><>" saved. Score: 26468.8
+L 09/06/2026 - 21:07:01: [optional/l4d2_srs.smx] [UPDATE]: "考研数学张宇老师<80><STEAM_1:1:609097851><>" saved. Score: 1008114.3
+L 09/06/2026 - 21:07:02: [optional/l4d2_srs.smx] [UPDATE]: "常记溪亭日暮<224><STEAM_1:0:752509753><>" saved. Score: 165973.5
+L 09/06/2026 - 21:07:03: [optional/l4d2_srs.smx] [UPDATE]: "花花<676><STEAM_1:1:625771097><>" saved. Score: 9001.6
+L 09/06/2026 - 21:07:26: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:07:26: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:07:28: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:07:32: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:07:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:08:35: -------- Mapchange to l4d2_darkblood01_tanker --------
+L 09/06/2026 - 21:08:36: [l4d2lib.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:08:36: [AnneHappy.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:08:36: [optional/l4d2_saferoom_detect.smx] [SI] SaferoomInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:08:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [INSERT]: "叼毛<10><STEAM_1:1:777366442><>" is a new user!!!
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [INSERT]: "batman<11><STEAM_1:0:459747830><>" is a new user!!!
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [INSERT]: "超级赛亚人<12><STEAM_1:1:497137846><>" is a new user!!!
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [LOAD]: New user "叼毛<10><STEAM_1:1:777366442><>" loaded rank.
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [LOAD]: New user "batman<11><STEAM_1:0:459747830><>" loaded rank.
+L 09/06/2026 - 21:08:57: [optional/l4d2_srs.smx] [LOAD]: New user "超级赛亚人<12><STEAM_1:1:497137846><>" loaded rank.
+L 09/06/2026 - 21:10:05: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:10:05: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:10:07: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:10:11: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:10:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:10:34: -------- Mapchange to l4d2_darkblood01_tanker --------
+L 09/06/2026 - 21:10:34: [l4d2lib.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:10:34: [AnneHappy.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:10:34: [optional/l4d2_saferoom_detect.smx] [SI] SaferoomInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:10:35: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:10:49: [optional/l4d2_srs.smx] [LOAD]: "超级赛亚人<11><STEAM_1:1:497137846><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 21:10:50: [optional/l4d2_srs.smx] [LOAD]: "batman<12><STEAM_1:0:459747830><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 21:12:01: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:12:25: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:12:25: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:12:27: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:12:31: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:12:33: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:16:11: -------- Mapchange to l4d2_darkblood01_tanker --------
+L 09/06/2026 - 21:16:11: [l4d2lib.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:16:11: [AnneHappy.smx] [MI] MapInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:16:11: [optional/l4d2_saferoom_detect.smx] [SI] SaferoomInfo for l4d2_darkblood01_tanker is missing.
+L 09/06/2026 - 21:16:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:16:29: [optional/l4d2_srs.smx] [LOAD]: "叼毛<10><STEAM_1:1:777366442><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 21:16:29: [optional/l4d2_srs.smx] [LOAD]: "batman<11><STEAM_1:0:459747830><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 21:16:30: [optional/l4d2_srs.smx] [LOAD]: "超级赛亚人<12><STEAM_1:1:497137846><>" loaded. Score: 0.0, Rank: 6545
+L 09/06/2026 - 21:17:24: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:19:05: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:19:05: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:19:07: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:19:11: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:19:13: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:28:34: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:28:36: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:29:26: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:29:26: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:29:29: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:29:32: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:29:34: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:44:58: -------- Mapchange to hcw1_aircrash --------
+L 09/06/2026 - 21:44:59: [l4d2lib.smx] [MI] MapInfo for hcw1_aircrash is missing.
+L 09/06/2026 - 21:44:59: [AnneHappy.smx] [MI] MapInfo for hcw1_aircrash is missing.
+L 09/06/2026 - 21:44:59: [optional/l4d2_saferoom_detect.smx] [SI] SaferoomInfo for hcw1_aircrash is missing.
+L 09/06/2026 - 21:45:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:46:33: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:46:33: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:46:35: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:46:38: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:46:41: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:50:04: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:50:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:50:28: [optional/l4d2_srs.smx] [LOAD]: "RED<10><STEAM_1:0:839831507><>" loaded. Score: 1373.8, Rank: 1027
+L 09/06/2026 - 21:50:39: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:50:42: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:50:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:50:53: [optional/l4d2_srs.smx] [LOAD]: "RED<10><STEAM_1:0:839831507><>" loaded. Score: 1373.8, Rank: 1027
+L 09/06/2026 - 21:51:18: [optional/l4d2_srs.smx] [UPDATE]: "RED<10><STEAM_1:0:839831507><>" saved. Score: 1377.2
+L 09/06/2026 - 21:51:23: [optional/l4d2_srs.smx] [LOAD]: "Min<23><STEAM_1:1:529914581><>" loaded. Score: 9406.0, Rank: 129
+L 09/06/2026 - 21:51:46: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:53:25: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 21:55:32: [optional/l4d2_srs.smx] [UPDATE]: "Min<23><STEAM_1:1:529914581><>" saved. Score: 9454.2
+L 09/06/2026 - 21:55:55: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 21:55:55: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:55:57: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 21:56:01: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 21:56:03: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 22:29:34: -------- Mapchange to c9m1_alleys --------
+L 09/06/2026 - 22:29:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 22:30:12: [optional/l4d2_srs.smx] [INSERT]: "幼稚园园长<10><STEAM_1:0:466496334><>" is a new user!!!
+L 09/06/2026 - 22:30:12: [optional/l4d2_srs.smx] [LOAD]: New user "幼稚园园长<10><STEAM_1:0:466496334><>" loaded rank.
+L 09/06/2026 - 22:30:25: [optional/l4d2_srs.smx] [INSERT]: "mitu<15><STEAM_1:0:803259693><>" is a new user!!!
+L 09/06/2026 - 22:30:25: [optional/l4d2_srs.smx] [LOAD]: New user "mitu<15><STEAM_1:0:803259693><>" loaded rank.
+L 09/06/2026 - 22:31:45: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 22:32:29: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 22:32:29: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 22:32:31: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 22:32:35: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 22:32:37: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 22:48:15: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 22:56:26: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:01:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:16:29: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 23:16:31: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:16:45: [optional/l4d2_srs.smx] [LOAD]: "阔i<34><STEAM_1:1:176885554><>" loaded. Score: 112.6, Rank: 4743
+L 09/06/2026 - 23:17:00: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 23:17:03: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 23:17:06: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:17:18: [optional/l4d2_srs.smx] [LOAD]: "阔i<34><STEAM_1:1:176885554><>" loaded. Score: 112.6, Rank: 4743
+L 09/06/2026 - 23:19:35: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:21:56: [optional/l4d2_srs.smx] [UPDATE]: "阔i<34><STEAM_1:1:176885554><>" saved. Score: 166.3
+L 09/06/2026 - 23:22:00: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:22:19: SourceMod log file session started (file "/home/ubuntu/Steam/steamapps/common/Left 4 Dead 2 Dedicated Server/left4dead2/addons/sourcemod/logs/L20260906.log") (Version "1.13.0.7293")
+L 09/06/2026 - 23:22:19: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 23:22:21: [fixes/firebulletsfix.smx] Found offset for Weapon_ShootPosition 286
+L 09/06/2026 - 23:22:25: -------- Mapchange to c2m1_highway --------
+L 09/06/2026 - 23:22:27: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/06/2026 - 23:28:20: [optional/l4d2_saferoom_item_remove.smx] Removed 0 saferoom item(s) (start: 0; end: 0).
+L 09/07/2026 - 01:41:36: Log file closed.

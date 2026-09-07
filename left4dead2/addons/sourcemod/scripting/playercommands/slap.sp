@@ -112,8 +112,6 @@ public int MenuHandler_SlapDamage(Menu menu, MenuAction action, int param1, int 
 		
 		DisplaySlapTargetMenu(param1);
 	}
-
-	return 0;
 }
 
 public int MenuHandler_Slap(Menu menu, MenuAction action, int param1, int param2)
@@ -159,8 +157,6 @@ public int MenuHandler_Slap(Menu menu, MenuAction action, int param1, int param2
 		
 		DisplaySlapTargetMenu(param1);
 	}
-
-	return 0;
 }
 
 public Action Command_Slap(int client, int args)

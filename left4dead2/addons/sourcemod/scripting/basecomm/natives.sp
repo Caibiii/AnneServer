@@ -44,7 +44,7 @@
 		return ThrowNativeError(SP_ERROR_NATIVE, "Client %d is not in game", client);
 	}
 	
-	return playerstate[client].isGagged;
+	return g_Gagged[client];
 }
 
 public int Native_IsClientMuted(Handle hPlugin, int numParams)
@@ -60,7 +60,7 @@ public int Native_IsClientMuted(Handle hPlugin, int numParams)
 		return ThrowNativeError(SP_ERROR_NATIVE, "Client %d is not in game", client);
 	}
 	
-	return playerstate[client].isMuted;
+	return g_Muted[client];
 }
 
 public int Native_SetClientGag(Handle hPlugin, int numParams)
@@ -80,7 +80,7 @@ public int Native_SetClientGag(Handle hPlugin, int numParams)
 	
 	if (gagState)
 	{
-		if (playerstate[client].isGagged)
+		if (g_Gagged[client])
 		{
 			return false;
 		}
@@ -89,7 +89,7 @@ public int Native_SetClientGag(Handle hPlugin, int numParams)
 	}
 	else
 	{
-		if (!playerstate[client].isGagged)
+		if (!g_Gagged[client])
 		{
 			return false;
 		}
@@ -117,7 +117,7 @@ public int Native_SetClientMute(Handle hPlugin, int numParams)
 	
 	if (muteState)
 	{
-		if (playerstate[client].isMuted)
+		if (g_Muted[client])
 		{
 			return false;
 		}
@@ -126,7 +126,7 @@ public int Native_SetClientMute(Handle hPlugin, int numParams)
 	}
 	else
 	{
-		if (!playerstate[client].isMuted)
+		if (!g_Muted[client])
 		{
 			return false;
 		}

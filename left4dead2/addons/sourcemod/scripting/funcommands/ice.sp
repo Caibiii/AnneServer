@@ -431,8 +431,6 @@ public int MenuHandler_Freeze(Menu menu, MenuAction action, int param1, int para
 			DisplayFreezeMenu(param1);
 		}
 	}
-
-	return 0;
 }
 
 public int MenuHandler_FreezeBomb(Menu menu, MenuAction action, int param1, int param2)
@@ -479,8 +477,6 @@ public int MenuHandler_FreezeBomb(Menu menu, MenuAction action, int param1, int 
 			DisplayFreezeBombMenu(param1);
 		}
 	}
-
-	return 0;
 }
 
 public Action Command_Freeze(int client, int args)
@@ -496,10 +492,15 @@ public Action Command_Freeze(int client, int args)
 	
 	int seconds = g_Cvar_FreezeDuration.IntValue;
 	
-	if (args > 1 && !GetCmdArgIntEx(2, seconds))
+	if (args > 1)
 	{
-		ReplyToCommand(client, "[SM] %t", "Invalid Amount");
-		return Plugin_Handled;
+		char time[20];
+		GetCmdArg(2, time, sizeof(time));
+		if (StringToIntEx(time, seconds) == 0)
+		{
+			ReplyToCommand(client, "[SM] %t", "Invalid Amount");
+			return Plugin_Handled;
+		}
 	}	
 
 	char target_name[MAX_TARGET_LENGTH];

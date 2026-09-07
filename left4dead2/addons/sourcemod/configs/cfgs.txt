@@ -14,6 +14,10 @@
 		{
 			"message" "服务器端重启"
 		}
+		"exec vote/NoSteamLogin.cfg"
+		{
+			"message" "NoSteamLogin"
+		}
 	}
 	"特感数量"
 	{
@@ -133,6 +137,45 @@
 			"message" "16秒"
 		}
 	}
+	"生还人数设置"
+	{
+		"exec vote/renshu/1ren.cfg"
+		{
+			"message" "1个生还"
+		}
+		"exec vote/renshu/2ren.cfg"
+		{
+			"message" "2个生还"
+		}
+		"exec vote/renshu/3ren.cfg"
+		{
+			"message" "3个生还"
+		}
+		"exec vote/renshu/4ren.cfg"
+		{
+			"message" "4个生还"
+		}
+		"exec vote/renshu/5ren.cfg"
+		{
+			"message" "5个生还"
+		}
+		"exec vote/renshu/6ren.cfg"
+		{
+			"message" "6个生还"
+		}
+	}
+	"倒计时HUD"
+	{
+		"sm_cvar Hud_Text 1"
+		{
+			"message" "开启倒计时HUD"
+		}
+		"sm_cvar Hud_Text 0"
+		{
+			"message" "关闭倒计时HUD"
+		}
+	}
+	
 	"模式选择"
 	{
 		"sm_fm AnneHappy"
@@ -179,25 +222,6 @@
 		"sm_cvar ReturnBlood 0"
 		{
 			"message" "关闭杀特回血"
-		}
-	}
-	"生还人数设置"
-	{
-		"exec vote/renshu/1ren.cfg"
-		{
-			"message" "1个生还"
-		}
-		"exec vote/renshu/2ren.cfg"
-		{
-			"message" "2个生还"
-		}
-		"exec vote/renshu/3ren.cfg"
-		{
-			"message" "3个生还"
-		}
-		"exec vote/renshu/4ren.cfg"
-		{
-			"message" "4个生还"
 		}
 	}
 	
