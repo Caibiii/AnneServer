@@ -231,10 +231,8 @@ public Action CommandRestartServer(int client, int args)
 
 void RestartEngine()
 {
-	int flags = GetCommandFlags("crash");
-	SetCommandFlags("crash", flags & ~FCVAR_CHEAT);
-	ServerCommand("crash");
-	SetCommandFlags("crash", flags);
+	SetCommandFlags("crash", GetCommandFlags("crash")&~FCVAR_CHEAT);
+    ServerCommand("crash");
 }
 
 public Action CommandGiveClientAmmo(int client, int args)
