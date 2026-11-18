@@ -139,27 +139,27 @@
 	}
 	"生还人数设置"
 	{
-		"exec vote/renshu/1ren.cfg"
+		"sm_cvar sm_survivor_limit 1"
 		{
 			"message" "1个生还"
 		}
-		"exec vote/renshu/2ren.cfg"
+		"sm_cvar sm_survivor_limit 2"
 		{
 			"message" "2个生还"
 		}
-		"exec vote/renshu/3ren.cfg"
+		"sm_cvar sm_survivor_limit 3"
 		{
 			"message" "3个生还"
 		}
-		"exec vote/renshu/4ren.cfg"
+		"sm_cvar sm_survivor_limit 4"
 		{
 			"message" "4个生还"
 		}
-		"exec vote/renshu/5ren.cfg"
+		"sm_cvar sm_survivor_limit 5"
 		{
 			"message" "5个生还"
 		}
-		"exec vote/renshu/6ren.cfg"
+		"sm_cvar sm_survivor_limit 6"
 		{
 			"message" "6个生还"
 		}

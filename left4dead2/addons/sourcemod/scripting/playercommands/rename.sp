@@ -1,82 +1,4 @@
-/**public void HasAnyCountFull()
-{
-	int class1=0，class2=0,class3=0,class4=0,class5=0,class6=0;
-    for (int i = 1; i <= MaxClients; i++)
-    {
-        if (IsBotInfected(i) && IsPlayerAlive(i))
-        {
-			int type = GetEntProp(i, Prop_Send, "m_zombieClass");
-			switch (type)
-			{
-				case 1:
-				{
-					class1++;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class1]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[0] = 0;
-					}
-				}
-				case 2:
-				{
-					class2++;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class2]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[1] = 0;
-					}
-				}
-				case 3:
-				{
-					class3++;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class3]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[2] = 0;
-					}
-				}
-				case 4:
-				{
-					class4++;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class4]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[3] = 0;
-					}
-				}
-				case 5:
-				{
-					class5++;;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class5]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[4] = 0;
-					}
-				}
-				case 6:
-				{
-					class6++;
-					char cvar[16];
-					Format(cvar, 16, "z_%s_limit", infected_name[class6]);
-					if(count >= FindConVar(cvar).IntValue)
-					{
-						ArraySpecial[5] = 0;
-					}
-				}
-			}
-        }
-    }
-}
-
-
-
-
-
+/**
  * vim: set ts=4 :
  * =============================================================================
  * SourceMod Rename Plugin
@@ -191,6 +113,8 @@ public int MenuHandler_Rename(Menu menu, MenuAction action, int param1, int para
 		}		
 		DisplayRenameTargetMenu(param1);
 	}
+
+	return 0;
 }
 
 void RandomizeName(int client)

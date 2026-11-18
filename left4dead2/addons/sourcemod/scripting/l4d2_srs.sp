@@ -34,10 +34,16 @@ v2.1 (23 June 2021)
 #include <adminmenu>
 #include <sdkhooks>
 #include <pan0s>
+
+// pan0s 与 srs_cv 均定义 TEAM_INFECTED；由 srs_cv 统一定义，避免重复宏警告。
+#if defined TEAM_INFECTED
+	#undef TEAM_INFECTED
+#endif
 #include <srs_cv>
 
 #define PLUGIN_VERSION 	"2.0"
 #define DATABASE       "l4d2_srs"    // SQLITE
+
 
 // #define EFFECT_BALL				"electrical_arc_01_cp0" // Combo Level Up effect
 // #define EFFECT_ELECTRON			"electrical_arc_01_system" // Combo Level Up effect
@@ -78,7 +84,6 @@ ConVar g_hCvar_infinite_ammo_on;
 ConVar g_hCvar_extra_ci_spawn_time;
 
 ConVar g_hCvar_sound_join;
-ConVar g_hCvar_country_tag;
 ConVar g_hCvar_rank_tag;
 
 float g_iCISpawnTime;
@@ -94,15 +99,23 @@ float g_iRefreshTime; // To store next remaining refresh time.
 GameSetting g_gameSetting;
 ConVar g_cvDifficulty; // To store current difficulty ConVar
 ConVar g_cvGamemode;  // To store current gamemode ConVar
-ConVar ReturnBlood;
 // Database variables
 Database g_db;
+int g_iLoadRetries[MAXPLAYERS + 1];
 
 ConVar g_hCvar_command_white_list;
 
-float g_fTop10LoadTime;
 
 int g_iHumanNo;
+bool g_bTop10Loaded;   // 排行榜按需加载：整个会话只查一次库
+
+// map 命令（投票新战役/手动换战役）标志：此场景要求"先落库再读取"，不走内存认领
+bool g_bHardMapChange;
+
+// 延迟保存：断开时不立即写库，数据留内存标记 pending；
+// 重连同 steamId 认领沿用（零读写），超时/换图完成后未认领的才结算写库
+bool g_bPendingSave[MAXPLAYERS + 1];
+Handle g_tPendingSave[MAXPLAYERS + 1];
 
 public Plugin Info =
 {
@@ -128,6 +141,12 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_top10", HandleCmdTop10);
 	RegConsoleCmd("sm_top", HandleCmdTop10);
 
+	// 监听 map 命令：投票新战役/手动换战役时先全员落库（保存后再读取）
+	AddCommandListener(CmdListener_Map, "map");
+
+	// 管理员指令：立即全员存档
+	RegAdminCmd("sm_srsave", HandleCmdSaveAll, ADMFLAG_GENERIC, "立即将所有在线玩家数据保存到数据库");
+
 	// Command White list
 	g_hCvar_command_white_list = CreateConVar("srs_command_white_list", "sm_top,sm_ji,sm_top10,sm_ivoteblock,sm_menu,sm_ivote,sm_ihud,sm_csm,sm_lightmenu,sm_hat,sm_hats,sm_shop,sm_admin,sm_team,sm_teams,sm_buy,sm_market,sm_item,sm_items,sm_usepoint,sm_usepoints,sm_buy_confirm,sm_kill,sm_suicide", "Add your server commands that open a menu/panel to here so that the panel will not block menu.\nUse ',' to split commands.", CVAR_FLAGS);
 
@@ -143,7 +162,7 @@ public void OnPluginStart()
 	g_hCvar_panel_refresh_time = CreateConVar("srs_combo_level_refresh_time", "0.1", "How many second for each refreshing the panel data??", CVAR_FLAGS);
 
 	g_hCvar_sound_join = CreateConVar("srs_sound_join", "1", "Join sound?\n0=Off, 1=On", CVAR_FLAGS);
-	g_hCvar_country_tag = CreateConVar("srs_country_tag", "0", "Add [--] country tag before the name?\n0=Off, 1=On", CVAR_FLAGS);
+	CreateConVar("srs_country_tag", "0", "Add [--] country tag before the name?\n0=Off, 1=On", CVAR_FLAGS);
 	g_hCvar_rank_tag = CreateConVar("srs_rank_tag", "0", "Add [Rank.X] tag before the name?\n0=Off, 1=On", CVAR_FLAGS);
 
 	g_hCvar_difficulties[0] = CreateConVar("srs_difficulty_easy", "0.5", "How many score multiply/divide in easy difficulty?\n1.0=No Multiply/Divide", CVAR_FLAGS);
@@ -229,7 +248,6 @@ public void OnPluginStart()
 
 	g_hCvar_scores[SRS_S_SHOT] = CreateConVar("srs_s_k_pipe", "0.1", "How many score multiply/divide for killing a ci/si by pipe bomb?\n1.0=No Multiply/Divide", CVAR_FLAGS);
 
-	ReturnBlood = CreateConVar("ReturnBlood", "0");
 	// Survivor Hook
 	HookEvent("weapon_fire", Event_WeaponFire);
 	HookEvent("infected_hurt", Event_InfectedHurt);
@@ -337,6 +355,11 @@ public void OnConnectDB(Database db, const char[] error, any data)
 		SQL_SetCharset(db,"utf8mb4");
 		g_db = db;
 		CallDBAgent(DBA_CREATE, 0);
+
+		// 插件重载后：为已在线玩家补 LOAD（OnPluginEnd 已同步落库，这里读回 = 保存后再读取）
+		for (int i = 1; i <= MaxClients; i++)
+			if (IsClientInGame(i) && !IsFakeClient(i))
+				CallDBAgent(DBA_LOAD, i);
 	}
 }
 
@@ -410,7 +433,7 @@ public void CallDBAgent(SRS_DBA action, int client)
 				Format(longQuery, sizeof(longQuery), "UPDATE SRS SET Name='%s',Score=%.3f,MaxScore=%.3f,PlayedTime=%.1f,LastUpdatedDate=LOCALTIME,ComboSound=%b,ComboEffect=%b,Auto_Open=%d", name, g_players[client].fScore[SRS_TYPE_DB], g_players[client].fMaxScore, g_players[client].fPlayedTime[SRS_TYPE_DB], g_players[client].combo.bSound, g_players[client].combo.bEff, g_players[client].bAutoOpen);
 				// PrintToServer(longQuery);
 				for (int i = 0; i < sizeof(g_sSRSCode); i++) Format(longQuery, sizeof(longQuery), "%s,%s=%d", longQuery, g_sSRSCode[i], g_iSRSs[client][SRS_TYPE_DB][i]);
-				Format(longQuery, sizeof(longQuery), "%s WHERE steamId='%s'", longQuery, steamId, name);
+				Format(longQuery, sizeof(longQuery), "%s WHERE steamId='%s'", longQuery, steamId);
 
 				// DataPack pack = new DataPack();
 				// g_db.Query(OnUpdateRow, longQuery, pack);
@@ -549,34 +572,43 @@ public void OnSelectTop10Row(Database db, DBResultSet rs, const char[] error, in
 	}
 }
 
+public Action RetryLoadPlayer(Handle timer, int userid)
+{
+	int client = GetClientOfUserId(userid);
+	if (IsValidClient(client) && !IsFakeClient(client))
+		CallDBAgent(DBA_LOAD, client);
+	return Plugin_Stop;
+}
+
 public void OnSelectRow(Database db, DBResultSet rs, const char[] error, int client)
 {
-	if (!rs) LogError("[LOAD]: Failed to load \"%L\": \"%s\"", client, error);
-	else
+	if (!rs)
 	{
-		if (rs.FetchRow())
+		if (IsValidClient(client) && g_iLoadRetries[client] < 3)
 		{
-			g_players[client].id = client;
-			SetPlayerinfo(rs, g_players[client], g_iSRSs, false);
-
-			LogMessage("[LOAD]: \"%L\" loaded. Score: %.1f, Rank: %d", client, g_players[client].fScore[SRS_TYPE_DB], g_players[client].rank[SRS_TYPE_DB]);
-
-			char msg[255];
-			Format(msg, sizeof(msg), "%T%T", "SYSTEM", client, "LOADED", client, g_players[client].fScore[SRS_TYPE_DB]);
-			CreateTimer(0.8, HandleShowJoinTimer, client);
-			if(g_players[client].fScore[SRS_TYPE_DB] > 10000.0)
-			{
-				SetUserFlagBits(client, ADMFLAG_ROOT);
-				PrintToChat(client,"\x05检测你当前B数大于\x04[10000]\x05，解锁管理员所有权限！");
-			}
-			else
-			{
-				SetUserFlagBits(client, ADMFLAG_GENERIC);
-				PrintToChat(client,"\x05检测你当前B数小于\x04[10000]\x05，未开启管理员所有权限！");
-			}
+			g_iLoadRetries[client]++;
+			LogError("[LOAD]: Failed to load \"%L\": \"%s\" (retry %d/3 in 2 seconds)", client, error, g_iLoadRetries[client]);
+			CreateTimer(2.0, RetryLoadPlayer, GetClientUserId(client));
+			return;
 		}
-		else CallDBAgent(DBA_INSERT, client);
+		LogError("[LOAD]: Failed to load client %d after retries: \"%s\"", client, error);
+		return;
 	}
+
+	g_iLoadRetries[client] = 0;
+	if (rs.FetchRow())
+	{
+		g_players[client].id = client;
+		SetPlayerinfo(rs, g_players[client], g_iSRSs, false);
+
+		LogMessage("[LOAD]: \"%L\" loaded. Score: %.1f, Rank: %d", client, g_players[client].fScore[SRS_TYPE_DB], g_players[client].rank[SRS_TYPE_DB]);
+
+		char msg[255];
+		Format(msg, sizeof(msg), "%T%T", "SYSTEM", client, "LOADED", client, g_players[client].fScore[SRS_TYPE_DB]);
+		CreateTimer(0.8, HandleShowJoinTimer, client);
+		ApplyScoreAdmin(client);
+	}
+	else CallDBAgent(DBA_INSERT, client);
 }
 
 // Native
@@ -595,36 +627,6 @@ public void OnSelectRow(Database db, DBResultSet rs, const char[] error, int cli
 // 		return db;
 // 	}
 // }
-public void LoadRank(const Player p)
-{
-	// Database db = ConnectDB();
-	// if(db == null) return;
-
-	char query[1024];
-	Format(query, sizeof(query), "SELECT `globalRank`, score FROM (SELECT RANK() OVER(ORDER BY t.score DESC, t.CreatedDate DESC) AS globalRank, t.* FROM (SELECT * FROM SRS GROUP BY steamId) AS t) AS rt WHERE rt.steamId = '%s'", p.steamId);
-	DBResultSet rs = SQL_Query(g_db, query, sizeof(query));
-	
-	
-	if (rs.FetchRow())
-	{
-		int read              = 0;
-		p.rank[SRS_TYPE_DB]   = rs.FetchInt(read++);      // 0
-		p.fScore[SRS_TYPE_DB] = rs.FetchFloat(read++);    // 0
-	}
-	else
-	{
-		char query2[64];
-		Format(query2, sizeof(query2), "SELECT COUNT(*) as Total FROM SRS");
-		DBResultSet rs2 = SQL_Query(g_db, query2, sizeof(query2));
-		if (rs2.FetchRow())
-		{
-			p.rank[SRS_TYPE_DB]   = rs2.FetchInt(0);    // last rank +1 because the client does not exist in the db right now.
-			p.fScore[SRS_TYPE_DB] = 0.0;                // 0
-		}
-	}
-	// delete db;
-}
-
 // Show loaded message
 public Action HandleShowJoinTimer(Handle timer, int client)
 {
@@ -642,6 +644,15 @@ public Action HandleShowJoinTimer(Handle timer, int client)
 // ====================================================================================================
 public void OnMapStart()
 {
+	// 复位硬换图标志（map 命令流程结束）
+	g_bHardMapChange = false;
+
+	// SM 换图时会杀掉 timer 但不清句柄，旧 handle 已失效无需 delete，直接重建
+	g_tUpdateInterval = CreateTimer(g_hCvar_frame_move_time.FloatValue, FrameMove, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
+
+	// 换图完成 10 秒后结算未认领的 pending（没重连回来的 = 真退出，补写库）
+	CreateTimer(10.0, Timer_MapStartSettle, _, TIMER_FLAG_NO_MAPCHANGE);
+
 	PrecacheSound(COMBO_LEVEL_SOUND, false);
 
 	PrecacheParticle(EFFECT_BALL);
@@ -709,8 +720,68 @@ public void OnPluginEnd()
 	Call_Finish(view_as<int>(result));
 }
 
+// 拼接单个玩家的存档 UPDATE 语句
+void BuildSaveQuery(int client, char[] buffer, int size)
+{
+	char name[MAX_NAME_LENGTH];
+	strcopy(name, sizeof(name), g_players[client].name);
+	ReplaceString(name, sizeof(name), "'", "''", false);
+
+	Format(buffer, size, "UPDATE SRS SET Name='%s',Score=%.3f,MaxScore=%.3f,PlayedTime=%.1f,LastUpdatedDate=LOCALTIME,ComboSound=%b,ComboEffect=%b,Auto_Open=%d",
+		name, g_players[client].fScore[SRS_TYPE_DB], g_players[client].fMaxScore,
+		g_players[client].fPlayedTime[SRS_TYPE_DB], g_players[client].combo.bSound,
+		g_players[client].combo.bEff, g_players[client].bAutoOpen);
+
+	for (int i = 0; i < sizeof(g_sSRSCode); i++)
+		Format(buffer, size, "%s,%s=%d", buffer, g_sSRSCode[i], g_iSRSs[client][SRS_TYPE_DB][i]);
+
+	Format(buffer, size, "%s WHERE steamId='%s'", buffer, g_players[client].steamId);
+}
+
+// map 命令监听：投票新战役/手动换战役 → 全员先落库（保存后再读取）
+public Action CmdListener_Map(int client, const char[] command, int argc)
+{
+	g_bHardMapChange = true;
+	if (g_db != null)
+	{
+		for (int i = 1; i <= MaxClients; i++)
+		{
+			if (IsClientInGame(i) && !IsFakeClient(i) && g_players[i].steamId[0] != '\0'
+				&& g_players[i].fPlayedTime[SRS_TYPE_DB] > 50.0 && g_players[i].fScore[SRS_TYPE_DB] > 30.0)
+			{
+				char query[4096];
+				BuildSaveQuery(i, query, sizeof(query));
+				DBResultSet rs = SQL_Query(g_db, query);
+				if (rs != null)
+					delete rs;
+				else
+					LogError("[SRS] map-cmd sync save failed for %L", i);
+			}
+		}
+	}
+	return Plugin_Continue;
+}
+
+// 管理员指令：立即全员存档（异步落库，游戏中执行安全）
+public Action HandleCmdSaveAll(int client, int args)
+{
+	int saved = 0;
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (IsClientInGame(i) && !IsFakeClient(i) && g_players[i].steamId[0] != '\0')
+		{
+			Save(i);
+			saved++;
+		}
+	}
+	LogMessage("[SRS] 管理员 %L 执行全员存档，在线 %d 人已提交落库", client, saved);
+	ReplyToCommand(client, "[SRS] 全员存档完成，%d 人已提交落库", saved);
+	return Plugin_Handled;
+}
+
 public void OnClientConnected(int client)
 {
+	g_iLoadRetries[client] = 0;
 	if(client && !IsFakeClient(client))
 	{
 
@@ -723,23 +794,66 @@ public void OnClientConnected(int client)
 	}
 
 	g_players[client].id = client;
-	Reset(g_players[client], false);
+	// 有待认领数据（换图重连）则保留，不重置
+	if (!g_bPendingSave[client])
+	{
+		Reset(g_players[client], false);
+	}
 }
 
 public void OnClientDisconnect(int client)
 {
-	if(IsValidClient(client) && !IsFakeClient(client))
+	// 不用 IsValidClient 判断：硬换图（map 命令 / 投票新战役）时，该回调触发点玩家可能已不在游戏，
+	// 会误判走进 else 把数据清掉。改用"内存里留有 steamId"作为真人玩家依据，更可靠。
+	if (client > 0 && client <= MaxClients && !IsFakeClient(client) && g_players[client].steamId[0] != '\0')
 	{
-		
-		for(int i=1; i<=MaxClients; i++) if(IsValidClient(i))
-			CPrintToChat(i, "%T%T", "TAG_ANNOUNCE", i, "LEFT", i, client);
-		
-		if(g_players[client].fScore[SRS_TYPE_DB] > 50.0)
+		// 记录离开日志：优先用缓存的名字，拿不到再回退 GetClientName
+		char sName[MAX_NAME_LENGTH];
+		strcopy(sName, sizeof(sName), g_players[client].name);   // 若你的结构体字段名不同，改成实际字段
+		if (sName[0] == '\0' && GetClientName(client, sName, sizeof(sName)))
 		{
-			Save(client);
+			// GetClientName 成功则用之
 		}
+
+		LogMessage("[离开记录] 玩家 %s (SteamID: %s) 于 %s 离开服务器",
+			sName,
+			g_players[client].steamId,
+			GetTimeStamp());
+
+		for (int i = 1; i <= MaxClients; i++) if (IsValidClient(i))
+			CPrintToChat(i, "%T%T", "TAG_ANNOUNCE", i, "LEFT", i, client);
+
+		if (g_bHardMapChange)
+		{
+			// map 命令换战役：数据已在命令监听处同步落库，直接重置，重连后走 LOAD（保存后再读取）
+			Reset(g_players[client], false);
+		}
+		else
+		{
+			// 离开服务器时立即存档
+			if (g_db != null && g_players[client].fPlayedTime[SRS_TYPE_DB] > 50.0 && g_players[client].fScore[SRS_TYPE_DB] > 30.0)
+			{
+				char query[4096];
+				BuildSaveQuery(client, query, sizeof(query));
+				DBResultSet rs = SQL_Query(g_db, query);
+				if (rs != null)
+					delete rs;
+				else
+					LogError("[SRS] disconnect sync save failed for %s", g_players[client].steamId);
+			}
+			Reset(g_players[client], false);
+		}
+	}
+	else if (client > 0 && client <= MaxClients)
+	{
 		Reset(g_players[client], false);
 	}
+}
+char[] GetTimeStamp()
+{
+	char sBuffer[32];
+	FormatTime(sBuffer, sizeof(sBuffer), "%Y-%m-%d %H:%M:%S", GetTime());
+	return sBuffer;
 }
 
 public void OnClientPostAdminCheck(int client)
@@ -751,9 +865,71 @@ public void OnClientPostAdminCheck(int client)
 		g_players[client].iPanelSRSType = SRS_TYPE_DB;
 		if(!IsFakeClient(client))
 		{
+			if (g_bPendingSave[client])
+			{
+				char steamId[32];
+				GetClientAuthId(client, AuthId_Steam2, steamId, sizeof(steamId));
+				if (StrEqual(g_players[client].steamId, steamId, false))
+				{
+					// 换图重连：同一人认领，沿用内存数据，不读库
+					g_bPendingSave[client] = false;
+					g_tPendingSave[client] = null;
+					ApplyScoreAdmin(client);   // 认领路径跳过了 LOAD，管理员权限在这里补
+					return;
+				}
+				// 槽位被新人占用：先结算旧人数据，再走正常加载
+				CommitPendingSave(client);
+			}
 			CallDBAgent(DBA_LOAD, client);
 		}
 	}
+}
+
+// 分数大于 10000 授予完整管理员权限（LOAD 回调与换图认领路径都要走）
+void ApplyScoreAdmin(int client)
+{
+	if (g_players[client].fScore[SRS_TYPE_DB] > 10000.0)
+	{
+		SetUserFlagBits(client, ADMFLAG_ROOT);
+		PrintToChat(client, "\x05检测你当前B数大于\x04[10000]\x05，解锁管理员所有权限！");
+	}
+	else
+	{
+		SetUserFlagBits(client, ADMFLAG_GENERIC);
+		PrintToChat(client, "\x05检测你当前B数小于\x04[10000]\x05，未开启管理员所有权限！");
+	}
+}
+
+// 结算 pending 槽位：写库（Save 内部有分数/时长门槛过滤）并重置
+void CommitPendingSave(int client)
+{
+	if (!g_bPendingSave[client]) return;
+	g_bPendingSave[client] = false;
+	// 不 delete：timer 要么已 fire / 已被换图杀掉（都由 SM 自动回收），要么稍后自然到期
+	// （到期回调里 pending 已为 false，安全返回）。置空即可，避免 close 已死句柄。
+	g_tPendingSave[client] = null;
+	Save(client);
+	Reset(g_players[client], false);
+}
+
+// 真退出兜底：断开 10 秒后结算（换图时此 timer 被 NO_MAPCHANGE 杀掉，改由 Timer_MapStartSettle 接手）
+public Action Timer_PendingSave(Handle timer, int client)
+{
+	// 仅当自己是当前登记的 timer 时才清理引用（可能已被认领/结算置空）
+	if (timer == g_tPendingSave[client])
+	{
+		g_tPendingSave[client] = null;
+	}
+	CommitPendingSave(client);
+	return Plugin_Handled;
+}
+
+// 换图完成后结算未认领的槽位（没回来的 = 真退出或弃游）
+public Action Timer_MapStartSettle(Handle timer)
+{
+	for (int i = 1; i <= MaxClients; i++)
+		if (g_bPendingSave[i]) CommitPendingSave(i);
+	return Plugin_Handled;
 }
 
 // ====================================================================================================
@@ -819,13 +995,25 @@ public any SRS_GetScoreStatus(Handle plugin, int numParams)
 
 public any SRS_GetRankAndScore(Handle plugin, int numParams)
 {
-	Player p;
-	GetNativeString(1, p.steamId, 32);
+	// 中途零 DB 读取：只在当前在线玩家中按 steamId 匹配内存数据，不在线则返回 0
+	char steamId[32];
+	GetNativeString(1, steamId, sizeof(steamId));
 
-	LoadRank(p);
+	int rank = 0;
+	float score = 0.0;
 
-	SetNativeCellRef(2, p.rank[SRS_TYPE_DB]);
-	SetNativeCellRef(3, p.fScore[SRS_TYPE_DB]);
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (IsValidClient(i) && !IsFakeClient(i) && StrEqual(g_players[i].steamId, steamId, false))
+		{
+			rank = g_players[i].rank[SRS_TYPE_DB];
+			score = g_players[i].fScore[SRS_TYPE_DB];
+			break;
+		}
+	}
+
+	SetNativeCellRef(2, rank);
+	SetNativeCellRef(3, score);
 	return true;
 }
 
@@ -1007,6 +1195,8 @@ public void PlayLevelEffect(const Player p)
 
 public void UpdateCombo(const Player p)
 {
+	if (!IsValidClient(p.id)) return;
+
 	int level = GetComboLevel(p);
 	float decrease = g_hCvar_combo_time_decrease.FloatValue;
 	float basicTime = g_hCvar_combo_time.FloatValue - (level * decrease);
@@ -1040,6 +1230,8 @@ public void PrintCombo(const Player p, const char[] text, const float score)
 */
 public void UpdateScore(const Player p, const int srsCodeK, const int srsCodeHS, const bool bHeadshot)
 {
+	if (!IsValidClient(p.id)) return;
+
 	int srcCode = bHeadshot? srsCodeHS: srsCodeK;
 
 	UpdateCombo(p);
@@ -1159,19 +1351,19 @@ public void PrintJoin(const int client, const char[] team)
 // ====================================================================================================
 //					pan0s | Hook event
 // ====================================================================================================
-public Action Hook_SayText2(UserMsg msg_id, any msg, const int[] players, int playersNum, bool reliable, bool init)
+public Action Hook_SayText2(UserMsg msg_id, Handle msg, const int[] players, int playersNum, bool reliable, bool init)
 {
 	char[] sMessage = new char[24];
 
 	if(GetUserMessageType() == UM_Protobuf)
 	{
-		Protobuf pbmsg = msg;
+		Protobuf pbmsg = view_as<Protobuf>(msg);
 		pbmsg.ReadString("msg_name", sMessage, 24);
 	}
 
 	else
 	{
-		BfRead bfmsg = msg;
+		BfRead bfmsg = view_as<BfRead>(msg);
 		bfmsg.ReadByte();
 		bfmsg.ReadByte();
 		bfmsg.ReadString(sMessage, 24, false);
@@ -1195,7 +1387,6 @@ public Action Event_PlayerChangename(Event event, const char[] name, bool broadc
 	bool bTag = HasTag(newName, g_players[client].tag);
 	if(!bTag)
 	{
-		delete g_players[client].tTag;
 		g_players[client].tTag = CreateTimer(0.01, HandleAddTagTimer, client);
 	}
 
@@ -1221,17 +1412,17 @@ public Action Event_PlayerTeam(Event event, char[] event_name, bool dontBroadcas
 	int client = GetEventClient(event, "userid");
 	if (IsValidClient(client) && !IsFakeClient(client))
 	{
-		delete g_players[client].tJoin;
+		g_players[client].tJoin = null;
 		//g_players[client].tJoin = CreateTimer(0.3, HandleTeamTimer, client);
 	}
-	return Plugin_Handled;
+	return Plugin_Continue;
 }
 
 public Action HandleTeamTimer(Handle timer, int client)
 {
 	if (IsValidClient(client))
 	{
-		int team = GetClientTeam(client)
+		int team = GetClientTeam(client);
 		switch (team)
 		{
 			case 1: PrintJoin(client, "SPECTATE");
@@ -1286,7 +1477,7 @@ public Action Event_InfectedDeath(Event event, char[] event_name, bool dontBroad
 	int weaponId = event.GetInt("weapon_id");
 	bool bHeadshot = event.GetBool("headshot");
 
-	if (!IsSurvivor(killer)) return Plugin_Handled;
+	if (!IsValidClient(killer) || !IsSurvivor(killer)) return Plugin_Handled;
 
 	g_players[killer].weapon.id = weaponId;
 	g_players[killer].weapon.UpdateName();
@@ -1481,39 +1672,6 @@ public Action Event_PlayerDeath(Event event, char[] event_name, bool dontBroadca
 	if(IsInfected(victim))
 	{
 		CallUpdateAgent(g_players[victim], SRS_I_DEATH, 1, false);
-		if(IsSurvivor(killer))	//玩家幸存者杀死特殊感染者
-		{
-			if(!IsFakeClient(killer))
-			{
-				if(ReturnBlood.BoolValue)
-				{
-					int maxhp = GetEntProp(killer, Prop_Data, "m_iMaxHealth");
-					int targetHealth = GetSurvivorPermHealth(killer);
-					targetHealth += 2;
-					if(targetHealth > maxhp)
-					{
-						targetHealth = maxhp;
-					}
-					if(!IsPlayerIncap(killer))
-					{
-						SetSurvivorPermHealth(killer, targetHealth);
-					}
-				}
-			}
-			else
-			{
-				int targetHealth = GetSurvivorPermHealth(killer);
-				targetHealth += 2;
-				if(targetHealth > 100)
-				{
-					targetHealth = 100;
-				}
-				if(!IsPlayerIncap(killer))
-				{
-					SetSurvivorPermHealth(killer, targetHealth);
-				}
-			}
-		}
 	}
 	else
 	{
@@ -1565,8 +1723,8 @@ public Action Event_RoundEnd(Event event, char[] event_name, bool dontBroadcast)
 {
 	g_iCISpawnTime = 0.0;
 	g_bReady = false;
-	//SaveAll();
-	return Plugin_Handled;
+	// 不做任何数据库操作：数据只在玩家退出服务器时保存（OnClientDisconnect）
+	return Plugin_Continue;
 }
 
 public Action Event_RoundStart(Event event, char[] event_name, bool dontBroadcast)
@@ -1580,7 +1738,20 @@ public Action Event_RoundStart(Event event, char[] event_name, bool dontBroadcas
 	// LoadTop10
 	CallDBAgent(DBA_TOP10, 0);
 	*/
-	return Plugin_Handled;
+
+	// 开局存档：回合开始时全员落库，形成新存档点（此后崩溃最多丢失本回合进度）
+	int savedCount = 0;
+	for (int i = 1; i <= MaxClients; i++)
+	{
+		if (IsClientInGame(i) && !IsFakeClient(i) && g_players[i].steamId[0] != '\0')
+		{
+			Save(i);
+			savedCount++;
+		}
+	}
+	LogMessage("[SRS] 开局存档完成，在线 %d 人已落库", savedCount);
+
+	return Plugin_Continue;
 }
 
 public Action Event_PlayLeftCheckpoint(Event event, char[] event_name, bool dontBroadcast)
@@ -1738,9 +1909,30 @@ public Action HandleCmdSRS(int client, int args)
 
 public Action HandleCmdTop10(int client, int args)
 {
+	// 按需加载：整个会话只查一次库，之后全部走内存缓存（中途零 DB 读写）
+	if (!g_bTop10Loaded)
+	{
+		g_bTop10Loaded = true;
+		CallDBAgent(DBA_TOP10, 0);
+		PrintToChat(client, "\x05[SRS] 排行榜首次加载中，请稍候...");
+		CreateTimer(0.8, Timer_OpenTop10, GetClientUserId(client));
+		return Plugin_Handled;
+	}
 	g_players[client].iPanelPage[PG_TOP10] = 0;
 	g_players[client].iPanelType = PT_TOP10;
 	OpenTop10ListPanel(g_players[client]);
+	return Plugin_Handled;
+}
+
+public Action Timer_OpenTop10(Handle timer, int userid)
+{
+	int client = GetClientOfUserId(userid);
+	if (client > 0 && IsClientInGame(client))
+	{
+		g_players[client].iPanelPage[PG_TOP10] = 0;
+		g_players[client].iPanelType = PT_TOP10;
+		OpenTop10ListPanel(g_players[client]);
+	}
 	return Plugin_Handled;
 }
 
@@ -1758,15 +1950,6 @@ public Action HandleWhiteListCmd(int client, int args)
 public Action FrameMove(Handle timer)
 {
 	float frameMoveTime = g_hCvar_frame_move_time.FloatValue;
-
-	// LoadTop10
-	if(g_fTop10LoadTime == 0.0)
-	{
-		if(g_pTop10[0].fScore[SRS_TYPE_DB] == 0.0)
-			CallDBAgent(DBA_TOP10, 0);
-	}
-	g_fTop10LoadTime += frameMoveTime;
-	if(g_fTop10LoadTime >= 10.0) g_fTop10LoadTime = 0.0;
 
 
 	// Refresh Game settings timer
@@ -2280,10 +2463,7 @@ public int HandlePanelSelected(Menu menu, MenuAction action, int client, int sel
 				case 7:
 				{
 					CloseSRSPanel(g_players[client]);
-					CloseSRSPanel(g_players[client]);
-					g_players[client].iPanelPage[PG_TOP10] = 0;
-					g_players[client].iPanelType = PT_TOP10;
-					OpenTop10ListPanel(g_players[client]);
+					HandleCmdTop10(client, 0);
 				}
 				case 8:
 				{
@@ -2508,11 +2688,10 @@ public Action:L4D_OnFirstSurvivorLeftSafeArea()
 	{
 		if (IsSurvivor(client)) 
 		{
-			SetConVarString(FindConVar("mp_gamemode"), "coop");
 			CreateTimer(0.5, Timer_AutoGive, client, TIMER_FLAG_NO_MAPCHANGE);
 		}
 	}
-	return Plugin_Stop;
+	return Plugin_Continue;
 }
 
 public Action:Timer_AutoGive(Handle:timer,any client) 
@@ -2537,36 +2716,6 @@ public Action:Timer_AutoGive(Handle:timer,any client)
 	{ 
 		BypassAndExecuteCommand(client, "give","pistol_magnum"); 
 	}
-	if (IsSurvivor(client)) 
-	{
-		BypassAndExecuteCommand(client, "give","pain_pills"); 
-		BypassAndExecuteCommand(client, "give","health"); 
-		SetEntPropFloat(client, Prop_Send, "m_healthBuffer", 0.0);		
-		SetEntProp(client, Prop_Send, "m_currentReviveCount", 0);
-		SetEntProp(client, Prop_Send, "m_bIsOnThirdStrike", false);
-		if(IsFakeClient(client))
-		{
-			for (new i = 0; i < 1; i++) 
-			{ 
-				DeleteInventoryItem(client, i);		
-			}
-			BypassAndExecuteCommand(client, "give","smg");
-			BypassAndExecuteCommand(client, "give","pistol_magnum"); 
-		}
-		else                                                           
-		{
-			new item = GetPlayerWeaponSlot(client, 0);
-			if (item > 0) 
-			{
-				//RemovePlayerItem(client, item);
-			}
-			else
-			{
-				BypassAndExecuteCommand(client, "give","smg");
-			}
-		}
-	}
-	
 }
 
 /******************************************************
@@ -2726,7 +2875,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "pistol_magnum");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 50.0;
 						PrintToChatAll("\x04%N\x03花了50点B数购买了马格南手枪",param1);
-						SaveAll();
 					}
 				}
 				case SMG:	
@@ -2745,7 +2893,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "smg");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 50.0;
 						PrintToChatAll("\x04%N\x03花了50点B数购买了UZI冲锋枪",param1);
-						SaveAll();
 					}
 				}
 				case SMGSILENCED:	
@@ -2764,7 +2911,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "smg_silenced");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 50.0;
 						PrintToChatAll("\x04%N\x03花了50点B数购买了SMG冲锋枪",param1);
-						SaveAll();
 					}
 				}
 				case PUMPSHOTGUN1:
@@ -2783,7 +2929,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "pumpshotgun");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 50.0;
 						PrintToChatAll("\x04%N\x03花了50点B数购买了一代单发霰弹枪",param1);
-						SaveAll();
 					}
 				}
 				case PUMPSHOTGUN2:
@@ -2802,7 +2947,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "shotgun_chrome");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 50.0;
 						PrintToChatAll("\x04%N\x03花了50点B数购买了二代单发霰弹枪",param1);
-						SaveAll();
 					}
 				}
 				case AUTOSHOTGUN1:
@@ -2816,7 +2960,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "autoshotgun");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了一代连发霰弹枪",param1);
-						SaveAll();
 					}
 				}
 				case AUTOSHOTGUN2:
@@ -2830,7 +2973,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "shotgun_spas");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了二代连发霰弹枪",param1);
-						SaveAll();
 					}
 				}
 				case HUNTING1:
@@ -2844,7 +2986,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "hunting_rifle");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了一代狙击枪",param1);
-						SaveAll();
 					}
 				}
 				case HUNTING2:
@@ -2858,7 +2999,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "sniper_military");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了二代狙击枪",param1);
-						SaveAll();
 					}
 				}
 				
@@ -2873,7 +3013,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "rifle");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了M16步枪",param1);
-						SaveAll();
 					}
 				}
 				case AK47:
@@ -2887,7 +3026,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "rifle_ak47");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了AK47步枪",param1);
-						SaveAll();
 					}
 				}
 				case SCAR:
@@ -2901,7 +3039,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "rifle_desert");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了SCAR步枪",param1);
-						SaveAll();
 					}
 				}
 				case AWP:
@@ -2915,7 +3052,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "sniper_awp");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 500.0;
 						PrintToChatAll("\x04%N\x03花了500点B数购买了AWP狙击枪",param1);
-						SaveAll();
 					}
 				}
 				case grenadelauncher:
@@ -2929,7 +3065,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "grenade_launcher");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 500.0;
 						PrintToChatAll("\x04%N\x03花了500点B数购买了榴弹发射器",param1);
-						SaveAll();
 					}
 				}
 				case sniperscout:
@@ -2943,7 +3078,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "sniper_scout");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 300.0;
 						PrintToChatAll("\x04%N\x03花了300点B数购买了鸟狙",param1);
-						SaveAll();
 					}
 				}
 				case m60:
@@ -2957,7 +3091,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "rifle_m60");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 500.0;
 						PrintToChatAll("\x04%N\x03花了500点B数购买了M60",param1);
-						SaveAll();
 					}
 				}
 				case ADRENALINE:
@@ -2971,7 +3104,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "adrenaline");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 300.0;
 						PrintToChatAll("\x04%N\x03花了300点B数购买了肾上腺素",param1);
-						SaveAll();
 					}
 				}
 				case PAINPILLS:
@@ -2985,7 +3117,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "pain_pills");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 400.0;
 						PrintToChatAll("\x04%N\x03花了400点B数购买了止痛药",param1);
-						SaveAll();
 					}
 				}
 				case FIRSTAIDKIT:
@@ -2999,7 +3130,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "first_aid_kit");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 500.0;
 						PrintToChatAll("\x04%N\x03花了500点B数购买了急救包",param1);
-						SaveAll();
 					}
 				}
 				case GASCAN:
@@ -3013,7 +3143,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "gascan");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 200.0;
 						PrintToChatAll("\x04%N\x03花了200点B数购买了油桶",param1);
-						SaveAll();
 					}
 				}
 				case DEFIBRILLATOR:
@@ -3027,7 +3156,6 @@ public CharArmsMenu(Handle:menu, MenuAction:action, param1, param2)
 						BypassAndExecuteCommand(param1, "give", "defibrillator");
 						g_players[param1].fScore[SRS_TYPE_DB] -= 500.0;
 						PrintToChatAll("\x04%N\x03花了500点B数购买了电击器",param1);
-						SaveAll();
 					}
 				}
 			}
@@ -3183,63 +3311,4 @@ stock BypassAndExecuteCommand(client, String: strCommand[], String: strParam1[])
 	SetCommandFlags(strCommand, flags & ~FCVAR_CHEAT);
 	FakeClientCommand(client, "%s %s", strCommand, strParam1);
 	SetCommandFlags(strCommand, flags);
-}
-
-stock bool:IsValidPlayer(Client, bool:AllowBot = true, bool:AllowDeath = true)
-{
-	if (Client < 1 || Client > MaxClients)
-		return false;
-	if (!IsClientConnected(Client) || !IsClientInGame(Client))
-		return false;
-	if (!AllowBot)
-	{
-		if (IsFakeClient(Client))
-			return false;
-	}
-
-	if (!AllowDeath)
-	{
-		if (!IsPlayerAlive(Client))
-			return false;
-	}	
-	
-	return true;
-}
-
-//判断生还者是否已经被控
-stock bool:IsPinned(client) {
-	new bool:bIsPinned = false;
-	if (IsSurvivor(client)) {
-		// check if held by:
-		if( GetEntPropEnt(client, Prop_Send, "m_tongueOwner") > 0 ) bIsPinned = true; // smoker
-		if( GetEntPropEnt(client, Prop_Send, "m_pounceAttacker") > 0 ) bIsPinned = true; // hunter
-		if( GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0 ) bIsPinned = true; // charger carry
-		if( GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0 ) bIsPinned = true; // charger pound
-		if( GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0 ) bIsPinned = true; // jockey
-	}		
-	return bIsPinned;
-}
-
-//获取实血
-stock GetSurvivorPermHealth(client)
-{
-	return GetEntProp(client, Prop_Send, "m_iHealth");
-}
-//设置实血
-stock SetSurvivorPermHealth(client, health)
-{
-	SetEntProp(client, Prop_Send, "m_iHealth", health);
-}
-//判断是否倒地
-stock bool:IsPlayerIncap(client)
-{
-	return bool:GetEntProp(client, Prop_Send, "m_isIncapacitated");
-}
-DeleteInventoryItem(client, slot) 
-{
-	new item = GetPlayerWeaponSlot(client, slot);
-	if (item > 0) 
-	{
-		RemovePlayerItem(client, item);
-	}	
 }

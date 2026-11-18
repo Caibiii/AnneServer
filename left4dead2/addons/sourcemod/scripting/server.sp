@@ -1,363 +1,517 @@
 #pragma semicolon 1
-#pragma tabsize 0
+#pragma newdecls required
+#pragma tabsize 4
+
 #include <sourcemod>
 #include <sdktools>
-#include <sdkhooks>
-//#include <l4d2lib>
 #include <left4dhooks>
-#include <colors>
+#include <l4d_CreateSurvivorBot>
 
-#define SCORE_DELAY_EMPTY_SERVER 10.0
-#define L4D_MAXHUMANS_LOBBY_OTHER 3
-#define IsValidClient(%1)		(1 <= %1 <= MaxClients && IsClientInGame(%1))
-#define IsValidAliveClient(%1)	(1 <= %1 <= MaxClients && IsClientInGame(%1) && IsPlayerAlive(%1))
-new Float:lastDisconnectTime;
-new Handle:hCvarMotdTitle;
-new Handle:hCvarMotdUrl;
-public OnPluginStart()
+#define TEAM_SPECTATOR 1
+#define TEAM_SURVIVOR 2
+#define TEAM_INFECTED 3
+
+#define DEFAULT_SURVIVOR_LIMIT "4"
+#define MIN_SURVIVOR_LIMIT 1
+#define MAX_SURVIVOR_LIMIT 8
+#define EMPTY_SERVER_RESTART_DELAY 30.0
+#define SURVIVOR_SPAWN_DELAY 3.0
+#define AWAY_DELAY 2.5
+#define WITCH_KILL_HEAL_AMOUNT 15
+
+ConVar g_cvMotdTitle;
+ConVar g_cvMotdUrl;
+ConVar g_cvSurvivorLimit;
+Handle g_hSurvivorAdjustTimer;
+bool g_bRestoringSurvivorLimit;
+float g_fLastDisconnectTime;
+
+public Plugin myinfo = {
+    name = "server.smx",
+    author = "Caibiii",
+    description = "简简单单的药役服务器设置",
+    version = "2026.11.18",
+    url = "https://github.com/Caibiii/AnneServer"
+};
+
+public void OnPluginStart()
 {
-	RegConsoleCmd("sm_away", AFKTurnClientToSpe);
-	RegConsoleCmd("sm_s", AFKTurnClientToSpe);
-	RegConsoleCmd("sm_ammo", GiveClientAmmo);
-	RegAdminCmd("sm_restartmap", RestartMap, ADMFLAG_ROOT, "restarts map");
-	//AddCommandListener(Command_Setinfo, "jointeam");
-	//AddCommandListener(Command_Setinfo1, "chooseteam");
-	AddNormalSoundHook(NormalSHook:OnNormalSound);
-	AddAmbientSoundHook(AmbientSHook:OnAmbientSound);
-	HookEvent("player_team", Event_PlayerTeam);	
-	HookEvent("witch_killed", WitchKilled_Event);
-	HookEvent("finale_win", ResetSurvivors);
-	HookEvent("map_transition", ResetSurvivors);
-	HookEvent("round_start", event_RoundStart);
-	RegConsoleCmd("sm_join", AFKTurnClientToSurvivors);
-	RegConsoleCmd("sm_jg", AFKTurnClientToSurvivors);
-	RegAdminCmd("sm_restart", RestartServer, ADMFLAG_ROOT, "Kicks all clients and restarts server");
-	RegAdminCmd("sm_hp", GiveHealth, ADMFLAG_ROOT, "GiveHealth");
-	hCvarMotdTitle = CreateConVar("sm_cfgmotd_title", "AnneHanpy");
-    hCvarMotdUrl = CreateConVar("sm_cfgmotd_url", "http://116.198.39.208/index.php");  // 以后更换为数据库控制
+	RegConsoleCmd("sm_away", CommandMoveToSpectators);
+	RegConsoleCmd("sm_s", CommandMoveToSpectators);
+	RegConsoleCmd("sm_ammo", CommandGiveClientAmmo);
+	RegConsoleCmd("sm_join", CommandJoinSurvivors);
+	RegConsoleCmd("sm_jg", CommandJoinSurvivors);
+
+	RegAdminCmd("sm_restartmap", CommandRestartMap, ADMFLAG_ROOT, "重新加载当前地图");
+	RegAdminCmd("sm_restart", CommandRestartServer, ADMFLAG_ROOT, "重启服务器");
+	RegAdminCmd("sm_hp", CommandGiveHealth, ADMFLAG_ROOT, "恢复所有生还者状态");
+	RegAdminCmd("sm_survivor_count", CommandSetSurvivorLimit, ADMFLAG_CONFIG, "设置生还者人数上限");
+
+	AddNormalSoundHook(OnNormalSound);
+	AddAmbientSoundHook(OnAmbientSound);
+
+	HookEvent("player_team", EventPlayerTeam);
+	HookEvent("witch_killed", EventWitchKilled);
+	HookEvent("finale_win", EventResetSurvivors);
+	HookEvent("map_transition", EventResetSurvivors);
+	HookEvent("round_start", EventRoundStart);
+
+	g_cvMotdTitle = CreateConVar("sm_cfgmotd_title", "AnneHappy", "玩家进入服务器时显示的 MOTD 标题");
+	g_cvMotdUrl = CreateConVar("sm_cfgmotd_url", "http://1.12.233.203:777/", "玩家进入服务器时显示的 MOTD 地址");
+	g_cvSurvivorLimit = CreateConVar(
+		"sm_survivor_limit",
+		DEFAULT_SURVIVOR_LIMIT,
+		"生还者总人数上限，包含真人与 Bot（1-8）",
+		FCVAR_NOTIFY
+	);
+	g_cvSurvivorLimit.AddChangeHook(OnSurvivorLimitChanged);
 }
-//输入!jg或者!join加入生还者
-public Action:AFKTurnClientToSurvivors(client, args)
-{ 
-	ClientCommand(client, "jointeam 2");
-	return Plugin_Handled;
-}
-//输入!s或者!away延迟2.5秒后切换为旁观
-public Action:AFKTurnClientToSpe(client, args) 
+
+public void OnMapStart()
 {
-	if(!IsPinned(client))
-	CreateTimer(2.5, Timer_CheckAway, client, TIMER_FLAG_NO_MAPCHANGE);
-	return Plugin_Handled;
+	ScheduleSurvivorAdjustment();
 }
-public Action:Timer_CheckAway(Handle:Timer, any:client)
+
+public void OnSurvivorLimitChanged(ConVar convar, const char[] oldValue, const char[] newValue)
 {
-	ChangeClientTeam(client, 1); 
-}
-//输入!RestartMap重启当前地图
-public Action RestartMap(client,args)
-{
-	CrashMap();
-}
-CrashMap()
-{
-    decl String:mapname[64];
-    GetCurrentMap(mapname, sizeof(mapname));
-	ServerCommand("changelevel %s", mapname);
-}
-//输入!restart重启服务器
-public Action RestartServer(client,args)
-{
-    CrashServer();
-}
-CrashServer()
-{
-    SetCommandFlags("crash", GetCommandFlags("crash")&~FCVAR_CHEAT);
-    ServerCommand("crash");
-}
-//输入!ammo补满子弹
-public Action:GiveClientAmmo(client, args) 
-{
-	if (IsSurvivor(client)) 
+	if (g_bRestoringSurvivorLimit)
 	{
-		BypassAndExecuteCommand(client, "give","ammo"); 
+		return;
 	}
-	return Plugin_Handled;
-}
-public Action:GiveHealth(client, args) 
-{
-	RestoreHealth();
-	return Plugin_Handled;
-}
 
-//地图加载、回合开始3秒后开始加载cfg/sourcemod/map_cvars/%s.cfg下的配置
-public event_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
-{
-	CreateTimer(0.1, Timer_DelayedOnRoundStart, _, TIMER_FLAG_NO_MAPCHANGE );
-}
-public void OnAutoConfigsBuffered()
-{
-	 char sMapConfig[128];
-	 GetCurrentMap(sMapConfig, sizeof(sMapConfig));
-     Format(sMapConfig, sizeof(sMapConfig), "cfg/sourcemod/map_cvars/%s.cfg", sMapConfig);
-     if (FileExists(sMapConfig, true))
-	 {
-        strcopy(sMapConfig, sizeof(sMapConfig), sMapConfig[4]);
-        ServerCommand("exec \"%s\"", sMapConfig);
-     }
-} 
-public Action:Timer_DelayedOnRoundStart(Handle:timer) 
-{
-	char sMapConfig[128];
-	GetCurrentMap(sMapConfig, sizeof(sMapConfig));
-    Format(sMapConfig, sizeof(sMapConfig), "cfg/sourcemod/map_cvars/%s.cfg", sMapConfig);
-    if (FileExists(sMapConfig, true))
-    {
-        strcopy(sMapConfig, sizeof(sMapConfig), sMapConfig[4]);
-        ServerCommand("exec \"%s\"", sMapConfig);
-    }
-}
-
-//重置生还者为满血以及清除生还者的装备
-public Action:ResetSurvivors(Handle:event, const String:name[], bool:dontBroadcast)
-{
-	RestoreHealth();
-	ResetInventory();
-}
-ResetInventory() 
-{
-	for (new client = 1; client <= MaxClients; client++) 
+	int limit;
+	if (StringToIntEx(newValue, limit) != strlen(newValue) || limit < MIN_SURVIVOR_LIMIT || limit > MAX_SURVIVOR_LIMIT)
 	{
-		if (IsSurvivor(client)) 
-		{
-			
-			for (new i = 0; i < 5; i++) 
-			{ 
-				DeleteInventoryItem(client, i);		
-			}
-			BypassAndExecuteCommand(client, "give", "pistol");
-			
-		}
-	}		
-}
-DeleteInventoryItem(client, slot) 
-{
-	new item = GetPlayerWeaponSlot(client, slot);
-	if (item > 0) 
-	{
-		RemovePlayerItem(client, item);
-	}	
-}
-RestoreHealth() 
-{
-	for (new client = 1; client <= MaxClients; client++) 
-	{
-		if (IsSurvivor(client)) 
-		{
-			BypassAndExecuteCommand(client, "give","health");
-			SetEntPropFloat(client, Prop_Send, "m_healthBuffer", 0.0);		
-			SetEntProp(client, Prop_Send, "m_currentReviveCount", 0);
-			SetEntProp(client, Prop_Send, "m_bIsOnThirdStrike", false);
-		}
+		g_bRestoringSurvivorLimit = true;
+		convar.SetString(oldValue);
+		g_bRestoringSurvivorLimit = false;
+		return;
 	}
+
+	ServerCommand("exec vote/renshu/%dren.cfg", limit);
+	ScheduleSurvivorAdjustment();
 }
 
-//玩家加入游戏显示motd界面，将特感玩家切换为旁观；将想进入特感方的玩家强制切为旁观
-public OnClientPutInServer(client)
+void ScheduleSurvivorAdjustment()
 {
-	if(client > 0 && IsClientConnected(client) && !IsFakeClient(client))
-	{
-		ShowMotdToPlayer(client);
-		CreateTimer(3.0, ChangeClientTeamTo1, client, TIMER_FLAG_NO_MAPCHANGE);
-	}
-}
-ShowMotdToPlayer(client)
-{
-	decl String:title[64], String:url[192];
-    GetConVarString(hCvarMotdTitle, title, sizeof(title));
-    GetConVarString(hCvarMotdUrl, url, sizeof(url));
-    ShowMOTDPanel(client, title, url, MOTDPANEL_TYPE_URL);
-}
-public Action:Event_PlayerTeam(Handle:event, const String:name[], bool:dontBroadcast)
-{
-	new Client = GetEventInt(event, "userid");
-	new target = GetClientOfUserId(Client);
-	new team = GetEventInt(event, "team");
-	new bool:disconnect = GetEventBool(event, "disconnect");
-	if (IsValidPlayer(target) && !disconnect && team == 3)
-	{
-		if(!IsFakeClient(target))
-		{
-			CreateTimer(0.5, ChangeClientTeamTo1, target, TIMER_FLAG_NO_MAPCHANGE);
-		}
-	}
-	return Plugin_Continue;
+	delete g_hSurvivorAdjustTimer;
+	g_hSurvivorAdjustTimer = CreateTimer(SURVIVOR_SPAWN_DELAY, TimerAdjustSurvivors, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
-public Action:ChangeClientTeamTo1(Handle:Timer, any:client)
+public Action CommandSetSurvivorLimit(int client, int args)
 {
-	if(IsValidPlayerInTeam(client, 3))
+	if (args != 1)
 	{
-		ChangeClientTeam(client, 1); 
-	} 
-}
-
-//检测控制台输入，如果生还满人、加入特感方、按M选择队伍则阻止
-public Action:Command_Setinfo(client, const String:command[], args)
-{
-    decl String:arg[32];
-    GetCmdArg(1, arg, sizeof(arg));
-    if (StrEqual(arg, "3") || StrEqual(arg, "infected") || IsSuivivorTeamFull())
-	{
+		ReplyToCommand(client, "当前上限: %d；用法: sm_survivor_count <%d-%d>", g_cvSurvivorLimit.IntValue, MIN_SURVIVOR_LIMIT, MAX_SURVIVOR_LIMIT);
 		return Plugin_Handled;
 	}
-	return Plugin_Continue;
-} 
 
-public Action:Command_Setinfo1(client, const String:command[], args)
-{
-    return Plugin_Handled;
-} 
+	char argument[16];
+	GetCmdArg(1, argument, sizeof(argument));
 
-// 玩家离开显示离开提示，并检测服务器是否还有人，没人则自动重启服务器
-public OnClientDisconnect(client)
-{
-	if (IsClientInGame(client) && IsFakeClient(client)) return;
-	new Float:currenttime = GetGameTime();
-	if (lastDisconnectTime == currenttime) return;
-	CreateTimer(SCORE_DELAY_EMPTY_SERVER, IsNobodyConnected, currenttime);
-	lastDisconnectTime = currenttime;
+	int limit;
+	if (StringToIntEx(argument, limit) != strlen(argument) || limit < MIN_SURVIVOR_LIMIT || limit > MAX_SURVIVOR_LIMIT)
+	{
+		ReplyToCommand(client, "生还者人数上限必须是 %d 到 %d 之间的整数", MIN_SURVIVOR_LIMIT, MAX_SURVIVOR_LIMIT);
+		return Plugin_Handled;
+	}
+
+	g_cvSurvivorLimit.SetInt(limit);
+	ReplyToCommand(client, "生还者人数上限已设置为 %d", limit);
+	return Plugin_Handled;
 }
 
-public Action:IsNobodyConnected(Handle:timer, any:timerDisconnectTime)
+public Action TimerAdjustSurvivors(Handle timer)
 {
-	if (timerDisconnectTime != lastDisconnectTime) return Plugin_Stop;
-	for (new i = 1; i <= MaxClients; i++)
-	{
-		if (IsClientConnected(i) && !IsFakeClient(i))
-			return  Plugin_Stop;
-	}
-	CrashServer();
+	g_hSurvivorAdjustTimer = null;
+	AdjustSurvivorBots();
 	return Plugin_Stop;
 }
 
-
-//击杀witch回15点实血
-public WitchKilled_Event(Handle:event, const String:name[], bool:dontBroadcast)
+void AdjustSurvivorBots()
 {
-	new client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if (client > 0 && client <= MaxClients && IsClientInGame(client) && GetClientTeam(client) == 2 && IsPlayerAlive(client) && !IsPlayerIncap(client))
+	int limit = g_cvSurvivorLimit.IntValue;
+	int survivorCount = CountSurvivors();
+	if (survivorCount > limit)
 	{
-		new maxhp = GetEntProp(client, Prop_Data, "m_iMaxHealth");
-		new targetHealth = GetSurvivorPermHealth(client) + 15;
-		if(targetHealth > maxhp)
+		int botsToKick = survivorCount - limit;
+		for (int client = MaxClients; client >= 1 && botsToKick > 0; client--)
 		{
-			targetHealth = maxhp;
+			if (!IsClientInGame(client) || !IsFakeClient(client) || GetClientTeam(client) != TEAM_SURVIVOR)
+			{
+				continue;
+			}
+
+			KickClient(client, "Survivor bot over limit");
+			botsToKick--;
 		}
-		SetSurvivorPermHealth(client, targetHealth);
-	}
-}
-//监听声音，如果是烟花的吵闹声则阻止
-public Action:OnNormalSound(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
-{
-	return (StrContains(sample, "firewerks", true) > -1) ? Plugin_Stop : Plugin_Continue;
-}
-public Action:OnAmbientSound(char sample[PLATFORM_MAX_PATH], int &entity, float &volume, int &level, int &pitch, float pos[3], int &flags, float &delay)
-{
-	return (StrContains(sample, "firewerks", true) > -1) ? Plugin_Stop : Plugin_Continue;
-}
 
-//判断生还是否已经满人
-bool:IsSuivivorTeamFull() 
-{
-	for (new i = 1; i <= MaxClients; i++)
+		return;
+	}
+
+	int botsToCreate = limit - survivorCount;
+	for (int i = 0; i < botsToCreate; i++)
 	{
-		if (IsClientInGame(i) && GetClientTeam(i) == 2 && IsPlayerAlive(i) && IsFakeClient(i))
+		if (limit < 5)
 		{
-			return false;
+			L4D2Direct_AddSurvivorBot(8);
+		}
+		else
+		{
+			CreateSurvivorBot();
 		}
 	}
-	return true;
 }
-//判断是否为生还者
-stock bool:IsSurvivor(client) 
+
+int CountSurvivors()
 {
-	if(client > 0 && client <= MaxClients && IsClientInGame(client) && GetClientTeam(client) == 2) 
+	int count = 0;
+	for (int client = 1; client <= MaxClients; client++)
 	{
-		return true;
-	} 
-	else 
-	{
-		return false;
-	}
-}
-//判断是否为玩家再队伍里
-bool:IsValidPlayerInTeam(client,team)
-{
-	if(IsValidPlayer(client))
-	{
-		if(GetClientTeam(client)==team)
+		if (IsSurvivor(client))
 		{
-			return true;
+			count++;
 		}
 	}
-	return false;
+
+	return count;
 }
-bool:IsValidPlayer(Client, bool:AllowBot = true, bool:AllowDeath = true)
+
+public Action L4D_OnFirstSurvivorLeftSafeArea(int client)
 {
-	if (Client < 1 || Client > MaxClients)
-		return false;
-	if (!IsClientConnected(Client) || !IsClientInGame(Client))
-		return false;
-	if (!AllowBot)
+	CreateTimer(0.5, TimerResetSurvivorStatus, _, TIMER_FLAG_NO_MAPCHANGE);
+	return Plugin_Continue;
+}
+
+public Action CommandJoinSurvivors(int client, int args)
+{
+	ClientCommand(client, "jointeam 2");
+	return Plugin_Handled;
+}
+
+public Action CommandMoveToSpectators(int client, int args)
+{
+	if (IsSurvivor(client) && !IsSurvivorPinned(client))
 	{
-		if (IsFakeClient(Client))
-			return false;
+		CreateTimer(AWAY_DELAY, TimerCompleteAway, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
 	}
 
-	if (!AllowDeath)
-	{
-		if (!IsPlayerAlive(Client))
-			return false;
-	}	
-	
-	return true;
+	return Plugin_Handled;
 }
 
-//判断生还者是否已经被控
-stock bool:IsPinned(client) 
+public Action TimerCompleteAway(Handle timer, int userId)
 {
-	new bool:bIsPinned = false;
-	if (IsSurvivor(client)) 
+	int client = GetClientOfUserId(userId);
+	if (IsSurvivor(client) && !IsSurvivorPinned(client))
 	{
-		if( GetEntPropEnt(client, Prop_Send, "m_tongueOwner") > 0 ) bIsPinned = true; // smoker
-		if( GetEntPropEnt(client, Prop_Send, "m_pounceAttacker") > 0 ) bIsPinned = true; // hunter
-		if( GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0 ) bIsPinned = true; // charger carry
-		if( GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0 ) bIsPinned = true; // charger pound
-		if( GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0 ) bIsPinned = true; // jockey
-	}		
-	return bIsPinned;
+		ChangeClientTeam(client, TEAM_SPECTATOR);
+	}
+
+	return Plugin_Stop;
 }
-//获取生还者实血
-GetSurvivorPermHealth(client)
+
+public Action CommandRestartMap(int client, int args)
 {
-	return GetEntProp(client, Prop_Send, "m_iHealth");
+	RestartCurrentMap();
+	return Plugin_Handled;
 }
-//设置生还者实血
-SetSurvivorPermHealth(client, health)
+
+void RestartCurrentMap()
 {
+	char mapName[64];
+	GetCurrentMap(mapName, sizeof(mapName));
+	ServerCommand("changelevel %s", mapName);
+}
+
+public Action CommandRestartServer(int client, int args)
+{
+	RestartEngine();
+	return Plugin_Handled;
+}
+
+void RestartEngine()
+{
+	int flags = GetCommandFlags("crash");
+	SetCommandFlags("crash", flags & ~FCVAR_CHEAT);
+	ServerCommand("crash");
+	SetCommandFlags("crash", flags);
+}
+
+public Action CommandGiveClientAmmo(int client, int args)
+{
+	if (IsSurvivor(client))
+	{
+		ExecuteCheatCommand(client, "give", "ammo");
+	}
+
+	return Plugin_Handled;
+}
+
+public Action CommandGiveHealth(int client, int args)
+{
+	RestoreSurvivorHealth();
+	return Plugin_Handled;
+}
+
+public void EventRoundStart(Handle event, const char[] name, bool dontBroadcast)
+{
+	CreateTimer(3.0, TimerDelayedRoundStart, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public void OnAutoConfigsBuffered()
+{
+	ExecuteMapConfig();
+}
+
+public Action TimerDelayedRoundStart(Handle timer)
+{
+	ConVar gameMode = FindConVar("mp_gamemode");
+	if (gameMode != null)
+	{
+		gameMode.SetString("coop");
+	}
+
+	ExecuteMapConfig();
+	return Plugin_Stop;
+}
+
+void ExecuteMapConfig()
+{
+	char mapName[128];
+	char configPath[128];
+	GetCurrentMap(mapName, sizeof(mapName));
+	Format(configPath, sizeof(configPath), "cfg/sourcemod/map_cvars/%s.cfg", mapName);
+
+	if (FileExists(configPath, true))
+	{
+		ServerCommand("exec \"sourcemod/map_cvars/%s.cfg\"", mapName);
+	}
+}
+
+public Action EventResetSurvivors(Handle event, const char[] name, bool dontBroadcast)
+{
+	RestoreSurvivorHealth();
+	ResetSurvivorInventory();
+	return Plugin_Continue;
+}
+
+void ResetSurvivorInventory()
+{
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		if (!IsSurvivor(client))
+		{
+			continue;
+		}
+
+		for (int slot = 0; slot < 5; slot++)
+		{
+			RemoveInventoryItem(client, slot);
+		}
+
+		ExecuteCheatCommand(client, "give", "pistol");
+	}
+}
+
+void RemoveInventoryItem(int client, int slot)
+{
+	int item = GetPlayerWeaponSlot(client, slot);
+	if (item > MaxClients && IsValidEntity(item))
+	{
+		RemovePlayerItem(client, item);
+		AcceptEntityInput(item, "Kill");
+	}
+}
+
+void RestoreSurvivorHealth()
+{
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		if (!IsSurvivor(client))
+		{
+			continue;
+		}
+
+		ExecuteCheatCommand(client, "give", "health");
+		ResetSurvivorHealthState(client);
+	}
+}
+
+void ResetSurvivorHealthState(int client)
+{
+	SetEntPropFloat(client, Prop_Send, "m_healthBuffer", 0.0);
+	SetEntProp(client, Prop_Send, "m_currentReviveCount", 0);
+	SetEntProp(client, Prop_Send, "m_bIsOnThirdStrike", false);
+}
+
+public void OnClientPutInServer(int client)
+{
+	if (!IsFakeClient(client))
+	{
+		ShowMotdToPlayer(client);
+		CreateTimer(3.0, TimerMoveInfectedToSpectators, GetClientUserId(client), TIMER_FLAG_NO_MAPCHANGE);
+	}
+}
+
+void ShowMotdToPlayer(int client)
+{
+	char title[64];
+	char url[192];
+	g_cvMotdTitle.GetString(title, sizeof(title));
+	g_cvMotdUrl.GetString(url, sizeof(url));
+	ShowMOTDPanel(client, title, url, MOTDPANEL_TYPE_URL);
+}
+
+public Action EventPlayerTeam(Handle event, const char[] name, bool dontBroadcast)
+{
+	int userId = GetEventInt(event, "userid");
+	int client = GetClientOfUserId(userId);
+	int team = GetEventInt(event, "team");
+
+	if (!GetEventBool(event, "disconnect") && team == TEAM_INFECTED && IsValidPlayer(client) && !IsFakeClient(client))
+	{
+		CreateTimer(0.5, TimerMoveInfectedToSpectators, userId, TIMER_FLAG_NO_MAPCHANGE);
+	}
+
+	return Plugin_Continue;
+}
+
+public Action TimerMoveInfectedToSpectators(Handle timer, int userId)
+{
+	int client = GetClientOfUserId(userId);
+	if (IsValidPlayer(client) && GetClientTeam(client) == TEAM_INFECTED)
+	{
+		ChangeClientTeam(client, TEAM_SPECTATOR);
+	}
+
+	return Plugin_Stop;
+}
+
+public void OnClientDisconnect(int client)
+{
+	if (IsFakeClient(client))
+	{
+		return;
+	}
+
+	float currentTime = GetGameTime();
+	if (g_fLastDisconnectTime == currentTime)
+	{
+		return;
+	}
+
+	g_fLastDisconnectTime = currentTime;
+	CreateTimer(EMPTY_SERVER_RESTART_DELAY, TimerRestartEmptyServer, currentTime, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action TimerRestartEmptyServer(Handle timer, float disconnectTime)
+{
+	if (disconnectTime != g_fLastDisconnectTime)
+	{
+		return Plugin_Stop;
+	}
+
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		if (IsClientConnected(client) && !IsFakeClient(client))
+		{
+			return Plugin_Stop;
+		}
+	}
+
+	RestartEngine();
+	return Plugin_Stop;
+}
+
+public void EventWitchKilled(Handle event, const char[] name, bool dontBroadcast)
+{
+	int client = GetClientOfUserId(GetEventInt(event, "userid"));
+	if (!IsSurvivor(client) || !IsPlayerAlive(client) || IsSurvivorIncapacitated(client))
+	{
+		return;
+	}
+
+	int maxHealth = GetEntProp(client, Prop_Data, "m_iMaxHealth");
+	int health = GetEntProp(client, Prop_Send, "m_iHealth") + WITCH_KILL_HEAL_AMOUNT;
+	if (health > maxHealth)
+	{
+		health = maxHealth;
+	}
+
 	SetEntProp(client, Prop_Send, "m_iHealth", health);
 }
-//判断生还者倒地
-bool:IsPlayerIncap(client)
+
+public Action OnNormalSound(int clients[64], int &numClients, char sample[PLATFORM_MAX_PATH], int &entity, int &channel, float &volume, int &level, int &pitch, int &flags)
 {
-	return bool:GetEntProp(client, Prop_Send, "m_isIncapacitated");
-}
-//给予物品函数
-BypassAndExecuteCommand(client, String: strCommand[], String: strParam1[])
-{
-	new flags = GetCommandFlags(strCommand);
-	SetCommandFlags(strCommand, flags & ~FCVAR_CHEAT);
-	FakeClientCommand(client, "%s %s", strCommand, strParam1);
-	SetCommandFlags(strCommand, flags);
+	return StrContains(sample, "firewerks", false) != -1 ? Plugin_Stop : Plugin_Continue;
 }
 
+public Action OnAmbientSound(char sample[PLATFORM_MAX_PATH], int &entity, float &volume, int &level, int &pitch, float pos[3], int &flags, float &delay)
+{
+	return StrContains(sample, "firewerks", false) != -1 ? Plugin_Stop : Plugin_Continue;
+}
+
+bool IsSurvivor(int client)
+{
+	return client > 0 && client <= MaxClients && IsClientInGame(client) && GetClientTeam(client) == TEAM_SURVIVOR;
+}
+
+bool IsValidPlayer(int client)
+{
+	return client > 0 && client <= MaxClients && IsClientConnected(client) && IsClientInGame(client);
+}
+
+bool IsSurvivorPinned(int client)
+{
+	if (!IsSurvivor(client))
+	{
+		return false;
+	}
+
+	return GetEntPropEnt(client, Prop_Send, "m_tongueOwner") > 0
+		|| GetEntPropEnt(client, Prop_Send, "m_pounceAttacker") > 0
+		|| GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0
+		|| GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0
+		|| GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0;
+}
+
+bool IsSurvivorIncapacitated(int client)
+{
+	return GetEntProp(client, Prop_Send, "m_isIncapacitated") != 0;
+}
+
+void ExecuteCheatCommand(int client, const char[] command, const char[] parameter)
+{
+	int flags = GetCommandFlags(command);
+	SetCommandFlags(command, flags & ~FCVAR_CHEAT);
+	FakeClientCommand(client, "%s %s", command, parameter);
+	SetCommandFlags(command, flags);
+}
+
+public Action TimerResetSurvivorStatus(Handle timer)
+{
+	for (int client = 1; client <= MaxClients; client++)
+	{
+		if (!IsSurvivor(client))
+		{
+			continue;
+		}
+
+		ExecuteCheatCommand(client, "give", "pain_pills");
+		ExecuteCheatCommand(client, "give", "health");
+		ResetSurvivorHealthState(client);
+
+		if (IsFakeClient(client))
+		{
+			RemoveInventoryItem(client, 0);
+			ExecuteCheatCommand(client, "give", "smg");
+			ExecuteCheatCommand(client, "give", "pistol_magnum");
+		}
+		else if (GetPlayerWeaponSlot(client, 0) == -1)
+		{
+			ExecuteCheatCommand(client, "give", "smg");
+		}
+	}
+
+	return Plugin_Stop;
+}

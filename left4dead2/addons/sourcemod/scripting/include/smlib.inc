@@ -8,8 +8,8 @@
 #include <smlib/general>
 
 #include <smlib/arrays>
+#include <smlib/colors>
 #include <smlib/clients>
-//#include <smlib/colors>
 #include <smlib/concommands>
 #include <smlib/convars>
 #include <smlib/crypt>

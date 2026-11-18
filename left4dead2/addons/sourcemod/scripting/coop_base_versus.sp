@@ -131,12 +131,18 @@ Action umVGUIMenu(UserMsg msg_id, BfRead msg, const int[] players, int playersNu
 		{
 			EmitSoundToAll("player/survivor/voice/producer/laughter13.wav");
 			g_bStartMusic = true;
+			//CreateTimer(3.0, Timer_ChanceMode);
 		}
 		return Plugin_Handled;
 	}
 	return Plugin_Continue;
 }
-
+// 延迟1秒执行生成Bot主体逻辑
+public Action Timer_ChanceMode(Handle hTimer, int Limit)
+{
+    //SetConVarString(FindConVar("mp_gamemode"), "versus");
+    return Plugin_Stop;
+}
 void Event_RoundStart(Event event, const char[] name, bool dontBroadcast) 
 {
 	g_bStartMusic = false;

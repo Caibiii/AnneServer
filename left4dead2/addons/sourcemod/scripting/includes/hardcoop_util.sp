@@ -177,7 +177,7 @@ stock float GetFarthestSurvivorFlow()
 				farthest_flow = flow;
 		}
 	}
-	return farthestFlow;
+	return farthest_flow;
 }
 
 /**
@@ -200,7 +200,7 @@ stock float GetAverageSurvivorFlow()
 				total_flow++;
 		}
 	}
-	return FloatDiv(totalFlow, float(survivor_count));
+	return FloatDiv(total_flow, float(survivor_count));
 }
 
 /**

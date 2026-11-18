@@ -3,20 +3,18 @@
 #pragma newdecls required
 #include <sourcemod>
 #include <sdktools>
+#include <sdkhooks>
 #include <left4dhooks>
-// 核心宏定义（按功能分类，便于维护）
 #undef REQUIRE_PLUGIN
 #define CVAR_FLAG FCVAR_NOTIFY
 #define TEAM_SURVIVOR 2
 #define TEAM_INFECTED 3
 #define NAV_SEARCH_RANGE 250.0
-#define SPAWN_DISTANCE_OFFSET 100.0
 #define MIN_SPAWN_POS_DISTANCE 100.0
 #define MAX_CLIENTS MAXPLAYERS + 1
 #define TOTAL_ENTITY_LIMIT 28
 #define GAMEDATA "spawn_infected_nolimit"
 
-// 模型路径定义
 #define MODEL_SMOKER "models/infected/smoker.mdl"
 #define MODEL_BOOMER "models/infected/boomer.mdl"
 #define MODEL_HUNTER "models/infected/hunter.mdl"
@@ -24,248 +22,387 @@
 #define MODEL_JOCKEY "models/infected/jockey.mdl"
 #define MODEL_CHARGER "models/infected/charger.mdl"
 
-// 性能控制常量（集中配置，便于调整）
-const int MAX_PROCESS_PER_FRAME = 15;
-const int MAX_TRIES_PER_NAVAREA = 1;
 const float SURVIVOR_DIST_THRESHOLD = 400.0;
 const float STUCK_MOVE_THRESHOLD = 100.0;
-const int STUCK_MAX_COUNT = 50;
 const int STUCK_COUNT_STEP = 5;
-const float SPAWN_DIST_DEFAULT = 700.0;
-const float SPAWN_DIST_MAX = 1200.0;
+const float SPAWN_DIST_DEFAULT = 500.0;
 const float SPAWN_Z_OFFSET = 45.0;
+const float CROUCH_SPAWN_Z_OFFSET = 25.0;
+const float HIGH_SPAWN_HEIGHT = 100.0;
+const float HIGH_PATH_COMPENSATION_MULT = 2.0;
+const float HIGH_PATH_COMPENSATION_MAX = 500.0;
+const int RECENT_SPAWN_HISTORY_SIZE = 24;
+const float RECENT_SPAWN_RADIUS = 350.0;
+const float RECENT_SPAWN_WEIGHT = 0.05;
+const float BATCH_SPAWN_SEPARATION = 400.0;
+const float LOW_SPAWN_WEIGHT = 0.20;
+const float VERY_LOW_SPAWN_WEIGHT = 0.05;
 
-// 签名定义（按特感类型分组）
+const float SPAWN_DIST_STEP = 100.0;
+const float RESPAWN_DELAY_MULT = 1.5;
+const float KICK_BOT_DELAY = 0.2;
+// 刷点 Flow 小于队尾生还者 Flow 时，视为整个队伍的地图流程后方。
+const float FLOW_BEHIND_TOLERANCE = 0.0;
+
+const int DOOR_CHECK_TICKS = 2;
+const float DOOR_DAMAGE_DIST = 120.0;
+const float DOOR_DAMAGE = 1200.0;
+#define DOOR_DMG_TYPE (1 << 1)
+
+#define BOT_SOLID_FLAGS 16
+#define BOT_MOVETYPE_WALK 2
+
 #define NAME_CreateSmoker "NextBotCreatePlayerBot<Smoker>"
 #define NAME_CreateBoomer "NextBotCreatePlayerBot<Boomer>"
 #define NAME_CreateHunter "NextBotCreatePlayerBot<Hunter>"
 #define NAME_CreateSpitter "NextBotCreatePlayerBot<Spitter>"
 #define NAME_CreateJockey "NextBotCreatePlayerBot<Jockey>"
 #define NAME_CreateCharger "NextBotCreatePlayerBot<Charger>"
-#define NAME_CreateTank "NextBotCreatePlayerBot<Tank>"
 #define NAME_InfectedAttackSurvivorTeam "Infected::AttackSurvivorTeam"
-// 插件基础信息
+
 public Plugin myinfo = {
     name = "Direct InfectedSpawn",
     author = "Caibiii",
     description = "特感刷新控制，传送落后特感",
-    version = "2026.01.01修改（修复内存错误+性能优化）",
+    version = "2026.11.18",
     url = "https://github.com/Caibiii/AnneServer"
 };
 
-// 全局句柄（按类型分组）
 Handle hConf = null;
 static Handle hCreateSmoker = null, hCreateBoomer = null, hCreateHunter = null;
-static Handle hCreateSpitter = null, hCreateJockey = null, hCreateCharger = null, hCreateTank = null;
+static Handle hCreateSpitter = null, hCreateJockey = null, hCreateCharger = null;
 static Handle hInfectedAttackSurvivorTeam = null;
 
-ConVar h_Cvar_SiLimit, h_Cvar_SiInterval, h_Cvar_SpawnMinDist, h_Cvar_Alone, h_Cvar_Hunter, ReturnBlood, Hud_Text;
+ConVar h_Cvar_SiLimit, h_Cvar_SiInterval, h_Cvar_SpawnMinDist, h_Cvar_Alone, h_Cvar_Hunter, h_Cvar_BackSpawnChance, ReturnBlood, Hud_Text;
+ConVar h_Cvar_MaxProcessPerFrame, h_Cvar_NavAreaScanPerFrame, h_Cvar_PathBuildPerFrame, h_Cvar_StuckMaxCount, h_Cvar_SpawnDistMax;
+ConVar h_Cvar_SvPressureMs, h_Cvar_SvCriticalMs, h_Cvar_SvRecoverMs, h_Cvar_SvRecoverDelay;
 ArrayList h_ArrayList_NearAreas, h_ArrayList_AvailableInfectedClasses, h_ArrayList_AllNavAreas;
-ArrayList h_RandomIndices, h_ArrayList_ValidSpawnPositions;
-Handle h_SingleRespawnTimer = INVALID_HANDLE;
-// 全局变量（前缀区分类型，命名明确功能）
+ArrayList h_ArrayList_ValidSpawnPositions;
+ArrayList h_ArrayList_RecentSpawnPositions;
+ArrayList h_ArrayList_BatchSpawnPositions;
+StringMap h_Map_PathFailCache;
+float g_f_NextRespawnTime = -1.0;
+
 static bool g_b_FrameTaskLock = false;
-static int g_i_CurrentNavAreaIndex = 0;
+static int g_i_ValidAreaScanIdx = 0;
 static bool g_b_IsFindingSpawnArea = false;
-int g_i_SiLimit = 0, g_i_InfectedStuckCount[MAX_CLIENTS] = {0}, g_i_TeleportQueueIndex = 0, g_i_MaxSpawnCount = 0, g_i_CurrentNavAreaIdx = 0;
+static int g_i_StuckTickCount = 0;
+int g_i_SiLimit = 0, g_i_InfectedStuckCount[MAX_CLIENTS] = {0}, g_i_TeleportQueueIndex = 0, g_i_MaxSpawnCount = 0;
+int g_i_NearAreaScanIdx = 0;
+int g_i_FirstSpawnRetry = 0;
+int g_i_MaxProcessPerFrame = 15, g_i_NavAreaScanPerFrame = 400, g_i_PathBuildPerFrame = 20, g_i_StuckMaxCount = 50;
+int g_i_DynamicPathBuildPerFrame = 20, g_i_DynamicNavAreaScanPerFrame = 800;
+float g_f_SvPressureMs = 10.53, g_f_SvCriticalMs = 11.11, g_f_SvRecoverMs = 10.53, g_f_SvRecoverDelay = 1.0;
+float g_f_LastGameFrameTime = 0.0, g_f_SmoothedFrameMs = 0.0, g_f_SvRecoveryStartTime = 0.0;
+float g_f_SpawnDistMax = 1200.0;
 float g_f_SpawnDistance = 0.0, g_f_SpawnInterval = 0.0, g_f_SpawnMinDistance = 0.0;
 float g_f_InfectedLastPos[MAX_CLIENTS][3];
 bool g_b_IsLateSpawn = false;
 
-// 缓存数组（复用避免重复创建）
-float g_f_Cache_SpawnPos[3], g_f_Cache_SurvivorPos[3], g_f_Cache_OriginalZ[3];
-
-// 特感名称映射（与类型索引对应）
 char g_sz_InfectedNames[][] = {"", "smoker", "boomer", "hunter", "spitter", "jockey", "charger"};
 
-// 插件启动初始化（顺序：数组→配置→变量→钩子→命令）
 public void OnPluginStart() {
     h_ArrayList_NearAreas = new ArrayList();
     h_ArrayList_AvailableInfectedClasses = new ArrayList();
     h_ArrayList_AllNavAreas = new ArrayList();
-    h_RandomIndices = new ArrayList();
     h_ArrayList_ValidSpawnPositions = new ArrayList(3);
+    h_ArrayList_RecentSpawnPositions = new ArrayList(3);
+    h_ArrayList_BatchSpawnPositions = new ArrayList(3);
+    h_Map_PathFailCache = new StringMap();
     GetGamedata();
     RegisterConVars();
     HookGameEvents();
     LoadConVarValues();
 }
 
-// 插件卸载（释放资源）
-public void OnPluginEnd() 
+public void OnPluginEnd()
 {
     delete h_ArrayList_NearAreas;
     delete h_ArrayList_AvailableInfectedClasses;
     delete h_ArrayList_AllNavAreas;
-    delete h_RandomIndices;
     delete h_ArrayList_ValidSpawnPositions;
+    delete h_ArrayList_RecentSpawnPositions;
+    delete h_ArrayList_BatchSpawnPositions;
+    delete h_Map_PathFailCache;
+	delete hConf;
 }
 
-// 地图加载初始化
-public void OnMapStart() 
+public void OnMapStart()
 {
-	// 关闭VGUI倒计时
 	if (SpawnCountdown_IsRunning())
 	{
 		SpawnCountdown_Stop();
-	}
-    // 新增：换图强制清空所有计时器，杜绝跨图残留
-    if (h_SingleRespawnTimer != INVALID_HANDLE)
-    {
-        KillTimer(h_SingleRespawnTimer);
-        h_SingleRespawnTimer = INVALID_HANDLE;
-    }
-    // 遍历并清理全局重复计时器
-    // 原有代码不变
-    ResetPluginStatus();
+	} 
+    ResetPluginStatus(true);
 	h_ArrayList_AllNavAreas.Clear();
 	L4D_GetAllNavAreas(h_ArrayList_AllNavAreas);
     PrecacheInfectedModels();
-	CreateTimer(3.0, Timer_ProcessSafeAreaNavAreas);
-	CreateTimer(0.5, Timer_CheckInfectedStuck, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE); 
+	CreateTimer(3.0, Timer_ProcessSafeAreaNavAreas, _, TIMER_FLAG_NO_MAPCHANGE);
+	CreateTimer(0.5, Timer_CheckInfectedStuck, _, TIMER_REPEAT | TIMER_FLAG_NO_MAPCHANGE);
 }
 
-// 注册控制台变量（集中管理，绑定回调）
-void RegisterConVars() 
+void RegisterConVars()
 {
 	Hud_Text = CreateConVar("Hud_Text", "0", "是否开启HUD", CVAR_FLAG, true, 0.0, true, 1.0);
 	ReturnBlood = CreateConVar("ReturnBlood", "0", "是否开启杀特回血2HP", CVAR_FLAG, true, 0.0, true, 1.0);
 	h_Cvar_Alone = CreateConVar("AloneMode", "0", "是否开启单人装逼模式", CVAR_FLAG, true, 0.0, true, 1.0);
 	h_Cvar_Hunter = CreateConVar("HunterMode", "0", "是否开启Hunter模式", CVAR_FLAG, true, 0.0, true, 1.0);
+	h_Cvar_BackSpawnChance = CreateConVar("spawn_back_chance", "0.25", "正常模式地图流程后方刷特概率，每局随机0.3-0.8；单人/Hunter模式固定0.25", CVAR_FLAG, true, 0.0, true, 1.0);
     h_Cvar_SiLimit = CreateConVar("l4d_infected_limit", "6", "一次刷出多少特感", CVAR_FLAG, true, 0.0);
-    h_Cvar_SiInterval = CreateConVar("versus_special_respawn_interval", "16.0", "对抗模式下刷特时间控制", CVAR_FLAG, true, 0.0);
+    h_Cvar_SiInterval = CreateConVar("versus_special_respawn_interval", "16.0", "对抗模式下刷特基础时间；以6特×1.5为基准，每增减1特倍率增减0.1", CVAR_FLAG, true, 0.0);
     h_Cvar_SpawnMinDist = CreateConVar("spawn_min_dist", "250.0", "刷特最近距离设定", CVAR_FLAG, true, 0.0);
     h_Cvar_SiInterval.AddChangeHook(OnSpawnIntervalChanged);
     h_Cvar_SiLimit.AddChangeHook(OnSiLimitChanged);
     h_Cvar_SpawnMinDist.AddChangeHook(OnSpawnMinDistChanged);
+    h_Cvar_MaxProcessPerFrame = CreateConVar("max_process_per_frame", "20", "每帧处理候选刷点数量上限(性能)", CVAR_FLAG, true, 1.0, true, 100.0);
+    h_Cvar_NavAreaScanPerFrame = CreateConVar("nav_area_scan_per_frame", "800", "每帧扫描附近导航区域数量上限(性能)", CVAR_FLAG, true, 1.0, true, 2000.0);
+    h_Cvar_PathBuildPerFrame = CreateConVar("path_build_per_frame", "20", "每帧导航路径计算次数上限", CVAR_FLAG, true, 1.0, true, 100.0);
+    h_Cvar_SvPressureMs = CreateConVar("spawn_sv_pressure_ms", "10.53", "服务器低于95FPS时每帧寻路固定降至5次(帧耗时毫秒)", CVAR_FLAG, true, 1.0, true, 200.0);
+    h_Cvar_SvCriticalMs = CreateConVar("spawn_sv_critical_ms", "11.11", "服务器低于90FPS时每帧寻路固定降至1次(帧耗时毫秒)", CVAR_FLAG, true, 1.0, true, 200.0);
+    h_Cvar_SvRecoverMs = CreateConVar("spawn_sv_recover_ms", "10.53", "服务器高于95FPS时恢复正常寻路次数(帧耗时毫秒)", CVAR_FLAG, true, 1.0, true, 200.0);
+    h_Cvar_SvRecoverDelay = CreateConVar("spawn_sv_recover_delay", "0.5", "FPS持续高于95多少秒后恢复正常找位压力", CVAR_FLAG, true, 0.0, true, 60.0);
+    h_Cvar_StuckMaxCount = CreateConVar("stuck_max_count", "50", "特感卡住计数上限，超过后传送重刷", CVAR_FLAG, true, 1.0, true, 500.0);
+    h_Cvar_SpawnDistMax = CreateConVar("spawn_dist_max", "1000.0", "刷特距离上限，超过后重置为默认距离", CVAR_FLAG, true, 100.0, true, 5000.0);
+    h_Cvar_MaxProcessPerFrame.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_NavAreaScanPerFrame.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_PathBuildPerFrame.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_SvPressureMs.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_SvCriticalMs.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_SvRecoverMs.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_SvRecoverDelay.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_StuckMaxCount.AddChangeHook(OnPerfCvarsChanged);
+    h_Cvar_SpawnDistMax.AddChangeHook(OnPerfCvarsChanged);
 }
 
-// 注册游戏事件钩子
 void HookGameEvents() {
     HookEvent("player_death", OnPlayerDeath, EventHookMode_PostNoCopy);
     HookEvent("round_start", OnRoundStart, EventHookMode_PostNoCopy);
     HookEvent("finale_win", OnRoundEnd, EventHookMode_PostNoCopy);
     HookEvent("map_transition", OnRoundEnd, EventHookMode_PostNoCopy);
     HookEvent("mission_lost", OnRoundEnd, EventHookMode_PostNoCopy);
-	HookEvent("player_hurt", Event_PlayerHurt, EventHookMode_PostNoCopy);
 }
 
 public Action L4D_OnFirstSurvivorLeftSafeArea(int client)
 {
-	CreateTimer(0.1, Timer_TriggerNewInfectedSpawn);
-	if(h_Cvar_Alone.BoolValue)
+	g_f_NextRespawnTime = -1.0;
+	if (SpawnCountdown_IsRunning())
 	{
-		SetConVarInt(FindConVar("z_spitter_limit"), 0);
-		SetConVarInt(FindConVar("z_boomer_limit"), 0);
+		SpawnCountdown_Stop();
 	}
+	// 离开安全区立即首刷，不经过 0.5 秒计时器粒度
+	g_i_FirstSpawnRetry = 0;
+	CreateTimer(0.0, Timer_InstantFirstSpawn, _, TIMER_FLAG_NO_MAPCHANGE);
+	return Plugin_Continue;
 }
 
-// 过滤安全屋无效导航区(新增过滤电梯导航)
+// 离开安全区后尽快触发首刷；若游戏尚未标记离开状态则短暂重试，
+// 多次失败后回退到原来的 0.5 秒计时器逻辑，保证不会漏刷。
+public Action Timer_InstantFirstSpawn(Handle h_Timer)
+{
+	if (!L4D_HasAnySurvivorLeftSafeArea())
+	{
+		if (++g_i_FirstSpawnRetry <= 10)
+		{
+			CreateTimer(0.1, Timer_InstantFirstSpawn, _, TIMER_FLAG_NO_MAPCHANGE);
+		}
+		else
+		{
+			g_f_NextRespawnTime = GetGameTime();
+		}
+		return Plugin_Stop;
+	}
+	g_i_FirstSpawnRetry = 0;
+	TriggerNewInfectedSpawn();
+	return Plugin_Stop;
+}
+
 public Action Timer_ProcessSafeAreaNavAreas(Handle h_Timer) {
-    for (int i = h_ArrayList_AllNavAreas.Length - 1; i >= 0; i--) 
+    for (int i = h_ArrayList_AllNavAreas.Length - 1; i >= 0; i--)
 	{
         Address h_NavArea = h_ArrayList_AllNavAreas.Get(i);
-        if (h_NavArea == Address_Null || (L4D_GetNavArea_AttributeFlags(h_NavArea) & NAV_BASE_AVOID) || (L4D_GetNavArea_SpawnAttributes(h_NavArea) & NAV_SPAWN_CHECKPOINT) || L4D_NavArea_GetElevator(h_NavArea) != -1) 
+        if (h_NavArea == Address_Null)
+		{
+			h_ArrayList_AllNavAreas.Erase(i);
+			continue;
+		}
+        if ((L4D_GetNavArea_AttributeFlags(h_NavArea) & NAV_BASE_AVOID) || L4D_GetNavArea_SpawnAttributes(h_NavArea) & NAV_SPAWN_CHECKPOINT || L4D_NavArea_GetElevator(h_NavArea) > 0)
 		{
             h_ArrayList_AllNavAreas.Erase(i);
+			
         }
     }
     return Plugin_Stop;
 }
-/* 玩家受伤,增加对smoker得伤害 */
-public void Event_PlayerHurt(Event event, const char[] name, bool dont_broadcast)
-{
-	if(h_Cvar_Alone.BoolValue)
-	{
-		int victim = GetClientOfUserId(GetEventInt(event, "userid"));
-		int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
-		int damage = GetEventInt(event, "dmg_health");
-		int eventhealth = GetEventInt(event, "health");
-		int AddDamage = 0;
-		if (IsValidSurvivor(attacker) && IsValidInfectedBot(victim) && GetEntProp(victim, Prop_Send, "m_zombieClass") == 1)
-		{
-			if( GetEntPropEnt(victim, Prop_Send, "m_tongueVictim") > 0 )
-			{
-				AddDamage = damage * 5;
-			}
-			int health = eventhealth - AddDamage;
-			if (health < 1)
-			{
-				health = 0;
-			}
-			SetEntityHealth(victim, health);
-			SetEventInt(event, "health", health);
-		}
-	}
-}
 
-stock void FindSurvivorNearNavAreas() 
+stock void FindSurvivorNearNavAreas()
 {
-    if (g_i_CurrentNavAreaIdx == 0) 
+    if (g_i_NearAreaScanIdx == 0)
 	{
-        h_ArrayList_NearAreas.Clear(); // 清空旧的筛选结果
+        h_ArrayList_NearAreas.Clear();
     }
     int i_ProcessedCount = 0;
-    float f_SpawnPos[3], f_SurvivorPos[3];
+    float f_SpawnPos[3];
     int i_TargetSurvivor = GetFirstValidSurvivor();
-    while (g_i_CurrentNavAreaIdx < h_ArrayList_AllNavAreas.Length && i_ProcessedCount < 400) 
+    int i_Survivors[MAX_CLIENTS], i_SurvivorCount = 0;
+    float f_SurvivorPositions[MAX_CLIENTS][3];
+    for (int i_Survivor = 1; i_Survivor <= MaxClients; i_Survivor++)
+	{
+		if (!IsValidSurvivor(i_Survivor) || !IsPlayerAlive(i_Survivor) || IsSurvivorPinned(i_Survivor)) continue;
+		i_Survivors[i_SurvivorCount] = i_Survivor;
+		GetClientAbsOrigin(i_Survivor, f_SurvivorPositions[i_SurvivorCount]);
+		i_SurvivorCount++;
+	}
+    while (g_i_NearAreaScanIdx < h_ArrayList_AllNavAreas.Length && i_ProcessedCount < g_i_DynamicNavAreaScanPerFrame)
     {
-        Address h_NavArea = h_ArrayList_AllNavAreas.Get(g_i_CurrentNavAreaIdx);
-		L4D_GetNavAreaCenter(h_NavArea, f_SpawnPos);
-        for (int i_SurvivorIdx = 1; i_SurvivorIdx <= MaxClients; i_SurvivorIdx++)
+        Address h_NavArea = h_ArrayList_AllNavAreas.Get(g_i_NearAreaScanIdx);
+        if (h_NavArea == Address_Null)
 		{
-            if (!IsValidSurvivor(i_SurvivorIdx) || !IsPlayerAlive(i_SurvivorIdx)) continue;
-            GetClientAbsOrigin(i_SurvivorIdx, f_SurvivorPos);
-            float f_DistThreshold = (i_SurvivorIdx == i_TargetSurvivor) ? g_f_SpawnDistance : SURVIVOR_DIST_THRESHOLD;
-            if (GetVectorDistance(f_SpawnPos, f_SurvivorPos) < f_DistThreshold) 
+			g_i_NearAreaScanIdx++;
+			i_ProcessedCount++;
+			continue;
+		}
+		L4D_GetNavAreaCenter(h_NavArea, f_SpawnPos);
+        for (int i_SurvivorIdx = 0; i_SurvivorIdx < i_SurvivorCount; i_SurvivorIdx++)
+		{
+            int i_Survivor = i_Survivors[i_SurvivorIdx];
+            float f_DistThreshold = (i_Survivor == i_TargetSurvivor) ? g_f_SpawnDistance : SURVIVOR_DIST_THRESHOLD;
+            if (GetVectorDistance(f_SpawnPos, f_SurvivorPositions[i_SurvivorIdx]) < f_DistThreshold)
             {
                 h_ArrayList_NearAreas.Push(h_NavArea);
-                break; // 命中一个生还者即停止检查，减少循环
+                break;
             }
         }
-        g_i_CurrentNavAreaIdx++;
+        g_i_NearAreaScanIdx++;
         i_ProcessedCount++;
     }
-    if (g_i_CurrentNavAreaIdx >= h_ArrayList_AllNavAreas.Length) 
+    if (g_i_NearAreaScanIdx >= h_ArrayList_AllNavAreas.Length)
 	{
-        g_i_CurrentNavAreaIdx = 0;
+        g_i_NearAreaScanIdx = 0;
         g_b_FrameTaskLock = false;
         RequestFrame(StartFrameBasedSpawnAreaFilter);
-    } 
-	else 
+    }
+	else
 	{
         RequestFrame(FindSurvivorNearNavAreas);
     }
 }
-
-// 启动分帧筛选有效生成区
+// 校验：幸存者是否被控制（舌头/扑击/骑乘等）
+stock bool IsSurvivorPinned(int client)
+{
+    return (GetEntPropEnt(client, Prop_Send, "m_tongueOwner") > 0) ||
+           (GetEntPropEnt(client, Prop_Send, "m_pounceAttacker") > 0) ||
+           (GetEntPropEnt(client, Prop_Send, "m_carryAttacker") > 0) ||
+           (GetEntPropEnt(client, Prop_Send, "m_pummelAttacker") > 0) ||
+           (GetEntPropEnt(client, Prop_Send, "m_jockeyAttacker") > 0);
+}
 void StartFrameBasedSpawnAreaFilter() {
-    g_i_CurrentNavAreaIndex = 0;
+    g_i_ValidAreaScanIdx = 0;
     g_b_IsFindingSpawnArea = true;
     h_ArrayList_ValidSpawnPositions.Clear();
 }
 
-// 停止分帧筛选（重置状态）
 void StopFrameBasedSpawnAreaFilter() {
     g_b_IsFindingSpawnArea = false;
-    g_i_CurrentNavAreaIndex = 0;
+    g_i_ValidAreaScanIdx = 0;
     h_ArrayList_ValidSpawnPositions.Clear();
 }
 
+// 强制特感激进模式
+public Action L4D_OnGetScriptValueInt(const char[] s_Key, int &i_RetVal) {
+    if ((strcmp(s_Key, "cm_ShouldHurry", false) == 0 || strcmp(s_Key, "cm_AggressiveSpecials", false) == 0) && i_RetVal != 1) {
+        i_RetVal = 1;
+        return Plugin_Handled;
+    }
+    return Plugin_Continue;
+}
 
-// 每帧处理（分帧筛选+特感攻击指令）
-public void OnGameFrame() 
+bool IsCachedPathFailure(Address h_NavArea, Address h_SurvivorNavArea, float f_PathDist)
 {
-	if(!g_b_IsFindingSpawnArea)
+	char s_PathKey[32];
+	Format(s_PathKey, sizeof(s_PathKey), "%d:%d", h_NavArea, h_SurvivorNavArea);
+	float f_CachedFailDist;
+	return h_Map_PathFailCache.GetValue(s_PathKey, f_CachedFailDist) && f_CachedFailDist >= f_PathDist;
+}
+
+void RememberPathFailure(Address h_NavArea, Address h_SurvivorNavArea, float f_PathDist)
+{
+	char s_PathKey[32];
+	Format(s_PathKey, sizeof(s_PathKey), "%d:%d", h_NavArea, h_SurvivorNavArea);
+	float f_CachedFailDist;
+	if (!h_Map_PathFailCache.GetValue(s_PathKey, f_CachedFailDist) || f_PathDist > f_CachedFailDist)
+	{
+		h_Map_PathFailCache.SetValue(s_PathKey, f_PathDist);
+	}
+}
+
+void UpdateAdaptivePathPressure()
+{
+	float f_Now = GetEngineTime();
+	if (g_f_LastGameFrameTime > 0.0)
+	{
+		float f_FrameMs = (f_Now - g_f_LastGameFrameTime) * 1000.0;
+		if (f_FrameMs > 0.0 && f_FrameMs < 250.0)
+		{
+			g_f_SmoothedFrameMs = (g_f_SmoothedFrameMs <= 0.0) ? f_FrameMs : g_f_SmoothedFrameMs * 0.8 + f_FrameMs * 0.2;
+			if (g_f_SmoothedFrameMs > g_f_SvCriticalMs)
+			{
+				g_f_SvRecoveryStartTime = 0.0;
+				g_i_DynamicNavAreaScanPerFrame = 400;
+				if (g_i_DynamicPathBuildPerFrame != 1)
+				{
+					g_i_DynamicPathBuildPerFrame = 1;
+				}
+			}
+			else if (g_f_SmoothedFrameMs > g_f_SvPressureMs)
+			{
+				g_f_SvRecoveryStartTime = 0.0;
+				g_i_DynamicNavAreaScanPerFrame = 400;
+				if (g_i_DynamicPathBuildPerFrame != 5)
+				{
+					g_i_DynamicPathBuildPerFrame = 5;
+				}
+			}
+			else if (g_f_SmoothedFrameMs < g_f_SvRecoverMs)
+			{
+				if (g_i_DynamicPathBuildPerFrame != g_i_PathBuildPerFrame || g_i_DynamicNavAreaScanPerFrame != g_i_NavAreaScanPerFrame)
+				{
+					if (g_f_SvRecoveryStartTime <= 0.0)
+					{
+						g_f_SvRecoveryStartTime = f_Now;
+					}
+					else if (f_Now - g_f_SvRecoveryStartTime >= g_f_SvRecoverDelay)
+					{
+						g_i_DynamicPathBuildPerFrame = g_i_PathBuildPerFrame;
+						g_i_DynamicNavAreaScanPerFrame = g_i_NavAreaScanPerFrame;
+						g_f_SvRecoveryStartTime = 0.0;
+					}
+				}
+				else
+				{
+					g_f_SvRecoveryStartTime = 0.0;
+				}
+			}
+			else
+			{
+				g_f_SvRecoveryStartTime = 0.0;
+			}
+		}
+	}
+	g_f_LastGameFrameTime = f_Now;
+}
+
+public void OnGameFrame()
+{
+	UpdateAdaptivePathPressure();
+	if (!g_b_IsFindingSpawnArea)
 	{
 		for (int i_Client = 1; i_Client <= MaxClients; i_Client++)
 		{
-			// 提前过滤：非特感Bot/非存活/正在控制玩家，直接重置计数并跳过
 			if (IsValidInfectedBot(i_Client) && IsPlayerAlive(i_Client))
 			{
-				if(GetEntityMoveType(i_Client) & MOVETYPE_LADDER)
+				if (GetEntityMoveType(i_Client) & MOVETYPE_LADDER)
 				{
-				
+					
 				}
 				else
 				{
@@ -273,96 +410,101 @@ public void OnGameFrame()
 				}
 			}
 		}
-		return; 
+		return;
 	}
     int i_ProcessedCount = 0;
-    int nearAreasLen = h_ArrayList_NearAreas.Length;
+    int i_PathBuildCount = 0;
+    int i_NearAreasLen = h_ArrayList_NearAreas.Length;
 	float f_SpawnPos[3], f_AreaSize[3];
-	Address h_NavArea, h_SurvivorNavArea;
-	float f_BaseSpawnDist = g_f_SpawnDistance + NAV_SEARCH_RANGE;
-    while (g_i_CurrentNavAreaIndex < nearAreasLen && i_ProcessedCount < MAX_PROCESS_PER_FRAME)
+	Address h_NavArea;
+	float f_BaseSpawnDist;
+	switch (GetRandomInt(1, 2))
+	{
+		case 1:
+		{
+			f_BaseSpawnDist = g_f_SpawnDistMax;
+		}
+		case 2:
+		{
+			f_BaseSpawnDist = g_f_SpawnDistance + NAV_SEARCH_RANGE;
+		}
+		default:
+		{
+			f_BaseSpawnDist = g_f_SpawnDistance;
+		}
+	}
+    while (g_i_ValidAreaScanIdx < i_NearAreasLen && i_ProcessedCount < g_i_MaxProcessPerFrame)
     {
-        h_NavArea = h_ArrayList_NearAreas.Get(g_i_CurrentNavAreaIndex);
-        L4D_GetNavAreaCenter(h_NavArea, f_SpawnPos);
-        L4D_GetNavAreaSize(h_NavArea, f_AreaSize);
+        h_NavArea = h_ArrayList_NearAreas.Get(g_i_ValidAreaScanIdx);
+        if (h_NavArea == Address_Null)
+		{
+			g_i_ValidAreaScanIdx++;
+			i_ProcessedCount++;
+			continue;
+		}
+		L4D_GetNavAreaCenter(h_NavArea, f_SpawnPos);
+		L4D_GetNavAreaSize(h_NavArea, f_AreaSize);
 		f_SpawnPos[0] = GetRandomFloat(f_SpawnPos[0] - f_AreaSize[0] * 0.5, f_SpawnPos[0] + f_AreaSize[0] * 0.5);
 		f_SpawnPos[1] = GetRandomFloat(f_SpawnPos[1] - f_AreaSize[1] * 0.5, f_SpawnPos[1] + f_AreaSize[1] * 0.5);
 		f_SpawnPos[2] = f_SpawnPos[2] + (f_AreaSize[2] < 0.0 ? -f_AreaSize[2] : f_AreaSize[2]) * 0.5 + 10.0;
-		if(!IsPositionVisibleToAllAliveSurvivor(f_SpawnPos, h_NavArea))
+		if(!IsTooCloseToExistingPositions(f_SpawnPos))
 		{
-			for (int i_SurvivorIdx = 1; i_SurvivorIdx <= MaxClients; i_SurvivorIdx++)
+			int i_ClosestSurvivor;
+			float f_ClosestDist;
+			if(!IsSpawnPositionVisible(f_SpawnPos, h_NavArea, i_ClosestSurvivor, f_ClosestDist) && i_ClosestSurvivor != -1)
 			{
-				if (!IsValidSurvivor(i_SurvivorIdx) || !IsPlayerAlive(i_SurvivorIdx) || L4D2_GetSpecialInfectedDominatingMe(i_SurvivorIdx) >= 0 || L4D_IsPlayerIncapacitated(i_SurvivorIdx) || L4D_IsPlayerHangingFromLedge(i_SurvivorIdx)) continue;
-				h_SurvivorNavArea = L4D_GetLastKnownArea(i_SurvivorIdx);
-				if(L4D2_NavAreaBuildPath(h_NavArea, h_SurvivorNavArea, f_BaseSpawnDist, TEAM_INFECTED, false) && !IsTooCloseToExistingPositions(f_SpawnPos) && !IsPositionStuck(f_SpawnPos))
+				if (!L4D_IsPlayerHangingFromLedge(i_ClosestSurvivor) && !L4D_IsPlayerIncapacitated(i_ClosestSurvivor) && !IsSurvivorPinned(i_ClosestSurvivor)
+					&& i_PathBuildCount < g_i_DynamicPathBuildPerFrame)
 				{
-					h_ArrayList_ValidSpawnPositions.PushArray(f_SpawnPos, 3);
-					break;
+					Address h_SurvivorNavArea = L4D_GetLastKnownArea(i_ClosestSurvivor);
+					float f_PathDist = GetSpawnPathDistance(f_SpawnPos, i_ClosestSurvivor, f_BaseSpawnDist);
+					bool b_PathFound = false;
+					if (h_SurvivorNavArea != Address_Null && !IsCachedPathFailure(h_NavArea, h_SurvivorNavArea, f_PathDist))
+					{
+						b_PathFound = L4D2_NavAreaBuildPath(h_NavArea, h_SurvivorNavArea, f_PathDist, TEAM_INFECTED, false);
+						i_PathBuildCount++;
+						if (!b_PathFound)
+						{
+							RememberPathFailure(h_NavArea, h_SurvivorNavArea, f_PathDist);
+						}
+					}
+					if (b_PathFound)
+					{
+						h_ArrayList_ValidSpawnPositions.PushArray(f_SpawnPos, 3);
+					}
 				}
 			}
 		}
-		g_i_CurrentNavAreaIndex++;
+		g_i_ValidAreaScanIdx++;
 		i_ProcessedCount++;
     }
-    if (g_i_CurrentNavAreaIndex >= nearAreasLen) 
+    if (g_i_ValidAreaScanIdx >= i_NearAreasLen)
 	{
-        if (g_i_MaxSpawnCount > 0 || g_i_TeleportQueueIndex > 0) 
+        if (g_i_MaxSpawnCount > 0 || g_i_TeleportQueueIndex > 0)
 		{
             RequestFrame(ProcessInfectedSpawn);
         }
         g_b_IsFindingSpawnArea = false;
     }
 }
-// 辅助函数：检测新坐标是否与已存入数组的坐标距离过近
-stock bool IsTooCloseToExistingPositions(float f_NewPos[3])
-{
-    if (h_ArrayList_ValidSpawnPositions == null) return false;
-    // 数组中每3个元素对应一个坐标（x,y,z），计算已存坐标数量
-    int i_ExistingCount = h_ArrayList_ValidSpawnPositions.Length;
-    
-    // 没有已存坐标时，直接返回false（无需检测）
-    if (i_ExistingCount == 0)
-    {
-        return false;
-    }
-    
-    // 遍历所有已存坐标，检测距离
-    for (int i = 0; i < i_ExistingCount; i++)
-    {
-        // 从数组中读取已存坐标的x/y/z
-        float f_ExistingPos[3];
-        h_ArrayList_ValidSpawnPositions.GetArray(i, f_ExistingPos, 3);
-        
-        // 计算新坐标与已存坐标的三维距离（缓存结果，避免重复计算）
-        float f_Distance = GetVectorDistance(f_NewPos, f_ExistingPos);
-        
-        // 距离小于阈值，判定为“过近”，返回true
-        if (f_Distance < MIN_SPAWN_POS_DISTANCE)
-        {
-            return true;
-        }
-    }
-    
-    // 所有已存坐标都满足最小间距，返回false
-    return false;
-}
 
-public void ProcessInfectedSpawn() 
+public void ProcessInfectedSpawn()
 {
-    int i_NeedSpawnCount = g_i_MaxSpawnCount + g_i_TeleportQueueIndex;
-    if (i_NeedSpawnCount <= 0) {
+    if (g_i_MaxSpawnCount + g_i_TeleportQueueIndex <= 0) {
         return;
     }
-    while (h_ArrayList_ValidSpawnPositions.Length > 0 && (g_i_MaxSpawnCount + g_i_TeleportQueueIndex) > 0) 
+    while (h_ArrayList_ValidSpawnPositions.Length > 0 && (g_i_MaxSpawnCount + g_i_TeleportQueueIndex) > 0)
     {
         float f_SpawnPos[3];
         if (!GetRandomValidPositionFromCache(f_SpawnPos)) {
             break;
         }
         Address NavArea = L4D_GetNearestNavArea(f_SpawnPos, NAV_SEARCH_RANGE, false, false, false, TEAM_INFECTED);
-        if (NavArea == Address_Null || /*L4D_IsCompletelyVisibleToTeam(NavArea, TEAM_SURVIVOR) || */IsPositionVisibleToAllAliveSurvivor(f_SpawnPos, NavArea)) 
+		int i_DummyClient;
+		float f_DummyDist;
+        if (IsSpawnPositionVisible(f_SpawnPos, NavArea, i_DummyClient, f_DummyDist) || IsPositionStuck(f_SpawnPos))
 		{
-            continue; 
+            continue;
         }
 		int i_InfectedType;
 		if(h_Cvar_Hunter.BoolValue)
@@ -383,16 +525,17 @@ public void ProcessInfectedSpawn()
             g_i_MaxSpawnCount--;
         }
         InitInfectedSpawnState(i_SpawnedClient, f_SpawnPos);
+        RememberSpawnPosition(f_SpawnPos);
     }
     if ((g_i_MaxSpawnCount + g_i_TeleportQueueIndex) > 0) {
         AdjustSpawnDistanceAndRetry();
     }
 }
 
-void AdjustSpawnDistanceAndRetry() 
+void AdjustSpawnDistanceAndRetry()
 {
     StopFrameBasedSpawnAreaFilter();
-    if (g_f_SpawnDistance >= SPAWN_DIST_MAX)
+    if (g_f_SpawnDistance >= g_f_SpawnDistMax)
     {
         g_f_SpawnDistance = SPAWN_DIST_DEFAULT;
         if(!g_b_FrameTaskLock)
@@ -403,7 +546,7 @@ void AdjustSpawnDistanceAndRetry()
     }
     else
     {
-        g_f_SpawnDistance += 100.0;
+        g_f_SpawnDistance += SPAWN_DIST_STEP;
         StartFrameBasedSpawnAreaFilter();
         if(!g_b_FrameTaskLock)
         {
@@ -413,50 +556,135 @@ void AdjustSpawnDistanceAndRetry()
     }
 }
 
-
-static bool GetRandomValidPositionFromCache(float f_SpawnPos[3]) 
+static bool GetRandomValidPositionFromCache(float f_SpawnPos[3])
 {
-    int arrayLen = h_ArrayList_ValidSpawnPositions.Length;
-    if (arrayLen == 0) return false;
-    int i_RandomIdx = GetRandomInt(0, arrayLen - 1);
+    int i_ArrayLen = h_ArrayList_ValidSpawnPositions.Length;
+    if (i_ArrayLen == 0) return false;
+
+    bool b_RequireSeparation = false;
+    float f_CandidatePos[3];
+    for (int i = 0; i < i_ArrayLen; i++)
+    {
+        h_ArrayList_ValidSpawnPositions.GetArray(i, f_CandidatePos, 3);
+        if (IsAwayFromCurrentBatch(f_CandidatePos))
+        {
+            b_RequireSeparation = true;
+            break;
+        }
+    }
+
+    float f_TotalWeight = 0.0;
+    for (int i = 0; i < i_ArrayLen; i++)
+    {
+        h_ArrayList_ValidSpawnPositions.GetArray(i, f_CandidatePos, 3);
+        if (b_RequireSeparation && !IsAwayFromCurrentBatch(f_CandidatePos)) continue;
+        f_TotalWeight += GetSpawnPositionWeight(f_CandidatePos);
+    }
+
+    float f_RandomWeight = GetRandomFloat(0.0, f_TotalWeight);
+    int i_RandomIdx = -1;
+    for (int i = 0; i < i_ArrayLen; i++)
+    {
+        h_ArrayList_ValidSpawnPositions.GetArray(i, f_CandidatePos, 3);
+        if (b_RequireSeparation && !IsAwayFromCurrentBatch(f_CandidatePos)) continue;
+        f_RandomWeight -= GetSpawnPositionWeight(f_CandidatePos);
+        if (f_RandomWeight <= 0.0)
+        {
+            i_RandomIdx = i;
+            break;
+        }
+    }
+
+    if (i_RandomIdx == -1) return false;
     h_ArrayList_ValidSpawnPositions.GetArray(i_RandomIdx, f_SpawnPos, 3);
     h_ArrayList_ValidSpawnPositions.Erase(i_RandomIdx);
     return true;
 }
 
-// 特感卡住检测与处理
+static bool IsAwayFromCurrentBatch(const float f_SpawnPos[3])
+{
+    float f_BatchPos[3];
+    for (int i = 0; i < h_ArrayList_BatchSpawnPositions.Length; i++)
+    {
+        h_ArrayList_BatchSpawnPositions.GetArray(i, f_BatchPos, 3);
+        if (GetVectorDistance(f_SpawnPos, f_BatchPos) < BATCH_SPAWN_SEPARATION)
+            return false;
+    }
+    return true;
+}
+
+static float GetSpawnPositionWeight(const float f_SpawnPos[3])
+{
+    float f_Weight = 1.0;
+    float f_SurvivorPos[3];
+    float f_ClosestDist = 999999.0;
+    float f_ClosestSurvivorZ = f_SpawnPos[2];
+    for (int i = 1; i <= MaxClients; i++)
+    {
+        if (!IsValidSurvivor(i) || !IsPlayerAlive(i)) continue;
+        GetClientAbsOrigin(i, f_SurvivorPos);
+        float f_Dist = GetVectorDistance(f_SpawnPos, f_SurvivorPos);
+        if (f_Dist < f_ClosestDist)
+        {
+            f_ClosestDist = f_Dist;
+            f_ClosestSurvivorZ = f_SurvivorPos[2];
+        }
+    }
+
+    float f_HeightDiff = f_SpawnPos[2] - f_ClosestSurvivorZ;
+    if (f_HeightDiff < -250.0)
+        f_Weight = VERY_LOW_SPAWN_WEIGHT;
+    else if (f_HeightDiff < -80.0)
+        f_Weight = LOW_SPAWN_WEIGHT;
+
+    float f_RecentPos[3];
+    for (int i = 0; i < h_ArrayList_RecentSpawnPositions.Length; i++)
+    {
+        h_ArrayList_RecentSpawnPositions.GetArray(i, f_RecentPos, 3);
+        if (GetVectorDistance(f_SpawnPos, f_RecentPos) < RECENT_SPAWN_RADIUS)
+        {
+            f_Weight *= RECENT_SPAWN_WEIGHT;
+            break;
+        }
+    }
+    return f_Weight;
+}
+
+static void RememberSpawnPosition(const float f_SpawnPos[3])
+{
+    h_ArrayList_BatchSpawnPositions.PushArray(f_SpawnPos, 3);
+    h_ArrayList_RecentSpawnPositions.PushArray(f_SpawnPos, 3);
+    if (h_ArrayList_RecentSpawnPositions.Length > RECENT_SPAWN_HISTORY_SIZE)
+        h_ArrayList_RecentSpawnPositions.Erase(0);
+}
+
 public Action Timer_CheckInfectedStuck(Handle h_Timer)
 {
-    if (g_b_IsLateSpawn && g_i_MaxSpawnCount <= 0)
+    if (g_b_IsLateSpawn && g_i_MaxSpawnCount <= 0 && g_f_NextRespawnTime < 0.0)
     {
 		h_ArrayList_AvailableInfectedClasses.Clear();
-		// 先销毁旧主计时器、清空游戏原生倒计时
-		if (h_SingleRespawnTimer != INVALID_HANDLE)
-		{
-			KillTimer(h_SingleRespawnTimer);
-			h_SingleRespawnTimer = INVALID_HANDLE;
-		}
 		if (SpawnCountdown_IsRunning())
 		{
 			SpawnCountdown_Stop();
 		}
 
-		float totalWait = g_f_SpawnInterval * 1.5;
-		// 启动游戏原生CTimer倒计时（顶部自动显示ready_countdown条）
+		float delayMultiplier = RESPAWN_DELAY_MULT + float(g_i_SiLimit - 6) * 0.1;
+		float totalWait = g_f_SpawnInterval * delayMultiplier;
+		if(totalWait < 1.0)
+			totalWait = 1.0;
 		if(Hud_Text.BoolValue)
 		{
 			SpawnCountdown_Start(totalWait);
 		}
-		// 创建后端触发计时器，计时结束执行刷特感逻辑
-		h_SingleRespawnTimer = CreateTimer(totalWait, Timer_TriggerNewInfectedSpawn);
+		g_f_NextRespawnTime = GetGameTime() + totalWait;
 
 		g_b_IsLateSpawn = false;
     }
-    // 仅遍历存活特感Bot（减少无效循环）
+    g_i_StuckTickCount++;
+    bool b_CheckDoors = (g_i_StuckTickCount % DOOR_CHECK_TICKS == 0);
     for (int i_Client = 1; i_Client <= MaxClients; i_Client++)
     {
-        // 提前过滤：非特感Bot/非存活/正在控制玩家，直接重置计数并跳过
-        if (!IsValidInfectedBot(i_Client) || !IsPlayerAlive(i_Client) || L4D2_GetSpecialInfectedDominatingMe(i_Client) >= 0)
+        if (!IsValidInfectedBot(i_Client) || !IsPlayerAlive(i_Client) || IsInfectedPinningSomeone(i_Client))
         {
             g_i_InfectedStuckCount[i_Client] = 0;
             continue;
@@ -464,86 +692,103 @@ public Action Timer_CheckInfectedStuck(Handle h_Timer)
         L4D_WarpToValidPositionIfStuck(i_Client);
         float f_CurrentPos[3];
         GetClientAbsOrigin(i_Client, f_CurrentPos);
+		int i_DoorEnt = L4D_FindEntityByClassnameNearest("prop_door_rotating", f_CurrentPos, DOOR_DAMAGE_DIST);
+		if (i_DoorEnt > 0)
+		{
+			SDKHooks_TakeDamage(i_DoorEnt, i_Client, i_Client, DOOR_DAMAGE, DOOR_DMG_TYPE, _, f_CurrentPos);
+		}
         Address h_SpawnArea = L4D_GetLastKnownArea(i_Client);
-        bool b_IsStuck = (h_SpawnArea == Address_Null || !IsInfectedVisible(f_CurrentPos, h_SpawnArea)) 
+        bool b_IsStuck = (!IsInfectedVisible(f_CurrentPos, h_SpawnArea))
                       || GetVectorDistance(g_f_InfectedLastPos[i_Client], f_CurrentPos) < STUCK_MOVE_THRESHOLD;
         if (b_IsStuck)
             ProcessInfectedStuck(i_Client);
         else
             g_i_InfectedStuckCount[i_Client] = 0;
     }
+	if (g_f_NextRespawnTime >= 0.0 && GetGameTime() >= g_f_NextRespawnTime)
+	{
+		g_f_NextRespawnTime = -1.0;
+		TriggerNewInfectedSpawn();
+	}
     return Plugin_Continue;
 }
-// 处理卡住的特感（踢出+重新生成）
-void ProcessInfectedStuck(int i_Client) {
-    if (g_i_InfectedStuckCount[i_Client] > STUCK_MAX_COUNT) {
+
+void ProcessInfectedStuck(int i_Client)
+{
+    if (g_i_InfectedStuckCount[i_Client] > g_i_StuckMaxCount)
+	{
         g_f_SpawnDistance = SPAWN_DIST_DEFAULT;
         g_i_InfectedStuckCount[i_Client] = -1000;
         g_i_TeleportQueueIndex++;
         h_ArrayList_AvailableInfectedClasses.Push(GetEntProp(i_Client, Prop_Send, "m_zombieClass"));
 		KickClient(i_Client);
         RequestFrame(StartFrameBasedSpawnAreaFilter);
-    } else {
+    }
+	else
+	{
         g_i_InfectedStuckCount[i_Client] += STUCK_COUNT_STEP;
     }
 }
 
-// 1. 修改 ResetPluginStatus 函数（新增踢掉所有特感Bot逻辑）
-public void ResetPluginStatus() 
+void ResetPluginStatus(bool b_KickInfectedBots = false)
 {
     g_b_FrameTaskLock = false;
 	g_b_IsFindingSpawnArea = false;
-    g_i_CurrentNavAreaIndex = 0;
+    g_i_ValidAreaScanIdx = 0;
+	g_i_NearAreaScanIdx = 0;
 	g_i_MaxSpawnCount = 0;
     g_i_TeleportQueueIndex = 0;
 	g_b_IsLateSpawn = false;
-    // 新增：强制清空所有数组，清除跨图脏数据
+	g_f_NextRespawnTime = -1.0;
+	g_i_FirstSpawnRetry = 0;
     h_ArrayList_NearAreas.Clear();
     h_ArrayList_AvailableInfectedClasses.Clear();
     h_ArrayList_ValidSpawnPositions.Clear();
-    h_RandomIndices.Clear();
-    for (int i_Client = 1; i_Client <= MaxClients; i_Client++) 
-	{
-        if (IsValidInfectedBot(i_Client)) 
-		{
-            g_i_InfectedStuckCount[i_Client] = 0;
-            if (IsClientInGame(i_Client) && !IsClientInKickQueue(i_Client)) {
-                KickClient(i_Client); // 过图强制踢掉所有特感Bot，避免计数异常
-            }
-        }
-        if (!L4D_HasAnySurvivorLeftSafeArea() && IsValidSurvivor(i_Client) && !IsPlayerAlive(i_Client)) 
-		{
-            L4D_RespawnPlayer(i_Client);
-        }
-    }
+    h_ArrayList_RecentSpawnPositions.Clear();
+    h_ArrayList_BatchSpawnPositions.Clear();
+    h_Map_PathFailCache.Clear();
 	if (SpawnCountdown_IsRunning())
 	{
 		SpawnCountdown_Stop();
 	}
+	if (!b_KickInfectedBots)
+		return;
+    for (int i_Client = 1; i_Client <= MaxClients; i_Client++)
+	{
+        if (IsValidInfectedBot(i_Client))
+		{
+            g_i_InfectedStuckCount[i_Client] = 0;
+            if (IsClientInGame(i_Client) && !IsClientInKickQueue(i_Client)) {
+                KickClient(i_Client);
+            }
+        }
+        if (!L4D_HasAnySurvivorLeftSafeArea() && IsValidSurvivor(i_Client) && !IsPlayerAlive(i_Client))
+		{
+            L4D_RespawnPlayer(i_Client);
+        }
+    }
 }
 
-
-// 2. 修改 Timer_TriggerNewInfectedSpawn 函数（新增安全区判断）
-public Action Timer_TriggerNewInfectedSpawn(Handle h_Timer) 
+void TriggerNewInfectedSpawn()
 {
-    // 必须确认有生还者真的离开安全区，才允许生成特感
-    if (!L4D_HasAnySurvivorLeftSafeArea()) 
+    if (!L4D_HasAnySurvivorLeftSafeArea())
 	{
         g_b_IsLateSpawn = false;
-        return Plugin_Stop;
+        return;
     }
     g_i_TeleportQueueIndex = 0;
+    h_ArrayList_BatchSpawnPositions.Clear();
+    h_Map_PathFailCache.Clear();
 	g_b_IsLateSpawn = true;
 	g_i_MaxSpawnCount = g_i_SiLimit - GetCurrentSpecialCount();
 	g_f_SpawnDistance = SPAWN_DIST_DEFAULT;
 	InitAvailableInfectedClasses();
-	// 计算总实体数，避免超出上限（不变）
 	int totalCount = GetInGameSurvivorCount() + GetAllInfectedCount() + g_i_MaxSpawnCount;
 	if (totalCount > TOTAL_ENTITY_LIMIT) {
 		int exceed = totalCount - TOTAL_ENTITY_LIMIT;
 		g_i_MaxSpawnCount = g_i_MaxSpawnCount - exceed;
 	}
-	
+
 	if (g_i_MaxSpawnCount > 0 || g_i_TeleportQueueIndex > 0) {
 		h_ArrayList_ValidSpawnPositions.Clear();
 		if(!g_b_FrameTaskLock)
@@ -552,32 +797,28 @@ public Action Timer_TriggerNewInfectedSpawn(Handle h_Timer)
             RequestFrame(FindSurvivorNearNavAreas);
         }
 	}
-    h_SingleRespawnTimer = INVALID_HANDLE;
-	// 关闭顶部倒计时面板，失效游戏原生计时器
 	if (SpawnCountdown_IsRunning())
 	{
 		SpawnCountdown_Stop();
 	}
-
-    return Plugin_Stop;
 }
 
-// 初始化可用特感列表
 stock void InitAvailableInfectedClasses() {
     h_ArrayList_AvailableInfectedClasses.Clear();
+    bool b_Alonemode = h_Cvar_Alone.BoolValue;    // 新增：实时读
     for (int i = 1; i <= 6; i++) {
+        if (b_Alonemode && (i == 2 || i == 4))    // 新增：Alone 模式硬禁 boomer/spitter
+            continue;
         int CurrentCount = GetInfectedCurrentCount(i);
         int MaxLimit = GetInfectedMaxLimit(i);
         int ArrayLimit = MaxLimit - CurrentCount;
         if (ArrayLimit <= 0) continue;
-
         for (int a = 1; a <= ArrayLimit; a++) {
             h_ArrayList_AvailableInfectedClasses.Push(i);
         }
     }
 }
 
-// 初始化特感生成状态
 stock void InitInfectedSpawnState(int i_Client, float f_SpawnPos[3]) {
     g_f_InfectedLastPos[i_Client] = f_SpawnPos;
     TeleportEntity(i_Client, f_SpawnPos, NULL_VECTOR, NULL_VECTOR);
@@ -586,7 +827,6 @@ stock void InitInfectedSpawnState(int i_Client, float f_SpawnPos[3]) {
     SDKCall(hInfectedAttackSurvivorTeam, i_Client);
 }
 
-// 预缓存特感模型
 stock void PrecacheInfectedModels() {
     PrecacheModelIfNeed(MODEL_SMOKER);
     PrecacheModelIfNeed(MODEL_BOOMER);
@@ -596,23 +836,20 @@ stock void PrecacheInfectedModels() {
     PrecacheModelIfNeed(MODEL_CHARGER);
 }
 
-// 按需预缓存模型（避免重复）
 stock void PrecacheModelIfNeed(const char[] sModelPath) {
     if (!IsModelPrecached(sModelPath)) {
         PrecacheModel(sModelPath, true);
     }
 }
 
-// 随机选择特感类型
 stock int SelectRandomInfectedType() {
     if (h_ArrayList_AvailableInfectedClasses == null || h_ArrayList_AvailableInfectedClasses.Length <= 0) {
-        return 3; // 默认猎人
+        return 3;
     }
 
     int i_RandomIdx = GetRandomInt(0, h_ArrayList_AvailableInfectedClasses.Length - 1);
     int i_Type = h_ArrayList_AvailableInfectedClasses.Get(i_RandomIdx);
-    // 避免连续选择Boomer/Spitter
-    if (i_Type == 2 || i_Type == 4) 
+    if (i_Type == 2 || i_Type == 4)
 	{
         i_RandomIdx = GetRandomInt(0, h_ArrayList_AvailableInfectedClasses.Length - 1);
         i_Type = h_ArrayList_AvailableInfectedClasses.Get(i_RandomIdx);
@@ -621,48 +858,68 @@ stock int SelectRandomInfectedType() {
     h_ArrayList_AvailableInfectedClasses.Erase(i_RandomIdx);
     return i_Type;
 }
-//判断该坐标是否可以看到生还或者距离小于250码
-stock bool IsPositionVisibleToAllAliveSurvivor(float f_TargetPos[3], Address h_NavArea)
+
+stock bool IsSpawnPositionVisible(const float f_TargetPos[3], Address h_NavArea, int &i_ClosestSurvivor, float &f_ClosestDist)
 {
-	float f_SurvivorPos[3], f_OriginalZ[3];
-    f_OriginalZ = f_TargetPos;
-    f_OriginalZ[2] += 45.0;
+    if (!IsPositionVisibleToAllAliveSurvivor(f_TargetPos, h_NavArea, i_ClosestSurvivor, f_ClosestDist, true))
+        return false;
+    if (i_ClosestSurvivor == -1) return true;
+
+    float f_SurvivorPos[3];
+    GetClientAbsOrigin(i_ClosestSurvivor, f_SurvivorPos);
+    if (f_TargetPos[2] - f_SurvivorPos[2] < HIGH_SPAWN_HEIGHT)
+        return true;
+
+    return IsPositionVisibleToAllAliveSurvivor(f_TargetPos, h_NavArea, i_ClosestSurvivor, f_ClosestDist, true, CROUCH_SPAWN_Z_OFFSET);
+}
+
+stock float GetSpawnPathDistance(const float f_SpawnPos[3], int i_Survivor, float f_BaseDist)
+{
+    float f_SurvivorPos[3];
+    GetClientAbsOrigin(i_Survivor, f_SurvivorPos);
+    float f_HeightDiff = f_SpawnPos[2] - f_SurvivorPos[2];
+    if (f_HeightDiff < HIGH_SPAWN_HEIGHT) return f_BaseDist;
+
+    float f_Compensation = f_HeightDiff * HIGH_PATH_COMPENSATION_MULT;
+    if (f_Compensation > HIGH_PATH_COMPENSATION_MAX)
+        f_Compensation = HIGH_PATH_COMPENSATION_MAX;
+    return f_BaseDist + f_Compensation;
+}
+
+stock bool IsPositionVisibleToAllAliveSurvivor(const float f_TargetPos[3], Address h_NavArea, int &i_ClosestSurvivor, float &f_ClosestDist, bool b_CheckMinDist, float f_ZOffset = SPAWN_Z_OFFSET)
+{
+	i_ClosestSurvivor = -1;
+	f_ClosestDist = 999999.0;
+	float f_SurvivorPos[3], f_CheckPos[3];
+    f_CheckPos = f_TargetPos;
+    f_CheckPos[2] += f_ZOffset;
     for (int i_Survivor = 1; i_Survivor <= MaxClients; i_Survivor++)
     {
         if (IsValidSurvivor(i_Survivor) && IsPlayerAlive(i_Survivor))
         {
             GetClientAbsOrigin(i_Survivor, f_SurvivorPos);
-            // 性能优化：缓存距离结果，仅计算一次
             float f_CurrDist = GetVectorDistance(f_TargetPos, f_SurvivorPos);
-            if (f_CurrDist < g_f_SpawnMinDistance)
+			if (f_CurrDist < f_ClosestDist)
+			{
+				f_ClosestDist = f_CurrDist;
+				i_ClosestSurvivor = i_Survivor;
+			}
+            if (b_CheckMinDist && f_CurrDist < g_f_SpawnMinDistance)
                 return true;
-            if (L4D2_IsVisibleToPlayer(i_Survivor, 2, 3, h_NavArea, f_OriginalZ))
+			if (f_CurrDist < g_f_SpawnDistMax && L4D2_IsVisibleToPlayer(i_Survivor, TEAM_SURVIVOR, TEAM_INFECTED, h_NavArea, f_CheckPos))
                 return true;
         }
     }
 	return false;
 }
 
-// 检测特感是否被生还者可见
-stock bool IsInfectedVisible(float f_TargetPos[3], Address h_NavArea)
+stock bool IsInfectedVisible(const float f_TargetPos[3], Address h_NavArea)
 {
-	g_f_Cache_OriginalZ[0] = f_TargetPos[0];
-    g_f_Cache_OriginalZ[1] = f_TargetPos[1];
-    g_f_Cache_OriginalZ[2] = f_TargetPos[2] + SPAWN_Z_OFFSET;
-	for (int i_Client = 1; i_Client <= MaxClients; i_Client++)
-    {
-        if (IsValidSurvivor(i_Client) && IsPlayerAlive(i_Client))
-        {
-            if (L4D2_IsVisibleToPlayer(i_Client, TEAM_SURVIVOR, TEAM_INFECTED, h_NavArea, g_f_Cache_OriginalZ))
-            {
-                return true;
-            }
-        }
-    }
-    return false;
+	int i_DummyClient;
+	float f_DummyDist;
+	return IsPositionVisibleToAllAliveSurvivor(f_TargetPos, h_NavArea, i_DummyClient, f_DummyDist, false);
 }
 
-// 检测位置是否卡点
 stock bool IsPositionStuck(float f_Pos[3])
 {
     float f_RayStart1[3], f_RayEnd1[3];
@@ -676,13 +933,11 @@ stock bool IsPositionStuck(float f_Pos[3])
     return false;
 }
 
-// 射线检测卡点
 stock bool TraceRayForStuck(float f_Start[3], float f_End[3]) {
     TR_TraceRayFilter(f_Start, f_End, MASK_NPCSOLID_BRUSHONLY, RayType_EndPoint, TraceFilter_IgnoreInvalid);
     return TR_DidHit();
 }
 
-// 射线过滤无效实体
 stock bool TraceFilter_IgnoreInvalid(int i_Entity, int i_ContentsMask) {
     if (i_Entity <= MaxClients || !IsValidEntity(i_Entity)) return false;
 
@@ -694,13 +949,28 @@ stock bool TraceFilter_IgnoreInvalid(int i_Entity, int i_ContentsMask) {
     return true;
 }
 
-// 判断物理阻挡有效性
+stock bool IsTooCloseToExistingPositions(float f_NewPos[3])
+{
+    if (h_ArrayList_ValidSpawnPositions == null)
+        return false;
+    int i_ExistingCount = h_ArrayList_ValidSpawnPositions.Length;
+    if (i_ExistingCount == 0)
+        return false;
+    float f_ExistingPos[3];
+    for (int i = 0; i < i_ExistingCount; i++)
+    {
+        h_ArrayList_ValidSpawnPositions.GetArray(i, f_ExistingPos, 3);
+        if (GetVectorDistance(f_NewPos, f_ExistingPos) < MIN_SPAWN_POS_DISTANCE)
+            return true;
+    }
+    return false;
+}
+
 stock bool IsValidPhysicsBlocker(int i_Entity) {
     int i_BlockType = GetEntProp(i_Entity, Prop_Data, "m_nBlockType");
     return !(i_BlockType == 1 || i_BlockType == 2);
 }
-
-// 获取最前面的有效生还者
+/*
 static int GetFirstValidSurvivor() {
     int i_Survivor = L4D_GetHighestFlowSurvivor();
     if (IsValidSurvivor(i_Survivor) && IsPlayerAlive(i_Survivor) && !L4D_IsPlayerIncapacitated(i_Survivor) && !L4D_IsPlayerHangingFromLedge(i_Survivor)) {
@@ -708,8 +978,44 @@ static int GetFirstValidSurvivor() {
     }
     return -1;
 }
+*/
+static int GetFirstValidSurvivor() {
+    int i_Best = -1;
+    float f_BestFlow = -1.0;
+    for (int i = 1; i <= MaxClients; i++) {
+        if (!IsValidSurvivor(i) || !IsPlayerAlive(i)) continue;
+        if (L4D_IsPlayerIncapacitated(i) || L4D_IsPlayerHangingFromLedge(i)) continue;
+        float f_Flow = L4D2Direct_GetFlowDistance(i);
+        if (f_Flow > f_BestFlow) {      // 与 GetLastFlowSurvivor 一致，flow 无效者自然跳过
+            f_BestFlow = f_Flow;
+            i_Best = i;
+        }
+    }
+    return i_Best;
+}
 
-// 统计当前存活特感数量
+// 返回地图 Flow 最低的有效存活生还者，即走在队伍最后的人。
+static int GetLastFlowSurvivor()
+{
+	int i_TrailingSurvivor = -1;
+	float f_LowestFlow = 999999.0;
+	for (int i_Survivor = 1; i_Survivor <= MaxClients; i_Survivor++)
+	{
+		if (!IsValidSurvivor(i_Survivor) || !IsPlayerAlive(i_Survivor)
+			|| L4D_IsPlayerIncapacitated(i_Survivor) || L4D_IsPlayerHangingFromLedge(i_Survivor))
+		{
+			continue;
+		}
+		float f_Flow = L4D2Direct_GetFlowDistance(i_Survivor);
+		if (f_Flow > 0.0 && f_Flow < f_LowestFlow)
+		{
+			f_LowestFlow = f_Flow;
+			i_TrailingSurvivor = i_Survivor;
+		}
+	}
+	return i_TrailingSurvivor;
+}
+
 stock int GetCurrentSpecialCount() {
     int i_SpecialCount = 0;
     for (int i_Client = 1; i_Client <= MaxClients; i_Client++) {
@@ -720,7 +1026,6 @@ stock int GetCurrentSpecialCount() {
     return i_SpecialCount;
 }
 
-// 统计在场生还者数量（含死亡）
 stock int GetInGameSurvivorCount() {
     int count = 0;
     for (int i_Client = 1; i_Client <= MaxClients; i_Client++) {
@@ -731,7 +1036,6 @@ stock int GetInGameSurvivorCount() {
     return count;
 }
 
-// 统计所有特感数量（含死亡）
 stock int GetAllInfectedCount() {
     int count = 0;
     for (int i_Client = 1; i_Client <= MaxClients; i_Client++) {
@@ -742,60 +1046,48 @@ stock int GetAllInfectedCount() {
     return count;
 }
 
-// 控制台变量变更回调
 void OnSpawnIntervalChanged(ConVar h_Cvar, const char[] s_OldVal, const char[] s_NewVal) { LoadConVarValues(); }
 void OnSiLimitChanged(ConVar h_Cvar, const char[] s_OldVal, const char[] s_NewVal) { g_i_SiLimit = h_Cvar_SiLimit.IntValue; }
 void OnSpawnMinDistChanged(ConVar h_Cvar, const char[] s_OldVal, const char[] s_NewVal) { g_f_SpawnMinDistance = h_Cvar_SpawnMinDist.FloatValue; }
+void OnPerfCvarsChanged(ConVar h_Cvar, const char[] s_OldVal, const char[] s_NewVal) { LoadConVarValues(); }
 
-// 加载控制台变量值
 void LoadConVarValues() {
     g_f_SpawnInterval = h_Cvar_SiInterval.FloatValue;
     g_i_SiLimit = h_Cvar_SiLimit.IntValue;
     g_f_SpawnMinDistance = h_Cvar_SpawnMinDist.FloatValue;
+    g_i_MaxProcessPerFrame = h_Cvar_MaxProcessPerFrame.IntValue;
+    g_i_NavAreaScanPerFrame = h_Cvar_NavAreaScanPerFrame.IntValue;
+    g_i_PathBuildPerFrame = h_Cvar_PathBuildPerFrame.IntValue;
+    g_i_DynamicPathBuildPerFrame = g_i_PathBuildPerFrame;
+    g_i_DynamicNavAreaScanPerFrame = g_i_NavAreaScanPerFrame;
+    g_f_SvPressureMs = h_Cvar_SvPressureMs.FloatValue;
+    g_f_SvCriticalMs = h_Cvar_SvCriticalMs.FloatValue;
+    g_f_SvRecoverMs = h_Cvar_SvRecoverMs.FloatValue;
+    g_f_SvRecoverDelay = h_Cvar_SvRecoverDelay.FloatValue;
+    g_f_SvRecoveryStartTime = 0.0;
+    g_i_StuckMaxCount = h_Cvar_StuckMaxCount.IntValue;
+    g_f_SpawnDistMax = h_Cvar_SpawnDistMax.FloatValue;
 }
 
-// 回合开始事件处理
-public void OnRoundStart(Event h_Event, const char[] s_Name, bool b_DontBroadcast) 
+public void OnRoundStart(Event h_Event, const char[] s_Name, bool b_DontBroadcast)
 {
-    InitPluginStatus();
-	if (h_SingleRespawnTimer != INVALID_HANDLE)
-	{
-		//PrintToChatAll("删除计时器");
-		KillTimer(h_SingleRespawnTimer);
-		h_SingleRespawnTimer = INVALID_HANDLE;
-	}
+    ResetPluginStatus();
+	h_Cvar_BackSpawnChance.FloatValue = GetRandomFloat(0.25, 0.5);
     CreateTimer(1.0, Timer_ResetSafeRoomState, _, TIMER_FLAG_NO_MAPCHANGE);
 }
 
-// 重置安全屋状态
-public Action Timer_ResetSafeRoomState(Handle h_Timer) 
+public Action Timer_ResetSafeRoomState(Handle h_Timer)
 {
-    ResetPluginStatus();
+    ResetPluginStatus(true);
     return Plugin_Stop;
 }
 
-// 回合结束事件处理
-public void OnRoundEnd(Event h_Event, const char[] s_Name, bool b_DontBroadcast) 
+public void OnRoundEnd(Event h_Event, const char[] s_Name, bool b_DontBroadcast)
 {
-    InitPluginStatus();
+    ResetPluginStatus();
 }
 
-// 插件状态初始化（重置核心变量）
-public void InitPluginStatus()
-{
-	g_b_IsFindingSpawnArea = false;
-    g_i_CurrentNavAreaIndex = 0;
-	g_i_MaxSpawnCount = 0;
-    g_i_TeleportQueueIndex = 0;
-	g_b_IsLateSpawn = false;
-	if (SpawnCountdown_IsRunning())
-	{
-		SpawnCountdown_Stop();
-	}
-}
-
-// 玩家死亡事件处理（清理特感Bot）
-public void OnPlayerDeath(Event h_Event, const char[] s_Name, bool b_DontBroadcast) 
+public void OnPlayerDeath(Event h_Event, const char[] s_Name, bool b_DontBroadcast)
 {
 	int victim = GetClientOfUserId(GetEventInt(h_Event, "userid"));
 	int killer  = GetClientOfUserId(GetEventInt(h_Event, "attacker"));
@@ -803,15 +1095,11 @@ public void OnPlayerDeath(Event h_Event, const char[] s_Name, bool b_DontBroadca
 	{
 		g_i_InfectedStuckCount[victim] = -1000;
 		int i_ZombieClass = GetEntProp(victim, Prop_Send, "m_zombieClass");
-		if (i_ZombieClass == 4)
+		if (i_ZombieClass != 4)
 		{
-			g_i_InfectedStuckCount[victim] = -1000;
-		} 
-		else 
-		{
-			CreateTimer(0.2, Timer_KickInfectedBot, victim);
+			CreateTimer(KICK_BOT_DELAY, Timer_KickInfectedBot, GetClientUserId(victim));
 		}
-		if(IsValidSurvivor(killer))	//玩家幸存者杀死特殊感染者
+		if(IsValidSurvivor(killer))
 		{
 			if(ReturnBlood.BoolValue)
 			{
@@ -830,25 +1118,16 @@ public void OnPlayerDeath(Event h_Event, const char[] s_Name, bool b_DontBroadca
 		}
 	}
 }
-// 踢出特感Bot
-public Action Timer_KickInfectedBot(Handle h_Timer, int i_Client) {
-    if (IsClientInGame(i_Client) && !IsClientInKickQueue(i_Client) && IsFakeClient(i_Client)) {
-        g_i_InfectedStuckCount[i_Client] = -1000;
-        KickClient(i_Client);
-    }
-    return Plugin_Continue;
+
+public Action Timer_KickInfectedBot(Handle h_Timer, int i_UserId) {
+	int i_Client = GetClientOfUserId(i_UserId);
+	if (i_Client > 0 && IsClientInGame(i_Client) && !IsClientInKickQueue(i_Client) && IsFakeClient(i_Client)) {
+		g_i_InfectedStuckCount[i_Client] = -1000;
+		KickClient(i_Client);
+	}
+	return Plugin_Continue;
 }
 
-// 判断玩家是否被特感控制
-stock bool IsPlayerPinned(int i_Client) {
-    return GetEntPropEnt(i_Client, Prop_Send, "m_tongueOwner") > 0
-        || GetEntPropEnt(i_Client, Prop_Send, "m_pounceAttacker") > 0
-        || GetEntPropEnt(i_Client, Prop_Send, "m_carryAttacker") > 0
-        || GetEntPropEnt(i_Client, Prop_Send, "m_pummelAttacker") > 0
-        || GetEntPropEnt(i_Client, Prop_Send, "m_jockeyAttacker") > 0;
-}
-
-// 判断特感是否正在控制玩家
 stock bool IsInfectedPinningSomeone(int i_Client) {
     if (!IsValidInfectedBot(i_Client)) return false;
     return GetEntPropEnt(i_Client, Prop_Send, "m_tongueVictim") > 0
@@ -858,12 +1137,6 @@ stock bool IsInfectedPinningSomeone(int i_Client) {
         || GetEntPropEnt(i_Client, Prop_Send, "m_carryVictim") > 0;
 }
 
-// 判断玩家是否为幽灵状态
-stock bool IsPlayerGhost(int i_Client) {
-    return IsValidClient(i_Client) && view_as<bool>(GetEntProp(i_Client, Prop_Send, "m_isGhost"));
-}
-
-// 判断是否为有效特感Bot
 stock bool IsValidInfectedBot(int i_Client) {
     if (i_Client <= 0 || i_Client > MaxClients || !IsClientInGame(i_Client) || !IsFakeClient(i_Client)) {
         return false;
@@ -872,13 +1145,11 @@ stock bool IsValidInfectedBot(int i_Client) {
     return GetClientTeam(i_Client) == TEAM_INFECTED && i_ZombieClass >= 1 && i_ZombieClass <= 6;
 }
 
-// 客户端有效性判断（合并重复逻辑）
 stock bool IsValidClient(int i_Client, bool b_CheckReplay = false) {
     if (i_Client <= 0 || i_Client > MaxClients || !IsClientInGame(i_Client)) return false;
     return b_CheckReplay ? (!IsClientSourceTV(i_Client) && !IsClientReplay(i_Client)) : true;
 }
 
-// 获取特感最大数量限制
 stock int GetInfectedMaxLimit(int i_Class) {
     char s_CvarName[16];
     Format(s_CvarName, 16, "z_%s_limit", g_sz_InfectedNames[i_Class]);
@@ -886,7 +1157,6 @@ stock int GetInfectedMaxLimit(int i_Class) {
     return (h_Cvar != null) ? h_Cvar.IntValue : 0;
 }
 
-// 获取当前特感数量
 stock int GetInfectedCurrentCount(int i_Class) {
     int i_Count = 0;
     for (int i = 1; i <= MaxClients; i++) {
@@ -897,21 +1167,10 @@ stock int GetInfectedCurrentCount(int i_Class) {
     return i_Count;
 }
 
-// 判断是否为有效生还者
 stock bool IsValidSurvivor(int i_Client) {
     return IsValidClient(i_Client) && GetClientTeam(i_Client) == TEAM_SURVIVOR;
 }
 
-// 强制特感激进模式
-public Action L4D_OnGetScriptValueInt(const char[] s_Key, int &i_RetVal) {
-    if ((strcmp(s_Key, "cm_ShouldHurry", false) == 0 || strcmp(s_Key, "cm_AggressiveSpecials", false) == 0) && i_RetVal != 1) {
-        i_RetVal = 1;
-        return Plugin_Handled;
-    }
-    return Plugin_Continue;
-}
-
-// 创建特感（按类型分支）
 int CreateInfected(const char[] zomb) {
     int bot = -1;
     if (StrEqual(zomb, "smoker", false)) {
@@ -949,7 +1208,6 @@ int CreateInfected(const char[] zomb) {
     return bot;
 }
 
-// 加载游戏配置文件
 void GetGamedata() {
     char filePath[PLATFORM_MAX_PATH];
     BuildPath(Path_SM, filePath, sizeof(filePath), "gamedata/%s.txt", GAMEDATA);
@@ -959,7 +1217,6 @@ void GetGamedata() {
     PrepSDKCall();
 }
 
-// 从内存地址读取字符串
 void LoadStringFromAdddress(Address addr, char[] buffer, int maxlength) {
     int i = 0;
     while (i < maxlength) {
@@ -971,7 +1228,6 @@ void LoadStringFromAdddress(Address addr, char[] buffer, int maxlength) {
     buffer[maxlength - 1] = 0;
 }
 
-// 准备特感创建SDKCall
 Handle PrepCreateBotCallFromAddress(Handle hSiFuncTrie, const char[] siName) {
     Address addr;
     StartPrepSDKCall(SDKCall_Static);
@@ -984,7 +1240,6 @@ Handle PrepCreateBotCallFromAddress(Handle hSiFuncTrie, const char[] siName) {
     return EndPrepSDKCall();
 }
 
-// Windows平台特感创建调用准备
 void PrepWindowsCreateBotCalls(Address jumpTableAddr) {
     Handle hInfectedFuncs = CreateTrie();
     for (int i = 0; i < 7; i++) {
@@ -1007,17 +1262,15 @@ void PrepWindowsCreateBotCalls(Address jumpTableAddr) {
     if (hCreateBoomer == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateBoomer); return; }
     hCreateHunter = PrepCreateBotCallFromAddress(hInfectedFuncs, "Hunter");
     if (hCreateHunter == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateHunter); return; }
-    hCreateTank = PrepCreateBotCallFromAddress(hInfectedFuncs, "Tank");
-    if (hCreateTank == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateTank); return; }
     hCreateSpitter = PrepCreateBotCallFromAddress(hInfectedFuncs, "Spitter");
     if (hCreateSpitter == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateSpitter); return; }
     hCreateJockey = PrepCreateBotCallFromAddress(hInfectedFuncs, "Jockey");
     if (hCreateJockey == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateJockey); return; }
     hCreateCharger = PrepCreateBotCallFromAddress(hInfectedFuncs, "Charger");
     if (hCreateCharger == null) { SetFailState("Cannot initialize %s SDKCall, address lookup failed.", NAME_CreateCharger); return; }
+    delete hInfectedFuncs;
 }
 
-// L4D2特感创建调用准备
 void PrepL4D2CreateBotCalls() {
     hCreateSpitter = PrepSDKCallForBot(NAME_CreateSpitter);
     if (hCreateSpitter == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateSpitter); return; }
@@ -1027,7 +1280,6 @@ void PrepL4D2CreateBotCalls() {
     if (hCreateCharger == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateCharger); return; }
 }
 
-// L4D1特感创建调用准备
 void PrepL4D1CreateBotCalls() {
     hCreateSmoker = PrepSDKCallForBot(NAME_CreateSmoker);
     if (hCreateSmoker == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateSmoker); return; }
@@ -1035,11 +1287,8 @@ void PrepL4D1CreateBotCalls() {
     if (hCreateBoomer == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateBoomer); return; }
     hCreateHunter = PrepSDKCallForBot(NAME_CreateHunter);
     if (hCreateHunter == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateHunter); return; }
-    hCreateTank = PrepSDKCallForBot(NAME_CreateTank);
-    if (hCreateTank == null) { SetFailState("Cannot initialize %s SDKCall, signature is broken.", NAME_CreateTank); return; }
 }
 
-// 封装特感SDKCall准备（减少重复代码）
 Handle PrepSDKCallForBot(const char[] botName) {
     StartPrepSDKCall(SDKCall_Static);
     if (!PrepSDKCall_SetFromConf(hConf, SDKConf_Signature, botName)) {
@@ -1051,12 +1300,11 @@ Handle PrepSDKCallForBot(const char[] botName) {
     return EndPrepSDKCall();
 }
 
-// 初始化SDKCall
 void PrepSDKCall() {
     if (hConf == null) { SetFailState("Unable to find %s.txt gamedata.", GAMEDATA); return; }
 
     Address replaceWithBot = GameConfGetAddress(hConf, "NextBotCreatePlayerBot.jumptable");
-    if (replaceWithBot != Address_Null && LoadFromAddress(replaceWithBot, NumberType_Int8) == 0x68) {
+    if(replaceWithBot != Address_Null && LoadFromAddress(replaceWithBot, NumberType_Int8) == 0x68) {
         PrepWindowsCreateBotCalls(replaceWithBot);
     } else {
         PrepL4D2CreateBotCalls();
@@ -1073,13 +1321,11 @@ void PrepSDKCall() {
     }
 }
 
-// 完全照搬Antibaiter：复用游戏内置拾荒倒计时作为我们的倒计时载体
 CountdownTimer SpawnCountdownPointer()
 {
     return L4D2Direct_GetScavengeRoundSetupTimer();
 }
 
-// 启动倒计时 + 打开顶部ready_countdown VGUI面板
 stock void SpawnCountdown_Start(float flDuration)
 {
     for (int i = 1; i <= MaxClients; i++)
@@ -1092,19 +1338,11 @@ stock void SpawnCountdown_Start(float flDuration)
     CTimer_Start(SpawnCountdownPointer(), flDuration);
 }
 
-// 判断倒计时是否运行中
 stock bool SpawnCountdown_IsRunning()
 {
     return CTimer_HasStarted(SpawnCountdownPointer());
 }
 
-// 判断倒计时是否走完
-stock bool SpawnCountdown_IsElapsed()
-{
-    return CTimer_IsElapsed(SpawnCountdownPointer());
-}
-
-// 销毁倒计时 + 关闭顶部VGUI
 stock void SpawnCountdown_Stop()
 {
     CTimer_Invalidate(SpawnCountdownPointer());
@@ -1115,10 +1353,4 @@ stock void SpawnCountdown_Stop()
             ShowVGUIPanel(i, "ready_countdown", _, false);
         }
     }
-}
-
-// 获取剩余倒计时秒数（用于聊天打印）
-stock float SpawnCountdown_GetRemaining()
-{
-    return CTimer_GetRemainingTime(SpawnCountdownPointer());
 }

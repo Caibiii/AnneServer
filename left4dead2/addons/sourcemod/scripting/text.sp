@@ -1,162 +1,133 @@
 #pragma semicolon 1
 #include <sourcemod>
 #include <sdktools>
-#include <sdkhooks>
-#include <left4dhooks>
-#define sBuffer	"2021-07-07"
-new Handle: g_hCvarInfectedTime = INVALID_HANDLE;
-new Handle: g_hCvarInfectedLimit = INVALID_HANDLE;
-new Handle: g_hCvarTankBhop = INVALID_HANDLE;
-new Handle: g_hCvarReturnBlood = INVALID_HANDLE;
 
-new CommonLimit;
-new CommonTime;
-new TankBhop;
-new ReturnBlood;
+#define STATUS_DATE "2021-07-07"
+
+new Handle:g_hTime = INVALID_HANDLE;
+new Handle:g_hLimit = INVALID_HANDLE;
+new Handle:g_hBhop = INVALID_HANDLE;
+new Handle:g_hBlood = INVALID_HANDLE;
+
+new g_iTime;
+new g_iLimit;
+new g_iBhop;
+new g_iBlood;
 
 public OnPluginStart()
 {
-	g_hCvarInfectedTime = FindConVar("versus_special_respawn_interval");
-	g_hCvarInfectedLimit = FindConVar("l4d_infected_limit");
-	g_hCvarTankBhop = FindConVar("ai_Tank_Bhop");
-	g_hCvarReturnBlood= FindConVar("ReturnBlood");
-	HookConVarChange(g_hCvarInfectedTime, Cvar_InfectedTime);
-	HookConVarChange(g_hCvarInfectedLimit, Cvar_InfectedLimit);
-	HookConVarChange(g_hCvarTankBhop, CvarTankBhop);
-	HookConVarChange(g_hCvarReturnBlood, CvarReturnBlood);
-	CommonTime = GetConVarInt(g_hCvarInfectedTime);
-	CommonLimit = GetConVarInt(g_hCvarInfectedLimit);
-	TankBhop = GetConVarInt(g_hCvarTankBhop);
-	ReturnBlood = GetConVarInt(g_hCvarReturnBlood);
+	g_hTime = CvarHook("versus_special_respawn_interval", g_iTime);
+	g_hLimit = CvarHook("l4d_infected_limit", g_iLimit);
+	g_hBhop = CvarHook("ai_Tank_Bhop", g_iBhop);
+	g_hBlood = CvarHook("ReturnBlood", g_iBlood);
 
-	RegConsoleCmd("sm_xx", InfectedStatus);
-	RegConsoleCmd("sm_zs", ZiSha);
-	RegConsoleCmd("sm_kill", ZiSha);
+	RegConsoleCmd("sm_xx", Cmd_Status);
+	RegConsoleCmd("sm_zs", Cmd_Kill);
+	RegConsoleCmd("sm_kill", Cmd_Kill);
 
-	HookEvent("round_start", event_RoundStart);
-}
-public CvarTankBhop(Handle: cvar, const String: oldValue[], const String: newValue[])
-{
-    TankBhop = GetConVarInt(g_hCvarTankBhop);
+	HookEvent("round_start", Ev_RoundStart);
 }
 
-public Action: ZiSha(client, args)
+stock Handle:CvarHook(const String:name[], &val)
 {
-    ForcePlayerSuicide(client);
-    return Plugin_Handled;
-}
-
-public event_RoundStart(Handle: event, const String: name[], bool: dontBroadcast)
-{
-    bool isReturnBlood = (ReturnBlood > 0);
-    bool isTankBhop = (TankBhop > 0);
-    char ReturnBloodType[64], TankBhopType[64];
-
-    Format(ReturnBloodType, sizeof(ReturnBloodType), "%s", (isReturnBlood ? "\x04开启" : "\x04关闭"));
-    Format(TankBhopType, sizeof(TankBhopType), "%s", (isTankBhop ? "\x04开启" : "\x04关闭"));
-
-    PrintToChatAll("\x03Tank连跳\x05[%s] \x03回血\x05[%s] \x03特感\x05[\x04%i特%i秒\x05] \x03测试服\x05[\x04%s\x05]", TankBhopType, ReturnBloodType, CommonLimit, CommonTime, sBuffer);
-	CreateTimer(3.0, KickFirstSpawn);
-}
-
-public Action KickFirstSpawn(Handle timer)
-{
-	for (new infected = 1; infected <= MaxClients; infected++)
+	new Handle:cvar = FindConVar(name);
+	if (cvar == INVALID_HANDLE)
 	{
-		if (IsInfectedBot(infected))
-		{
-			KickClient(infected);
-		}
+		val = 0;
+		return INVALID_HANDLE;
 	}
+
+	val = GetConVarInt(cvar);
+	HookConVarChange(cvar, CvarChanged);
+	return cvar;
+}
+
+public CvarChanged(Handle:cvar, const String:oldVal[], const String:newVal[])
+{
+	Refresh();
+	SayAll();
+}
+
+stock Refresh()
+{
+	if (g_hTime != INVALID_HANDLE) g_iTime = GetConVarInt(g_hTime);
+	if (g_hLimit != INVALID_HANDLE) g_iLimit = GetConVarInt(g_hLimit);
+	if (g_hBhop != INVALID_HANDLE) g_iBhop = GetConVarInt(g_hBhop);
+	if (g_hBlood != INVALID_HANDLE) g_iBlood = GetConVarInt(g_hBlood);
+}
+
+stock StatusText(String:buf[], maxlen)
+{
+	Format(buf, maxlen, "\x03Tank连跳\x05[\x04%s\x05] \x03回血\x05[\x04%s\x05] \x03特感\x05[\x04%d特%d秒\x05] \x03测试服\x05[\x04%s\x05]",
+		g_iBhop > 0 ? "开启" : "关闭",
+		g_iBlood > 0 ? "开启" : "关闭",
+		g_iLimit,
+		g_iTime,
+		STATUS_DATE);
+}
+
+stock SayAll()
+{
+	decl String:buf[192];
+	StatusText(buf, sizeof(buf));
+	PrintToChatAll("%s", buf);
+}
+
+stock SayTo(client)
+{
+	decl String:buf[192];
+	StatusText(buf, sizeof(buf));
+	PrintToChat(client, "%s", buf);
+}
+
+public Action:Cmd_Status(client, args)
+{
+	if (IsValid(client, false)) SayTo(client);
+	return Plugin_Handled;
+}
+
+public Action:Cmd_Kill(client, args)
+{
+	if (IsValid(client, true)) ForcePlayerSuicide(client);
+	return Plugin_Handled;
+}
+
+public Action:Ev_RoundStart(Handle:event, const String:name[], bool:dontBroadcast)
+{
+	SayAll();
+	CreateTimer(3.0, Timer_KickBots);
 	return Plugin_Continue;
 }
 
-public Cvar_InfectedTime(Handle: cvar, const String: oldValue[], const String: newValue[])
+public Action:Timer_KickBots(Handle:timer)
 {
-    CommonTime = GetConVarInt(g_hCvarInfectedTime);
-	bool isReturnBlood = (ReturnBlood > 0);
-    bool isTankBhop = (TankBhop > 0);
-    char ReturnBloodType[64], TankBhopType[64];
+	for (new client = 1; client <= MaxClients; client++)
+		if (IsInfBot(client)) KickClient(client);
 
-    Format(ReturnBloodType, sizeof(ReturnBloodType), "%s", (isReturnBlood ? "\x04开启" : "\x04关闭"));
-    Format(TankBhopType, sizeof(TankBhopType), "%s", (isTankBhop ? "\x04开启" : "\x04关闭"));
-
-    PrintToChatAll("\x03Tank连跳\x05[%s] \x03回血\x05[%s] \x03特感\x05[\x04%i特%i秒\x05] \x03测试服\x05[\x04%s\x05]", TankBhopType, ReturnBloodType, CommonLimit, CommonTime, sBuffer);
+	return Plugin_Continue;
 }
 
-public Cvar_InfectedLimit(Handle: cvar, const String: oldValue[], const String: newValue[])
+public OnClientPutInServer(client)
 {
-    CommonLimit = GetConVarInt(g_hCvarInfectedLimit);
-	bool isReturnBlood = (ReturnBlood > 0);
-    bool isTankBhop = (TankBhop > 0);
-    char ReturnBloodType[64], TankBhopType[64];
-
-    Format(ReturnBloodType, sizeof(ReturnBloodType), "%s", (isReturnBlood ? "\x04开启" : "\x04关闭"));
-    Format(TankBhopType, sizeof(TankBhopType), "%s", (isTankBhop ? "\x04开启" : "\x04关闭"));
-
-    PrintToChatAll("\x03Tank连跳\x05[%s] \x03回血\x05[%s] \x03特感\x05[\x04%i特%i秒\x05] \x03测试服\x05[\x04%s\x05]", TankBhopType, ReturnBloodType, CommonLimit, CommonTime, sBuffer);
+	if (IsValid(client, false)) SayTo(client);
 }
 
-public CvarReturnBlood(Handle: cvar, const String: oldValue[], const String: newValue[])
+stock bool:IsInfBot(client)
 {
-    ReturnBlood = GetConVarInt(g_hCvarReturnBlood);
+	if (client <= 0 || client > MaxClients) return false;
+	if (!IsClientInGame(client) || !IsFakeClient(client)) return false;
+	if (GetClientTeam(client) != 3) return false;
+
+	new cls = GetEntProp(client, Prop_Send, "m_zombieClass");
+	return cls >= 1 && cls <= 6;
 }
 
-public Action: InfectedStatus(Client, args)
+stock bool:IsValid(client, bool:alive)
 {
-    bool isReturnBlood = (ReturnBlood > 0);
-    bool isTankBhop = (TankBhop > 0);
-    char ReturnBloodType[64], TankBhopType[64];
+	if (client <= 0 || client > MaxClients) return false;
+	if (!IsClientConnected(client) || !IsClientInGame(client)) return false;
+	if (IsFakeClient(client)) return false;
+	if (alive && !IsPlayerAlive(client)) return false;
 
-    Format(ReturnBloodType, sizeof(ReturnBloodType), "%s", (isReturnBlood ? "\x04开启" : "\x04关闭"));
-    Format(TankBhopType, sizeof(TankBhopType), "%s", (isTankBhop ? "\x04开启" : "\x04关闭"));
-
-    PrintToChatAll("\x03Tank连跳\x05[%s] \x03回血\x05[%s] \x03特感\x05[\x04%i特%i秒\x05] \x03测试服\x05[\x04%s\x05]", TankBhopType, ReturnBloodType, CommonLimit, CommonTime, sBuffer);
-
-    return Plugin_Handled;
-}
-
-public OnClientPutInServer(Client)
-{
-	if (IsValidPlayer(Client, false))
-	{
-		bool isReturnBlood = (ReturnBlood > 0);
-		bool isTankBhop = (TankBhop > 0);
-		char ReturnBloodType[64], TankBhopType[64];
-
-		Format(ReturnBloodType, sizeof(ReturnBloodType), "%s", (isReturnBlood ? "\x04开启" : "\x04关闭"));
-		Format(TankBhopType, sizeof(TankBhopType), "%s", (isTankBhop ? "\x04开启" : "\x04关闭"));
-
-		PrintToChat(Client,"\x03Tank连跳\x05[%s] \x03回血\x05[%s] \x03特感\x05[\x04%i特%i秒\x05] \x03测试服\x05[\x04%s\x05]", TankBhopType, ReturnBloodType, CommonLimit, CommonTime, sBuffer);
-	}
-}
-stock bool:IsInfectedBot(client)
-{
-	if (client > 0 && client <= MaxClients && IsClientInGame(client) && IsFakeClient(client) && GetClientTeam(client) == 3 && GetEntProp(client, Prop_Send, "m_zombieClass") <= 6 && GetEntProp(client, Prop_Send, "m_zombieClass") >=1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-stock bool:IsValidPlayer(Client, bool:AllowBot = true, bool:AllowDeath = true)
-{
-	if (Client < 1 || Client > MaxClients)
-		return false;
-	if (!IsClientConnected(Client) || !IsClientInGame(Client))
-		return false;
-	if (!AllowBot)
-	{
-		if (IsFakeClient(Client))
-			return false;
-	}
-
-	if (!AllowDeath)
-	{
-		if (!IsPlayerAlive(Client))
-			return false;
-	}	
 	return true;
 }

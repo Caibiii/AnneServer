@@ -1,204 +1,224 @@
 #pragma semicolon 1
 #pragma newdecls required
 #pragma tabsize 0
+
 #include <sourcemod>
-#include <sdktools>
-#include <sdkhooks>
-#include <colors>
 #include <left4dhooks>
-#define ZC_SMOKER               1
-#define ZC_BOOMER               2
-#define ZC_HUNTER               3
-#define ZC_SPITTER              4
-#define ZC_JOCKEY               5
-#define ZC_CHARGER              6
-#define ZC_WITCH                7
-#define ZC_TANK                 8
-#define CommonInfectedBonus		20
-int 
-	iDidDamage[MAXPLAYERS + 1],
-	KillInfected[MAXPLAYERS+1],
-	KillSpecial[MAXPLAYERS+1],
-	FriendDamage[MAXPLAYERS+1],
-	DamageFriend[MAXPLAYERS+1];
-bool
-	g_bIsPrintInfo;
-public void OnPluginStart()
+
+/**
+ * 药役 MVP 统计
+ * 指令：sm_mvp / sm_kills
+ */
+
+// 小特感类别（m_zombieClass，1~6）
+enum
 {
-	RegConsoleCmd("sm_mvp", MVPinfo);
-	RegConsoleCmd("sm_kills", MVPinfo);
-	HookEvent("player_death", player_death);
-	HookEvent("infected_death", infected_death);
-	HookEvent("player_hurt",Event_PlayerHurt);
-	HookEvent("round_start", event_RoundStart);
-	//HookEvent("map_transition", PrintInfo, EventHookMode_PostNoCopy);
-	HookEvent("round_end", PrintInfo, EventHookMode_PostNoCopy);
-	//HookEvent("finale_win", PrintInfo, EventHookMode_PostNoCopy);
+	ZC_Smoker = 1,
+	ZC_Boomer,
+	ZC_Hunter,
+	ZC_Spitter,
+	ZC_Jockey,
+	ZC_Charger
+};
+
+#define TEAM_SURVIVOR	2
+#define TEAM_INFECTED	3
+#define COMMON_BONUS	20	// 每只普尸折算伤害
+
+// 小特感血量上限，用于单次伤害封顶
+static const int g_iMaxClassDamage[] = { 0, 250, 50, 250, 100, 325, 600 };
+
+enum struct PlayerStats
+{
+	int damageDealt;	// 对特感伤害
+	int specialKills;	// 小特感击杀
+	int commonKills;	// 普尸击杀
+	int ffDealt;		// 黑枪伤害
+	int ffTaken;		// 被黑伤害
 }
 
-public void event_RoundStart(Handle event, const char[] name, bool dontBroadcast)
+PlayerStats g_stats[MAXPLAYERS + 1];
+bool g_bPrinted;	// round_end 是否已自动打印
+
+public void OnPluginStart()
 {
-	for (int i = 1; i <= MaxClients; i++)
-	{ 
-		KillInfected[i] = 0; 
-		KillSpecial[i] = 0; 
-		FriendDamage[i] =0 ;
-		DamageFriend[i] =0 ;
-		iDidDamage[i] = 0;
-		g_bIsPrintInfo = false;
-	}
+	RegConsoleCmd("sm_mvp", Command_Mvp);
+	RegConsoleCmd("sm_kills", Command_Mvp);
+
+	HookEvent("player_hurt", Event_PlayerHurt);
+	HookEvent("player_death", Event_PlayerDeath);
+	HookEvent("infected_death", Event_InfectedDeath);
+	HookEvent("round_start", Event_RoundStart);
+	HookEvent("round_end", Event_RoundEnd, EventHookMode_PostNoCopy);
 }
-public Action L4D_OnFirstSurvivorLeftSafeArea()
+
+void ResetStats()
 {
 	for (int i = 1; i <= MaxClients; i++)
-	{ 
-		KillInfected[i] = 0; 
-		KillSpecial[i] = 0; 
-		FriendDamage[i] =0 ;
-		DamageFriend[i] =0 ;
-		iDidDamage[i] = 0;
+	{
+		g_stats[i].damageDealt = 0;
+		g_stats[i].specialKills = 0;
+		g_stats[i].commonKills = 0;
+		g_stats[i].ffDealt = 0;
+		g_stats[i].ffTaken = 0;
 	}
+
+	g_bPrinted = false;
+}
+
+public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
+{
+	ResetStats();
+}
+
+public Action L4D_OnFirstSurvivorLeftSafeArea(int client)
+{
+	ResetStats();
 	return Plugin_Continue;
 }
-public Action PrintInfo(Handle event, const char[] name, bool dontBroadcast)
+
+public Action Event_RoundEnd(Event event, const char[] name, bool dontBroadcast)
 {
-	if(g_bIsPrintInfo){
+	if (g_bPrinted)
+	{
 		return Plugin_Handled;
-	}else{
-		g_bIsPrintInfo = true;
 	}
-	PrintToChatAll("\x03[药役MVP统计]");
-	displaykillinfected();
+	g_bPrinted = true;
+
+	PrintToChatAll("\x03[MVP统计]");
+	PrintMvpStats();
+
 	return Plugin_Continue;
 }
-public Action MVPinfo(int client, int args) 
+
+public Action Event_PlayerHurt(Event event, const char[] name, bool dontBroadcast)
 {
-	PrintToChatAll("\x03[药役MVP统计]",client);
-	displaykillinfected();
+	int victim = GetClientOfUserId(event.GetInt("userid"));
+	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+	int damage = event.GetInt("dmg_health");
+
+	if (!IsValidClient(victim) || !IsValidClient(attacker))
+	{
+		return Plugin_Continue;
+	}
+
+	// 友伤：双方均为生还者、非自伤、被打者未倒地
+	if (attacker != victim
+		&& GetClientTeam(attacker) == TEAM_SURVIVOR
+		&& GetClientTeam(victim) == TEAM_SURVIVOR
+		&& !GetEntProp(victim, Prop_Send, "m_isIncapacitated"))
+	{
+		g_stats[attacker].ffDealt += damage;
+		g_stats[victim].ffTaken += damage;
+	}
+	// 对特感伤害（不含 Tank / Witch，单次按血量封顶）
+	else if (GetClientTeam(attacker) == TEAM_SURVIVOR && GetClientTeam(victim) == TEAM_INFECTED)
+	{
+		int zclass = GetEntProp(victim, Prop_Send, "m_zombieClass");
+
+		if (zclass >= ZC_Smoker && zclass <= ZC_Charger)
+		{
+			g_stats[attacker].damageDealt += (damage > g_iMaxClassDamage[zclass])
+				? g_iMaxClassDamage[zclass] : damage;
+		}
+	}
+
+	return Plugin_Continue;
+}
+
+public Action Event_PlayerDeath(Event event, const char[] name, bool dontBroadcast)
+{
+	int victim = GetClientOfUserId(event.GetInt("userid"));
+	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+
+	if (IsValidClient(attacker) && IsValidClient(victim)
+		&& GetClientTeam(attacker) == TEAM_SURVIVOR && GetClientTeam(victim) == TEAM_INFECTED)
+	{
+		int zclass = GetEntProp(victim, Prop_Send, "m_zombieClass");
+
+		if (zclass >= ZC_Smoker && zclass <= ZC_Charger)
+		{
+			g_stats[attacker].specialKills++;
+		}
+	}
+
+	return Plugin_Continue;
+}
+
+public Action Event_InfectedDeath(Event event, const char[] name, bool dontBroadcast)
+{
+	int attacker = GetClientOfUserId(event.GetInt("attacker"));
+
+	if (IsValidClient(attacker) && GetClientTeam(attacker) == TEAM_SURVIVOR)
+	{
+		g_stats[attacker].commonKills++;
+	}
+
+	return Plugin_Continue;
+}
+
+public Action Command_Mvp(int client, int args)
+{
+	PrintToChatAll("\x03[MVP统计] \x05%N", client);
+	PrintMvpStats();
+
 	return Plugin_Handled;
 }
-public Action Event_PlayerHurt(Handle event, const char[] name, bool dontBroadcast)
+
+void PrintMvpStats()
 {
-	int zombieClass = 0;
-    int victimId = GetEventInt(event, "userid");
-    int victim = GetClientOfUserId(victimId);
-    int attackerId = GetEventInt(event, "attacker");
-    int attacker = GetClientOfUserId(attackerId);
-    int damageDone = GetEventInt(event, "dmg_health");
-	
-	if(IsValidClient(victim) && IsValidClient(attacker) && GetClientTeam(attacker)==2 && GetClientTeam(victim)== 2 && GetEntProp(victim, Prop_Send, "m_isIncapacitated") < 1)
+	int count = 0;
+	int survivors[MAXPLAYERS + 1];
+
+	for (int i = 1; i <= MaxClients; i++)
 	{
-		FriendDamage[attacker]+=damageDone;
-		DamageFriend[victim]+=damageDone;
-	}
-	if (victimId && attackerId && IsClientAndInGame(victim) && IsClientAndInGame(attacker))
-    {
-        if (GetClientTeam(attacker) == 2 && GetClientTeam(victim) == 3)
-        {
-			zombieClass = GetEntProp(victim, Prop_Send, "m_zombieClass");
-			if (zombieClass >= ZC_SMOKER && zombieClass < ZC_WITCH)
-            {
-				if (zombieClass == ZC_SMOKER && damageDone > 250)
-				{
-					damageDone = 250;
-				}
-				if (zombieClass == ZC_HUNTER && damageDone > 250)
-				{
-					damageDone = 250;
-				} 
-				if (zombieClass == ZC_BOOMER && damageDone > 50)
-				{
-					damageDone = 50;
-				} 
-				if (zombieClass == ZC_CHARGER && damageDone > 600)
-				{
-					damageDone = 600;
-				} 
-				if (zombieClass == ZC_SPITTER && damageDone > 100)
-				{
-					damageDone = 100;
-				} 
-				if (zombieClass == ZC_JOCKEY && damageDone > 325)
-				{
-					damageDone = 325;
-				} 
-				iDidDamage[attacker] += damageDone;
-			}
-        }
-    }
-	return Plugin_Continue;
-}
-public Action infected_death(Handle event, const char[] name, bool dontBroadcast)
-{
-	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
-	if(IsValidClient(attacker) && GetClientTeam(attacker) == 2)
-	{
-		KillInfected[attacker] += 1;
-	}
-	return Plugin_Continue;
-}
-public Action player_death(Handle event, const char[] name, bool dontBroadcast)
-{
-	int attacker = GetClientOfUserId(GetEventInt(event, "attacker"));
-	int client = GetClientOfUserId(GetEventInt(event, "userid"));
-	if(IsValidClient(attacker) && IsValidClient(client))
-	{
-		if(GetClientTeam(attacker) == 2 && GetClientTeam(client) == 3)
+		if (IsClientInGame(i) && GetClientTeam(i) == TEAM_SURVIVOR)
 		{
-			KillSpecial[attacker] += 1;
+			survivors[count++] = i;
 		}
 	}
-	return Plugin_Continue;
+
+	SortCustom1D(survivors, count, SortByDamageDesc);
+
+	for (int i = 0; i < count; i++)
+	{
+		int client = survivors[i];
+
+		PrintToChatAll("\x03特感\x04%2d \x03丧尸\x04%3d \x03黑/被黑\x04%2d/%2d \x03伤害\x04%4d \x05%N",
+			g_stats[client].specialKills,
+			g_stats[client].commonKills,
+			g_stats[client].ffDealt,
+			g_stats[client].ffTaken,
+			GetTotalScore(client),
+			client);
+	}
 }
-void displaykillinfected()
+
+int GetTotalScore(int client)
 {
-	int client;
-	int players;
-	int players_clients[MAXPLAYERS+1];
-	for (client = 1; client <= MaxClients; client++)
-	{
-		if (IsClientInGame(client) && GetClientTeam(client) == 2) 
-			players_clients[players++] = client;
-	}
-	SortCustom1D(players_clients, 8, SortByDamageDesc);
-	for (int i; i <= 8; i++)
-	{
-		client = players_clients[i];
-		if (IsValidClient(client) && GetClientTeam(client) == 2) 
-		{
-			PrintToChatAll("\x03特感\x04%2d \x03丧尸\x04%3d \x03黑/被黑\x04%2d/%2d \x03伤害\x04%4d \x05%N",KillSpecial[client], KillInfected[client],FriendDamage[client],DamageFriend[client],iDidDamage[client] + KillInfected[client] * CommonInfectedBonus, client);
-		}
-	}
+	return g_stats[client].damageDealt + g_stats[client].commonKills * COMMON_BONUS;
 }
+
 public int SortByDamageDesc(int elem1, int elem2, const int[] array, Handle hndl)
 {
-	if (iDidDamage[elem1] + KillInfected[elem1] * CommonInfectedBonus > iDidDamage[elem2] + KillInfected[elem2] * CommonInfectedBonus) return -1;
-	else if (iDidDamage[elem2] > iDidDamage[elem1]) return 1;
-	else if (elem1 > elem2) return -1;
-	else if (elem2 > elem1) return 1;
-	return 0;
+	int total1 = GetTotalScore(elem1);
+	int total2 = GetTotalScore(elem2);
+
+	if (total1 != total2)
+	{
+		return total1 > total2 ? -1 : 1;
+	}
+
+	// 总分相同：特感击杀降序，再按索引升序保证严格弱序
+	if (g_stats[elem1].specialKills != g_stats[elem2].specialKills)
+	{
+		return g_stats[elem1].specialKills > g_stats[elem2].specialKills ? -1 : 1;
+	}
+
+	return elem1 < elem2 ? -1 : (elem1 > elem2 ? 1 : 0);
 }
+
 stock bool IsValidClient(int client)
 {
-	return (client > 0 && client <= MaxClients && IsClientInGame(client));
-}
-stock bool IsClientAndInGame(int index)
-{
-    return (index > 0 && index <= MaxClients && IsClientInGame(index));
-}
-stock bool IsClientInGameEx(int client)
-{
-	if (client > 0 && client <= MaxClients && IsClientInGame(client))
-	{return true;} else {return false;}
-}
-stock bool IsInfected(int client) 
-{
-	if(IsClientInGame(client) && GetClientTeam(client) == 3) 
-	{
-		return true;
-	} 
-	else 
-	{
-		return false;
-	}
+	return client > 0 && client <= MaxClients && IsClientInGame(client);
 }

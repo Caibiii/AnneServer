@@ -5,7 +5,6 @@
 
 #include <sourcemod>
 #include <smlib/arrays>
-#include <smlib/teams>
 
 #define CHATCOLOR_NOSUBJECT -2
 #define SMLIB_COLORS_GAMEDATAFILE "smlib_colors.games"
@@ -25,8 +24,8 @@ enum ChatColorInfo
 {
 	ChatColorInfo_Code,
 	ChatColorInfo_Alternative,
-	bool:ChatColorInfo_Supported,
-	ChatColorSubjectType:ChatColorInfo_SubjectType
+	ChatColorInfo_Supported,
+	ChatColorInfo_SubjectType
 };
 
 enum ChatColor
@@ -476,7 +475,7 @@ static stock Color_GetChatColorInfo(&index, &subject=CHATCOLOR_NOSUBJECT)
 	}
 
 	new newSubject = CHATCOLOR_NOSUBJECT;
-	new ChatColorSubjectType:type = chatColorInfo[index][ChatColorInfo_SubjectType];
+	new ChatColorSubjectType:type = ChatColorSubjectType:chatColorInfo[index][ChatColorInfo_SubjectType];
 
 	switch (type) {
 
@@ -502,7 +501,13 @@ static stock Color_GetChatColorInfo(&index, &subject=CHATCOLOR_NOSUBJECT)
 					}
 				}
 				else if (subject == CHATCOLOR_NOSUBJECT) {
-					new client = Team_GetAnyClient(_:type);
+					new client = -1;
+					for (new i = 1; i <= MaxClients; i++) {
+						if (IsClientInGame(i) && GetClientTeam(i) == _:type) {
+							client = i;
+							break;
+						}
+					}
 
 					if (client != -1) {
 						newSubject = client;

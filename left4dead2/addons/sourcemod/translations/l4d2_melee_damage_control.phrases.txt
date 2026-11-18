@@ -1,0 +1,19 @@
+"Phrases"
+{
+	"L4D2MeleeDamageControl_MeleeDmgFixInfectedClass"
+	{
+		"en"		"[MeleeDmgFix] Infected: (%N) %d, Class: %s (%d), attacker: (%N) %d , inflictor: %d, damage: %f, damagetype: %d, set damage: %f"
+	}
+	"L4D2MeleeDamageControl_MeleeDmgControlChargerAttacker"
+	{
+		"en"		"[MeleeDmgControl] Charger: (%N) %d, attacker: (%N) %d , inflictor: %d, damage: %f, damagetype: %d, set damage: %f"
+	}
+	"L4D2MeleeDamageControl_MeleeDmgControlTankAttacker"
+	{
+		"en"		"[MeleeDmgControl] Tank: (%N) %d, attacker: (%N) %d, inflictor: %d, damage: %f, damagetype: %d, set damage: %f"
+	}
+	"L4D2MeleeDamageControl_ClassName"
+	{
+		"en"		"sClassName: %s (%d)"
+	}
+}

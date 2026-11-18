@@ -1,6 +1,13 @@
+#if defined _treeutil_included
+ #endinput
+#endif
+#define _treeutil_included
+
 // 团队类型
 enum
 {
+	TEAM_INVALID = -1,
+	TEAM_UNASSIGNED = 0,
 	TEAM_SPECTATOR = 1,
 	TEAM_SURVIVOR,
 	TEAM_INFECTED
@@ -150,6 +157,9 @@ stock const float INFECTED_SIZE_MAX[ZC_CHARGER][3] =
 	{25.0, 25.0, 70.0}
 };
 
+#define CLIENT_INVALID -1
+#define CLIENT_SERVER 0
+
 #define PLUGIN_SCRIPTLOGIC "plugin_scripting_logic_entity"
 #define COMMANDABOT_ATTACK "CommandABot({cmd = 0, bot = GetPlayerFromUserID(%i), target = GetPlayerFromUserID(%i)})"
 #define COMMANDABOT_MOVE   "CommandABot({cmd = 1, pos = Vector(%f, %f, %f), bot = GetPlayerFromUserID(%i)})"
@@ -265,34 +275,40 @@ stock int GetClientIncappedCount(int client)
 {
 	return IsValidSurvivor(client) ? GetEntProp(client, Prop_Send, "m_currentReviveCount") : -1;
 }
-// 随机获取一个生还者，可指定是否仅选择（未死亡，未被控，未倒地）的生还者，有则返回生还者 id，无则返回 0
-// valid 参数为 false 仅过滤死亡生还者
-stock int GetRandomSurvivorAndValid(int excludeSurvivor = -1, bool valid)
-{
-	ArrayList targetList = new ArrayList();
-	int i;
-	for(i = 1; i <= MaxClients; i++)
-	{
-		if (valid)
-		{
-			if (i == excludeSurvivor || !IsClientInGame(i) || GetClientTeam(i) != TEAM_SURVIVOR || !IsPlayerAlive(i) || IsClientIncapped(i) || IsClientPinned(i)) { continue; }
-			targetList.Push(i);
+
+/**
+* 随机获取一个 (未死亡, 未被控, 未倒地) 的生还者, 成功返回生还者客户端索引, 失败返回 -1 (2023-08-08)
+* @param excludeSurvivor 需要排除的客户端索引
+* @param valid 为 false 仅排除死亡的生还者, 不排除被控与倒地的生还者
+* @return int
+**/
+stock int GetRandomSurvivorAndValid(int excludeSurvivor = CLIENT_INVALID, bool valid = false) {
+	int i, ret;
+	ArrayList survivors = new ArrayList();
+	for (i = 1; i <= MaxClients; i++) {
+		if (!IsValidClient(i) || GetClientTeam(i) != TEAM_SURVIVOR || !IsPlayerAlive(i)) {
+			continue;
 		}
-		else
-		{
-			if (i == excludeSurvivor || !IsClientInGame(i) || GetClientTeam(i) != TEAM_SURVIVOR || !IsPlayerAlive(i)) { continue; }
-			targetList.Push(i);
+
+		if (valid) {
+			if (IsClientIncapped(i) || IsClientPinned(i)) {
+				continue;
+			}
 		}
+
+		survivors.Push(i);
 	}
-	if (targetList.Length == 0)
-	{
-		delete targetList;
-		return 0;
+
+	if (survivors.Length < 1) {
+		delete survivors;
+		return CLIENT_INVALID;
 	}
-	i = targetList.Get(GetRandomIntInRange(0, targetList.Length - 1));
-	delete targetList;
-	return i;
+
+	ret = survivors.Get(GetRandomIntInRange(0, survivors.Length));
+	delete survivors;
+	return ret;
 }
+
 // 获取距离某玩家最近的有效（未死亡，未倒地，未被控）生还者，如有则返回生还者 id，玩家无效或未找到则返回 0
 stock int GetClosetMobileSurvivor(int client, int exclude_client = -1)
 {
@@ -331,23 +347,23 @@ stock int GetClosetSurvivor(int client, int exclude_client = -1)
 	if (!IsValidClient(client)) { return 0; }
 	static int target;
 	static float selfPos[3], targetPos[3];
-	static ArrayList targetList2;
-	targetList2 = new ArrayList(2);
+	static ArrayList targetList;
+	targetList = new ArrayList(2);
 	GetClientAbsOrigin(client, selfPos);
 	for (int newTarget = 1; newTarget <= MaxClients; newTarget++)
 	{
 		if (!IsClientInGame(newTarget) || !IsPlayerAlive(newTarget) || GetClientTeam(newTarget) != TEAM_SURVIVOR || newTarget == exclude_client) { continue; }
 		GetClientAbsOrigin(newTarget, targetPos);
-		targetList2.Set(targetList2.Push(GetVectorDistance(selfPos, targetPos)), newTarget, 1);
+		targetList.Set(targetList.Push(GetVectorDistance(selfPos, targetPos)), newTarget, 1);
 	}
-	if (targetList2.Length == 0)
+	if (targetList.Length == 0)
 	{
-		delete targetList2;
+		delete targetList;
 		return 0;
 	}
-	targetList2.Sort(Sort_Ascending, Sort_Float);
-	target = targetList2.Get(0, 1);
-	delete targetList2;
+	targetList.Sort(Sort_Ascending, Sort_Float);
+	target = targetList.Get(0, 1);
+	delete targetList;
 	return target;
 }
 // 获取某个客户端到指定客户端的距离
@@ -400,23 +416,6 @@ stock bool IsInGhostState(int client)
 // *************************
 // 			其他类
 // *************************
-// 粗略判断本地图是不是三方图
-stock bool IsOfficalMap(){
-	char mapname[256];
-	GetCurrentMap(mapname, sizeof(mapname));
-	if(( (mapname[0]=='c') && (mapname[2]=='m') &&(mapname[4]=='_'))||((mapname[0]=='c')&&(mapname[3]=='m')&&(mapname[5]=='_')))
-		return true;
-	return false;
-}
-/*
- * @Description: 判断当前客户端是否在地面
- * @param: {client} 需要判断的客户端
- * @return: {bool} 
- */
-stock bool IsGrounded(int client) 
-{
-	return GetEntPropEnt(client, Prop_Send, "m_hGroundEntity") != -1;
-}
 /*
  * @Description: 判断当前客户端是否在地面
  * @param: {client} 需要判断的客户端
@@ -426,37 +425,30 @@ stock bool IsClientOnGround(int client)
 {
 	return IsValidClient(client) && GetEntPropEnt(client, Prop_Send, "m_hGroundEntity") != -1;
 }
+/*
+ * @Description: 获取客户端当前速度值，客户端无效则返回 -1.0
+ * @param: {client} 需要获取速度的客户端
+ * @return: {float} 
+ */
+stock float GetClientCurrentSpeed(int client)
+{
+	if (!IsValidClient(client)) { return -1.0; }
+	float speedVector[3];
+	GetEntPropVector(client, Prop_Data, "m_vecVelocity", speedVector);
+	return SquareRoot(Pow(speedVector[0], 2.0) + Pow(speedVector[1], 2.0));
+}
+
 // 获取生还者数量，可指定是否包含 bot 和死亡的玩家
 stock int GetSurvivorCount(bool include_bot = true, bool include_death = false)
 {
 	int count = 0;
-	for (int client = 1; client <= MaxClients; client++)
+	static int i;
+	for (i = 1; i <= MaxClients; i++)
 	{
-		if (IsValidSurvivor(client) && include_bot && include_death)
-		{
-			count += 1;
-		}
-		else if (IsValidSurvivor(client) && !include_bot && !include_death)
-		{
-			if (!IsFakeClient(client) && IsPlayerAlive(client))
-			{
-				count += 1;
-			}
-		}
-		else if (IsValidSurvivor(client) && !include_bot && include_death)
-		{
-			if (!IsFakeClient(client))
-			{
-				count += 1;
-			}
-		}
-		else if (IsValidSurvivor(client) && include_bot && !include_death)
-		{
-			if (IsPlayerAlive(client))
-			{
-				count += 1;
-			}
-		}
+		if (!IsClientInGame(i) || GetClientTeam(i) != TEAM_SURVIVOR) { continue; }
+		if (!include_bot && IsFakeClient(i)) { continue; }
+		if (!include_death && !IsPlayerAlive(i)) { continue; }
+		count++;
 	}
 	return count;
 }
@@ -612,6 +604,18 @@ stock float GetCurrentSpeed(int client)
 	}
 	return -1.0
 }
+/**
+* 判断当期客户端是否在胆汁状态（2023-07-24）
+* @param client 需要判断的客户端索引
+* @return bool
+**/
+stock bool IsClientInBileState(int client) {
+	if (!IsValidClient(client) || !IsPlayerAlive(client)) {
+		return false;
+	}
+	float fadeStartTime = GetEntPropFloat(client, Prop_Send, "m_vomitFadeStart"), nowTime = GetGameTime();
+	return fadeStartTime != 0.0 && fadeStartTime + 8.0 > nowTime;
+}
 // 获取当前是否在对抗第二轮
 stock bool InVersusSecondRound()
 {
@@ -644,6 +648,42 @@ stock int KMPGetPatternIndex(const char[] mainString, const char[] pattern)
 	}
 	return p2 == len2 ? p1 - len2 : -1;
 }
+/*
+ * @Description: 播放指定声音文件给所有人
+ * @param: {source} 声音文件路径
+ * @return: {void} 
+ */
+stock void PlaySoundToAll(const char[] source)
+{
+	EmitSoundToAll(source, SOUND_FROM_PLAYER, SNDCHAN_STATIC, SNDLEVEL_NORMAL, SND_NOFLAGS, SNDVOL_NORMAL, SNDPITCH_NORMAL, -1, NULL_VECTOR, NULL_VECTOR, true, 0.0);
+}
+/*
+ * @Description: 播放指定声音文件给指定客户端
+ * @param: {source} 声音文件路径
+ * @param: {target} 指定客户端
+ * @return: {void} 
+ */
+stock void PlaySoundToClient(const char[] source, int target)
+{
+	if (!IsValidClient(target)) { return; }
+	EmitSoundToClient(target, source, SOUND_FROM_PLAYER, SNDCHAN_STATIC, SNDLEVEL_NORMAL, SND_NOFLAGS, SNDVOL_NORMAL, SNDPITCH_NORMAL, -1, NULL_VECTOR, NULL_VECTOR, true, 0.0);
+}
+/*
+ * @Description: 使用 FakeClientCommand 执行需要 s_cheats 1 权限的指令
+ * @param: {client} 需要使用 FakeClientCommand 的客户端
+ * @param: {command}: 指令头
+ * @param: {options}: 指令参数
+ * @return: {void}
+ */
+stock void ExecuteCheatCommand(int client, const char[] command, char[] options = "")
+{
+	if (!IsValidClient(client)) { return; }
+	int flags = GetCommandFlags(command);
+	SetCommandFlags(command, flags & ~FCVAR_CHEAT);
+	if (strlen(options) > 0) { FakeClientCommand(client, "%s %s", command, options); }
+	else { FakeClientCommand(client, "%s", command); }
+	SetCommandFlags(command, flags);
+}
 
 // *************************
 // 			向量类
@@ -660,8 +700,13 @@ stock void ZeroVector(float origin[3])
 {
 	origin = NULL_VECTOR;
 }
-// 是否为零向量
-stock bool IsZeroVector(float origin[3])
+
+/**
+* 向量是否是零向量
+* @param origin 被检测的向量
+* @return bool
+**/
+stock bool IsZeroVector(const float origin[3])
 {
 	return origin[0] == NULL_VECTOR[0] && origin[1] == NULL_VECTOR[1] && origin[2] == NULL_VECTOR[2];
 }
@@ -692,4 +737,39 @@ stock int GetRandomIntInRange(int min, int max)
 stock float GetRandomFloatInRange(float min, float max)
 {
 	return (GetURandomFloat() * (max - min)) + min;
+}
+
+// *************************
+// 			字符串类
+// *************************
+
+/*
+ * @Description: 检查给定字符数组是否是空的字符串数组
+ * @param: {string} 字符串数组
+ * @param: {len} 字符串数组长度
+ * @return: {bool} 
+ */
+stock bool IsEmptyString(const char[] string, int len)
+{
+	int i;
+	for (i = 0; i < len; i++) { if (string[i] != '\0') { return false; } }
+	return true;
+}
+
+/**
+* 判断输入的字符串是否是整数 (2023-08-10)
+* @param input 输入的字符串
+* @return bool
+**/
+stock bool IsInteger(const char[] input)
+{
+	if (!IsCharNumeric(input[0]) && input[0] != '-') {
+		return false;
+	}
+	for (int i = 1; i < strlen(input); i++) {
+		if (!IsCharNumeric(input[i])) {
+			return false;
+		}
+	}
+	return true;
 }
